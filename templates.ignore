@@ -1,0 +1,29 @@
+//Autor:        Kroll
+//Datum:        25.09.2019
+//Dateiname:    Controller.cs
+//Beschreibung: Verwaltet die Daten
+//Änderungen:
+//25.09.2019:   Entwicklungsbeginn 
+
+using System;
+
+namespace NamespaceName
+{
+    class Classname
+    {
+        #region Eigenschaften
+        #endregion
+
+        #region Accessoren/Modifier
+        #endregion
+
+        #region Konstruktoren
+        #endregion
+
+        #region Worker
+        #endregion
+
+        #region Schnittstellen
+        #endregion
+    }
+}
