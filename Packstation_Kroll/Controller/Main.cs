@@ -14,7 +14,7 @@ namespace Packstation_Kroll
         static void Main(string[] args)
         {
             Console.WriteLine("Hello World!");
-            Controller Verwalter = new Contoller();
+            Controller Verwalter = new Controller();
 
             Verwalter.run();
         }

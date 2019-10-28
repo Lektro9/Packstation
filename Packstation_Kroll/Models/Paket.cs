@@ -14,6 +14,8 @@ namespace Packstation_Kroll
 
 
         #region Eigenschaften
+        string _Inhalt;
+        int _ID;
         string _SourceAddress;
         string _DestAddress;
 
@@ -22,12 +24,15 @@ namespace Packstation_Kroll
         #region Accessoren/Modifier
         public string SourceAddress { get => _SourceAddress; set => _SourceAddress = value; }
         public string DestAddress { get => _DestAddress; set => _DestAddress = value; }
+        public int ID { get => _ID; set => _ID = value; }
+        public string Inhalt { get => _Inhalt; set => _Inhalt = value; }
         #endregion
 
         #region Konstruktoren
-        public Paket () {
+        public Paket (int ID) {
             SourceAddress = "TestSource 59945 ExampleStreet";
             DestAddress = "TestDest 59945 ExampleStreet";
+            this.ID = ID;
         }
         #endregion
 

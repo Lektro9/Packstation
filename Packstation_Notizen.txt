@@ -1,0 +1,13 @@
+mitartbeiter der Packstation muss folgendes können:
+- alle Fächer öffnen
+- Fächer mit Status "versenden" öffnen
+- Fächer mit Status "verfuegbar" öffnen
+
+Mitarbeitermenu:
+- alle Fächer öffnen
+- Pakete abholen, die auf Versendung warten
+	- alle Fächer mit Status "versenden" öffnen
+		- Fächer sind nun auf Status "verfuegbar"
+- Pakete einlegen
+	- wieviele? x
+		- x freie Fächer öffnen (Fach hat nun Status "abholen")

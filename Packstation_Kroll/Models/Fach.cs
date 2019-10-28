@@ -12,16 +12,21 @@ namespace Packstation_Kroll
     class Fach
     {
         #region Eigenschaften
-        bool _IstFrei;
+        string _Status;
+        int _FachID;
+        Paket _Packet;
         #endregion
 
         #region Accessoren/Modifier
-        public bool IstFrei { get => _IstFrei; set => _IstFrei = value; }
+        public string Status { get => _Status; set => _Status = value; } //kann "verfuegbar", "versenden" oder "abholen" sein
+        public int FachID { get => _FachID; set => _FachID = value; }
+        internal Paket Packet { get => _Packet; set => _Packet = value; }
         #endregion
 
         #region Konstruktoren
-        public Fach () {
-            IstFrei = true;
+        public Fach (int FachID) {
+            this.Status = "verfuegbar";
+            this.FachID = FachID;
         }
         #endregion
 

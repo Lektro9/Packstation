@@ -6,6 +6,7 @@
 //26.10.2019:   Entwicklungsbeginn 
 
 using System;
+using System.Threading;
 
 namespace Packstation_Kroll
 {
@@ -26,6 +27,29 @@ namespace Packstation_Kroll
         #endregion
 
         #region Worker
+        public void zeigeMenu(string Menu) {
+            switch(Menu) {
+                case "Main":
+                Console.WriteLine("Hier ist das MainMenu!");
+                break;
+                
+                case "standartMenu":
+                Console.WriteLine("Hier ist das standartMenu!");
+                break;
+
+                default:
+                Console.WriteLine("Irgendetwas ist schiefgelaufen");
+                break;
+            }
+        }
+
+        public void zeigeSplash() {
+            Console.Clear();
+            Console.WriteLine("\n           Programmm:    Bruchrechner Version 1.0" +
+                "\n           Autor:        Kroll" +
+                "\n           Beschreibung: Simples Rechnen mit Brüchen");
+            Thread.Sleep(2000);
+        }
         #endregion
 
         #region Schnittstellen
