@@ -13,20 +13,20 @@ namespace Packstation_Kroll
     {
         #region Eigenschaften
         string _Status;
-        int _FachID;
+        int _ID;
         Paket _Packet;
         #endregion
 
         #region Accessoren/Modifier
         public string Status { get => _Status; set => _Status = value; } //kann "verfuegbar", "versenden" oder "abholen" sein
-        public int FachID { get => _FachID; set => _FachID = value; }
+        public int ID { get => _ID; set => _ID = value; }
         internal Paket Packet { get => _Packet; set => _Packet = value; }
         #endregion
 
         #region Konstruktoren
         public Fach (int FachID) {
             this.Status = "verfuegbar";
-            this.FachID = FachID;
+            this.ID = FachID;
         }
         #endregion
 

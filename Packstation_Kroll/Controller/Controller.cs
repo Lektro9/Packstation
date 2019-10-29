@@ -36,34 +36,29 @@ namespace Packstation_Kroll
         public void run()
         {
             bool running = true;
-            Console.WriteLine("Here should start the Packstation logic!");
             zeigeSplash();
             while (running) {
-                zeigeMenu("Main");
-                //Menu logic here
                 string aktuellerNutzer = authenticate();
                 //depending on who and what he wants to do:
                 while (aktuellerNutzer == "Kunde") {
 
-                    zeigeMenu("standartMenu");
+                    string Aktion = legeBenutzerAktionFest();
 
-                    string Aktion = legeAktionFest();
                     if (Aktion == "versenden") {
-                        oeffneFaecher("verfuebar");
-                        pruefeObPaketEingegeben(); // will just output some graphics
-                        gebePaketIDaus();
+                        int FachID = findeFach("verfuegbar");
+                        Paket newPacket = registrierePakete(FachID);
+                        pruefeObPaketEingegeben(); // for dramatic effects!
+                        gebePaketIDaus(newPacket);
                         Aktion = "";
                     }
                     if (Aktion == "abholen") {
-                        int PaketID = erfragePaketID();
-                        int Fachnummer = findeFachnummer(PaketID);
-                        oeffneFaecher(Fachnummer);
-                        Paket Packet = gebePacketAus(Fachnummer);
-                        gebeInhaltAus(Packet);
+                        int PacketID = Gui.erfragePacketID();
+                        int FachID = findeFach(PacketID);
+                        oeffneFach(FachID);
                         Aktion = "";
                     }
                     if (Aktion == "abbrechen") {
-                        Nutzer = "niemand";
+                        aktuellerNutzer = "niemand";
                         Aktion = "";
                     }
                 }
@@ -87,21 +82,105 @@ namespace Packstation_Kroll
                 // }
             }
         }
-        public void zeigeSplash() {
-            Gui.zeigeSplash();
-        }
-        public void zeigeMenu(String Menu) {
-            Gui.zeigeMenu(Menu);
+
+        private void gebePaketIDaus(Paket newPacket)
+        {
+            Gui.zeigeNachricht(@"Packet wurde erfolgreich abgelegt.
+Hier ist ihre Packet ID: " + newPacket.ID.ToString() + @"
+Drücken Sie eine beliebige Taste...");
         }
 
-        public string authenticate() {
-            System.Console.WriteLine("Sind Sie ein 'Kunde' oder ein 'Mitarbeiter'?");
-            string Nutzer = Console.ReadLine();
+        private Paket registrierePakete(int[] FachIDs) //TODO: iterieren um mehrere Fächer zu befüllen
+        {
+            return Gui.registrierePakete();
+        }
+
+        private Paket registrierePakete(int FachID)
+        {
+            // Verknüpfe Packet mit Fach
+            Paket newPacket = Gui.registrierePakete();
+            for (int i = 0; i < Faecher.Length; i++) {
+                if (Faecher[i].ID == FachID) {
+                    Faecher[i].Packet = newPacket;
+                    Faecher[i].Status = "versenden";
+                }
+                else {
+                    // nothing?
+                }
+            }
+            return newPacket;
+        }
+
+        private void pruefeObPaketEingegeben()
+        {
+            Gui.gebePaketEin();
+        }
+
+        private int[] oeffneFaecher(string Status, int Anzahl)
+        {
+            // Faecher durchiterieren bis ein Vergübares Fach gefunden wurde und die Anzahl an benötigten Fächern erreicht wurde
+            int [] geoeffneteFaecher = new int[Anzahl];
+            int j = 0;
+            for (int i = 0; i < Faecher.Length; i++) {
+                if (Faecher[i].Status == Status && j < Anzahl) {
+                    geoeffneteFaecher[i] = Faecher[i].ID;
+                    j++;
+                }
+                else {
+                    Gui.zeigeNachricht("Keine Fächer mit dem Status '" + Status + "' vorhanden.");
+                }
+            }
+            return geoeffneteFaecher;
+        }
+
+        private int findeFach(string Status)
+        {
+            // Faecher durchiterieren bis ein Vergübares Fach gefunden wurde und die Anzahl an benötigten Fächern erreicht wurde
+            int i = 0;
+            while (Faecher[i].Status != Status) {
+                i++;
+                if (i >= Faecher.Length) {
+                    Gui.zeigeNachricht("Keine Fächer mit dem Status '" + Status + "' vorhanden.");
+                    break;
+                }
+            }
+            return Faecher[i].ID;
+        }
+
+        private void oeffneFach(int FachID)
+        {
+            // Fach oeffnen um Packet herauszunehmen
+            Gui.zeigePacketInhalt(Faecher[FachID].Packet.Inhalt);
+            Faecher[FachID].Status = "verfuegbar";
+            Faecher[FachID].Packet = null;
+        }
+        private void zeigeSplash() {
+            Gui.zeigeSplash();
+        }
+
+        private string authenticate() {
+            string Nutzer = Gui.authenticate();
             return Nutzer;
         }
 
-        public string legeAktionFest() {
+        public string legeBenutzerAktionFest() {
+                return Gui.legeBenutzerAktionFest();
+        }
 
+        public string legeMitarbeiterAktionFest() {
+                return Gui.legeMitarbeiterAktionFest();
+        }
+
+        public int findeFach(int PacketID) {
+            int FachID = -1;
+            for (int i = 0; i < Faecher.Length; i++) {
+                if (Faecher[i].Packet != null) {
+                    if (Faecher[i].Packet.ID == PacketID) {
+                    FachID = Faecher[i].ID;
+                    }
+                }
+            }
+            return FachID;
         }
         #endregion
 

@@ -29,9 +29,10 @@ namespace Packstation_Kroll
         #endregion
 
         #region Konstruktoren
-        public Paket (int ID) {
+        public Paket (string Inhalt, int ID) {
             SourceAddress = "TestSource 59945 ExampleStreet";
             DestAddress = "TestDest 59945 ExampleStreet";
+            this.Inhalt = Inhalt;
             this.ID = ID;
         }
         #endregion
