@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.852
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Packstation_Kroll", "Packstation_Kroll\Packstation_Kroll.csproj", "{3C41DD81-DB54-441F-AF9C-2B4DE98E3A9E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3C41DD81-DB54-441F-AF9C-2B4DE98E3A9E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3C41DD81-DB54-441F-AF9C-2B4DE98E3A9E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3C41DD81-DB54-441F-AF9C-2B4DE98E3A9E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3C41DD81-DB54-441F-AF9C-2B4DE98E3A9E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {693EC7FF-BCBA-4235-8CF7-20EE7A616987}
+	EndGlobalSection
+EndGlobal
