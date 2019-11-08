@@ -162,7 +162,7 @@ namespace Packstation_Kroll
                     }
                 }
             }
-            
+
         }
 
         public bool pruefeUndSetzeNutzer(string Login, string Passwort)
@@ -211,7 +211,7 @@ namespace Packstation_Kroll
             {
                 if (Faecher[i].Status == "abholbereit")
                 {
-                    if (Faecher[i].Packet.Empfaenger == Nutzername)
+                    if (Faecher[i].Packet.EmpfaengerName == Nutzername)
                     {
                         retVal = Faecher[i].ID;
                         break;

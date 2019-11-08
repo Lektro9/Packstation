@@ -9,42 +9,80 @@ using System;
 
 namespace Packstation_Kroll
 {
-    class Paket
+    public class Paket
     {
         #region Eigenschaften
-        string _Inhalt;
-        int _ID;
-        string _Absender;
-        string _Empfaenger;
+        long _PaketNummer;
+        string _AbsenderName;
+        string _AbsenderAdresse;
+        string _EmpfaengerName;
+        string _EmpfaengerAdresse;
+        string _Status; //3 Mögl.: frei, abholbereit, versenden
+        int _PaketfachNr;
+        int _PaketstationsNr;
         #endregion
 
         #region Accessoren/Modifier
-        public string Inhalt { get => _Inhalt; set => _Inhalt = value; }
-        public int ID { get => _ID; set => _ID = value; }
-        public string Absender { get => _Absender; set => _Absender = value; }
-        public string Empfaenger { get => _Empfaenger; set => _Empfaenger = value; }
+        public long PaketNummer { get => _PaketNummer; set => _PaketNummer = value; }
+        public string AbsenderName { get => _AbsenderName; set => _AbsenderName = value; }
+        public string EmpfaengerName { get => _EmpfaengerName; set => _EmpfaengerName = value; }
+        public string EmpfaengerAdresse { get => _EmpfaengerAdresse; set => _EmpfaengerAdresse = value; }
+        public string Status { get => _Status; set => _Status = value; }
+        public int PaketfachNr { get => _PaketfachNr; set => _PaketfachNr = value; }
+        public int PaketstationsNr { get => _PaketstationsNr; set => _PaketstationsNr = value; }
+        public string AbsenderAdresse { get => _AbsenderAdresse; set => _AbsenderAdresse = value; }
         #endregion
 
         #region Konstruktoren
         public Paket()
         {
-            this.Inhalt = "Standartpaket Inhalt";
-            this.ID = 1234;
-            this.Absender = "einAbsender";
-            this.Empfaenger = "nutzer";
+            this.PaketNummer = -1;
+            this.AbsenderName = "einAbsender";
+            this.AbsenderAdresse = "";
+            this.EmpfaengerName = "nutzer";
+            this.EmpfaengerAdresse = "";
+            this.Status = "Verschicken";
+            this.PaketfachNr = -1;
+            this.PaketstationsNr = -1;
         }
         //Spezialkonstruktor
-        public Paket(string Inhalt, int ID, string Absender, string Empfaenger)
+        public Paket(long PaketNummer, string AbsenderName, string AbsenderAdresse, string EmpfaengerName, string EmpfaengerAdresse, string Status, int PaketfachNr, int PaketstationsNr)
         {
-            this.Inhalt = Inhalt;
-            this.ID = ID;
-            this.Absender = Absender;
-            this.Empfaenger = Empfaenger;
+            this.PaketNummer = PaketNummer;
+            this.AbsenderName = AbsenderName;
+            this.AbsenderAdresse = AbsenderAdresse;
+            this.EmpfaengerName = EmpfaengerName;
+            this.EmpfaengerAdresse = EmpfaengerAdresse;
+            this.Status = Status;
+            this.PaketfachNr = PaketfachNr;
+            this.PaketstationsNr = PaketstationsNr;
         }
         #endregion
 
         #region Worker
-
+        public void aendereStatus(string Status)
+        {
+            switch (Status)
+            {
+                case "Verschicken":
+                    this.Status = Status;
+                    break;
+                case "Transport":
+                    this.Status = Status;
+                    break;
+                case "Abholen":
+                    this.Status = Status;
+                    break;
+                case "abgeholt":
+                    this.Status = Status;
+                    break;
+                case "abzuholen":
+                    this.Status = Status;
+                    break;
+                default:
+                    throw new ArgumentException("You must supply an argument");
+            }
+        }
         #endregion
 
         #region Schnittstellen
