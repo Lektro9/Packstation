@@ -66,11 +66,14 @@ namespace Packstation_Kroll
                             for (int i = 0; i < Faecher.Length; i++)
                             {
                                 //evtl. effizienter erst nach Paket != null zu suchen?
-                                if (Faecher[i].Status == "versenden") //Achtung! evtl. Null Fehler wenn irgendwie ein Fach Status nicht richitg zurückgesetzt wurde und Paket = null ist
+                                if (Faecher[i].IstBelegt() == true) 
                                 {
-                                    Faecher[i].Packet = null;
-                                    Faecher[i].Status = "frei";
-                                    Gui.zeigeNachricht("Das Fach " + Faecher[i].ID + " wurde geöffnet, bitte Paket entnehmen.");
+                                    if (Faecher[i].Packet.Status == "Abholen")
+                                    {
+                                        Faecher[i].getPaket(); //hier dem Nutzer das Paket zuweisen
+                                        Faecher[i].Belegt = false;
+                                        Gui.zeigeNachricht("Das Fach " + Faecher[i].Nummer + " wurde geöffnet, bitte Paket entnehmen.");
+                                    }
                                 }
                             }
                             Gui.zeigeNachricht("Keine weiteren Pakete zum abholen bereit.");
@@ -81,12 +84,13 @@ namespace Packstation_Kroll
                             {
                                 for (int i = 0; i < Gui.Nutzer.PaketAnzahl; i++)
                                 {
-                                    int freieFachID = sucheFreieFachID();
-                                    if (freieFachID >= 0)
+                                    int freieFachNummer = sucheFreieFachNummer();
+                                    if (freieFachNummer >= 0)
                                     {
-                                        Faecher[freieFachID].Status = "abholbereit";
-                                        Faecher[freieFachID].Packet = new Paket();
-                                        Gui.zeigeNachricht("Paket wurde in das Fach mit der ID " + Faecher[freieFachID].ID + " gelegt.");
+                                        Faecher[freieFachNummer].Belegt = true;
+                                        Faecher[freieFachNummer].Packet = new Paket();
+                                        Faecher[freieFachNummer].Packet.Status = "abzuholen";
+                                        Gui.zeigeNachricht("Paket wurde in das Fach mit der ID " + Faecher[freieFachNummer].Nummer + " gelegt.");
                                         Gui.Nutzer.legePaketEin();
                                     }
                                     //für den Fall dass nicht genügend Faecher vorhanden sind
@@ -117,12 +121,13 @@ namespace Packstation_Kroll
                         if (Gui.Aktion == "1") //Paket abholen
                         {
                             //durchsuche Faecher nach Status "abholbereit" und Empfaengernamen des Pakets
-                            int FachID = findeAbholbereiteFachID(Gui.Nutzer.Name);
+                            int FachNummer = findeAbholbereiteFachNummer(Gui.Nutzer.Name);
                             //Fach leeren und Status zurücksetzen
-                            if (FachID >= 0)
+                            if (FachNummer >= 0)
                             {
-                                Faecher[FachID].Packet = null;
-                                Faecher[FachID].Status = "frei";
+                                Faecher[FachNummer].Packet = null;
+                                Faecher[FachNummer].Packet.Status = "abgeholt";
+                                Faecher[FachNummer].Belegt = false;
                                 Gui.zeigeNachricht("Paket wurde abgeholt.");
                             }
                             else
@@ -135,13 +140,14 @@ namespace Packstation_Kroll
                             if (Gui.Nutzer.PaketAnzahl > 0)
                             {
                                 //nach einem freien Fach suchen
-                                int freieFachID = sucheFreieFachID();
+                                int freieFachNummer = sucheFreieFachNummer();
 
                                 //nutze freies Fach für das Paket
-                                if (freieFachID >= 0)
+                                if (freieFachNummer >= 0)
                                 {
-                                    Faecher[freieFachID].Packet = new Paket();
-                                    Faecher[freieFachID].Status = "versenden";
+                                    Faecher[freieFachNummer].Packet = new Paket();
+                                    Faecher[freieFachNummer].Belegt = true;
+                                    Faecher[freieFachNummer].Packet.Status = "Abholen";
                                     Gui.Nutzer.legePaketEin();
                                     Gui.zeigeNachricht("Paket wurde eingelegt und wird von einem Mitarbeiter abgeholt.");
                                 }
@@ -190,30 +196,30 @@ namespace Packstation_Kroll
             return retVal;
         }
 
-        public int sucheFreieFachID()
+        public int sucheFreieFachNummer()
         {
             int retVal = -1;
             for (int i = 0; i < Faecher.Length; i++)
             {
-                if (Faecher[i].Status == "frei")
+                if (Faecher[i].IstBelegt() == false)
                 {
-                    retVal = Faecher[i].ID;
+                    retVal = Faecher[i].Nummer;
                     break;
                 }
             }
             return retVal;
         }
 
-        public int findeAbholbereiteFachID(string Nutzername)
+        public int findeAbholbereiteFachNummer(string Nutzername)
         {
             int retVal = -1;
             for (int i = 0; i < Faecher.Length; i++)
             {
-                if (Faecher[i].Status == "abholbereit")
+                if (Faecher[i].Packet.Status == "Abholen")
                 {
                     if (Faecher[i].Packet.EmpfaengerName == Nutzername)
                     {
-                        retVal = Faecher[i].ID;
+                        retVal = Faecher[i].Nummer;
                         break;
                     }
                 }

@@ -12,27 +12,55 @@ namespace Packstation_Kroll
     class Fach
     {
         #region Eigenschaften
-        string _Status;
-        int _ID;
+        bool _Status;
+        int _Nummer;
         Paket _Packet;
+        bool _Belegt;
         #endregion
 
         #region Accessoren/Modifier
-        public string Status { get => _Status; set => _Status = value; }
-        public int ID { get => _ID; set => _ID = value; }
+        public bool Status { get => _Status; set => _Status = value; }
+        public int Nummer { get => _Nummer; set => _Nummer = value; }
         internal Paket Packet { get => _Packet; set => _Packet = value; }
+        public bool Belegt { get => _Belegt; set => _Belegt = value; }
         #endregion
 
         #region Konstruktoren
+        public Fach()
+        {
+            this.Nummer = -1;
+            this.Status = true; //true = funktioniert, false = funktioniert nicht
+            this.Packet = null;
+            this.Belegt = false;
+        }
+        //Spezialkonstruktor
         public Fach(int ID)
         {
-            this.ID = ID;
-            this.Status = "frei"; //3 Mögl.: frei, abholbereit, versenden
+            this.Nummer = ID;
+            this.Status = true; //true = funktioniert, false = funktioniert nicht
             this.Packet = null;
+            this.Belegt = false;
         }
         #endregion
 
         #region Worker
+        public bool IstBelegt()
+        {
+            bool retVal = this.Belegt;
+            return retVal;
+        }
+
+        public Paket getPaket()
+        {
+            Paket retVal = this.Packet;
+            this.Packet = null;
+            return retVal;
+        }
+
+        public void PaketAnnehmen(Paket Packet)
+        {
+            this.Packet = Packet;
+        }
         #endregion
 
         #region Schnittstellen

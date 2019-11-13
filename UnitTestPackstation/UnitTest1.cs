@@ -1,4 +1,11 @@
-﻿using System;
+﻿//Autor:        Kroll
+//Datum:        02.11.2019
+//Dateiname:    Fach.cs
+//Beschreibung: Fach für die Pakete in der Packstation
+//Änderungen:
+//02.11.2019:   Entwicklungsbeginn 
+
+using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Packstation_Kroll;
 
