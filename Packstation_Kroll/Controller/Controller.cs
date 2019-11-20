@@ -4,15 +4,16 @@
 //Beschreibung: Businesslogic für die Packstation
 //Änderungen:
 //02.11.2019:   Entwicklungsbeginn 
+//20.11.2019:   Controller funktioniert zur Zeit nicht richtig, da Modelle überarbeitet wurden
 
-using System;
+/*using System;
 
 namespace Packstation_Kroll
 {
     class Controller
     {
         #region Eigenschaften
-        Terminal _Gui;
+        Userinterface _Gui;
         Fach[] _Faecher;
         Benutzer[] _Nutzer;
         Mitarbeiter[] _Angestellte;
@@ -21,14 +22,14 @@ namespace Packstation_Kroll
         #region Accessoren/Modifier
         public Benutzer[] Nutzer { get => _Nutzer; set => _Nutzer = value; }
         public Mitarbeiter[] Angestellte { get => _Angestellte; set => _Angestellte = value; }
-        internal Terminal Gui { get => _Gui; set => _Gui = value; }
+        internal Userinterface Gui { get => _Gui; set => _Gui = value; }
         internal Fach[] Faecher { get => _Faecher; set => _Faecher = value; }
         #endregion
 
         #region Konstruktoren
         public Controller()
         {
-            this.Gui = new Terminal(this);
+            this.Gui = new Userinterface(this);
             this.Faecher = new Fach[9];
             for (int i = 0; i < Faecher.Length; i++)
             {
@@ -231,4 +232,4 @@ namespace Packstation_Kroll
         #region Schnittstellen
         #endregion
     }
-}
+}*/

@@ -15,7 +15,7 @@ namespace UnitTestPackstation
     public class UnitTest1
     {
         [TestMethod]
-        public void TestVerschicken()
+        public void PaketVerschicken()
         {
             Paket testPaket = new Paket();
             testPaket.aendereStatus("Verschicken");
@@ -23,7 +23,7 @@ namespace UnitTestPackstation
         }
 
         [TestMethod]
-        public void TestTransport()
+        public void PaketTransport()
         {
             Paket testPaket = new Paket();
             testPaket.aendereStatus("Transport");
@@ -32,10 +32,19 @@ namespace UnitTestPackstation
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentException), "You must supply an argument")]
-        public void TestMethod2()
+        public void PaketFalscherStatus()
         {
             Paket testPaket = new Paket();
             testPaket.aendereStatus("nein");
+        }
+
+        [TestMethod]
+        public void FachAggregationFunction()
+        {
+            Paket testPaket = new Paket();
+            Fach fach = new Fach(12, true, testPaket, true);
+            fach.getPaket();
+            Assert.AreEqual(fach.Packet, null);
         }
     }
 }

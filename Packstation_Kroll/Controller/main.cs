@@ -13,8 +13,8 @@ namespace Packstation_Kroll
     {
         static void Main(string[] args)
         {
-            Controller Verwalter = new Controller();
-            Verwalter.run();
+            //Controller Verwalter = new Controller();
+            //Verwalter.run();
         }
     }
 }

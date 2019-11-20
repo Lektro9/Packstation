@@ -9,7 +9,7 @@ using System;
 
 namespace Packstation_Kroll
 {
-    class Fach
+    public class Fach
     {
         #region Eigenschaften
         bool _Status;
@@ -21,7 +21,7 @@ namespace Packstation_Kroll
         #region Accessoren/Modifier
         public bool Status { get => _Status; set => _Status = value; }
         public int Nummer { get => _Nummer; set => _Nummer = value; }
-        internal Paket Packet { get => _Packet; set => _Packet = value; }
+        public Paket Packet { get => _Packet; set => _Packet = value; }
         public bool Belegt { get => _Belegt; set => _Belegt = value; }
         #endregion
 
@@ -40,6 +40,13 @@ namespace Packstation_Kroll
             this.Status = true; //true = funktioniert, false = funktioniert nicht
             this.Packet = null;
             this.Belegt = false;
+        }
+        public Fach(int ID, bool Status, Paket Packet, bool Belegt)
+        {
+            this.Nummer = ID;
+            this.Status = Status; //true = funktioniert, false = funktioniert nicht
+            this.Packet = Packet;
+            this.Belegt = Belegt;
         }
         #endregion
 
