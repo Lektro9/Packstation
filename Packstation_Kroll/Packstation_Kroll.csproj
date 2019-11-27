@@ -48,7 +48,7 @@
     <Compile Include="Controller\main.cs" />
     <Compile Include="Model\Paket.cs" />
     <Compile Include="Model\Mitarbeiter.cs" />
-    <Compile Include="Model\Benutzer.cs" />
+    <Compile Include="Model\Kunde.cs" />
     <Compile Include="Model\Fach.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="View\Userinterface.cs" />

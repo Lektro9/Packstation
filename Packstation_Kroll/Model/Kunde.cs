@@ -42,7 +42,7 @@ namespace Packstation_Kroll
         }
 
         //Spezial Konstruktor
-        public Kunde(int Kundenummer, string Name, string Adresse, string Benutzername, string Passwort, List<Paket> Pakete)
+        public Kunde(long Kundenummer, string Name, string Adresse, string Benutzername, string Passwort, List<Paket> Pakete)
         {
             this.Kundenummer = Kundenummer;
             this.Name = Name;

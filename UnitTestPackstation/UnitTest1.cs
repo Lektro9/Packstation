@@ -6,6 +6,7 @@
 //02.11.2019:   Entwicklungsbeginn 
 
 using System;
+using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Packstation_Kroll;
 
@@ -45,6 +46,18 @@ namespace UnitTestPackstation
             Fach fach = new Fach(12, true, testPaket, true);
             fach.getPaket();
             Assert.AreEqual(fach.Packet, null);
+        }
+
+        [TestMethod]
+        public void KundenPaketListe_hinzufuegen()
+        {
+            Paket testPaket = new Paket();
+            List<Paket> PaketListe = new List<Paket>();
+            PaketListe.Add(testPaket);
+            Kunde TestKlaus = new Kunde(1l, "Klaus", "Berndstr. 54", "Klausi", "0000", PaketListe);
+            Paket shouldBeInStation = TestKlaus.PaketEinliefern();
+
+            Assert.AreEqual(shouldBeInStation.Status, "Abholen");
         }
     }
 }
