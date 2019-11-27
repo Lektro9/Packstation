@@ -17,7 +17,7 @@ namespace Packstation_Kroll
         string _AbsenderAdresse;
         string _EmpfaengerName;
         string _EmpfaengerAdresse;
-        string _Status; //3 Mögl.: frei, abholbereit, versenden
+        string _Status; //5 Mögl.: Verschicken, Transport, Abholen, abgeholt, abzuholen
         int _PaketfachNr;
         int _PaketstationsNr;
         #endregion
