@@ -46,6 +46,7 @@ namespace UnitTestPackstation
             Fach fach = new Fach(12, true, testPaket, true);
             fach.getPaket();
             Assert.AreEqual(fach.Packet, null);
+            Assert.AreEqual(fach.IstBelegt(), false);
         }
 
         [TestMethod]
@@ -58,6 +59,14 @@ namespace UnitTestPackstation
             Paket shouldBeInStation = TestKlaus.PaketEinliefern();
 
             Assert.AreEqual(shouldBeInStation.Status, "Abholen");
+        }
+
+        [TestMethod]
+        public void KundenAuthentifizierung()
+        {
+            Kunde TestKlaus = new Kunde(1l, "Klaus", "Berndstr. 54", "Klausi", "0000", PaketListe);
+            
+            Assert.AreEqual(TestKlaus.Authentifizieren("Klausi","000"), true);
         }
     }
 }

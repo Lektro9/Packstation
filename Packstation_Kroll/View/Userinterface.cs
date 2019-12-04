@@ -28,15 +28,36 @@ namespace Packstation_Kroll
         #region Konstruktoren
         public Userinterface()
         {
-            this.Text = "";
+            this.Text = null;
             this.Liste = null;
+            this.Input = new ConsoleKeyInfo();
+        }
+        public Userinterface(string Text)
+        {
+            this.Text = Text;
+            this.Liste = null;
+            this.Input = new ConsoleKeyInfo();
+        }
+
+        public Userinterface(string Text, List<Paket> Liste)
+        {
+            this.Text = Text;
+            this.Liste = Liste;
+            this.Input = new ConsoleKeyInfo();
+        }
+
+        public Userinterface(List<Paket> Liste)
+        {
+            this.Text = null;
+            this.Liste = Liste;
+            this.Input = new ConsoleKeyInfo();
         }
 
         //Spezialkonstruktor
         #endregion
 
         #region Worker
-       public void SplashAnzeigen()
+        public void SplashAnzeigen()
         {
             Console.WriteLine();
             Console.WriteLine();
@@ -109,7 +130,8 @@ namespace Packstation_Kroll
 
         public void WeiterMitTaste()
         {
-            this.Input = Console.ReadKey();
+            while (!Console.KeyAvailable) ;
+            Console.ReadKey();
         }
 
         public string TextEinlesen()

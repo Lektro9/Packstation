@@ -57,6 +57,18 @@ namespace Packstation_Kroll
             this.PaketfachNr = PaketfachNr;
             this.PaketstationsNr = PaketstationsNr;
         }
+
+        public Paket(Paket p)
+        {
+            this.PaketNummer = p.PaketNummer;
+            this.AbsenderName = p.AbsenderName;
+            this.AbsenderAdresse = p.AbsenderAdresse;
+            this.EmpfaengerName = p.EmpfaengerName;
+            this.EmpfaengerAdresse = p.EmpfaengerAdresse;
+            this.Status = p.Status;
+            this.PaketfachNr = p.PaketfachNr;
+            this.PaketstationsNr = p.PaketstationsNr;
+        }
         #endregion
 
         #region Worker

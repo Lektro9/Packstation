@@ -84,6 +84,10 @@ namespace Packstation_Kroll
             {
                 retVal = true;
             }
+            else
+            {
+                retVal = false;
+            }
             return retVal;
         }
 

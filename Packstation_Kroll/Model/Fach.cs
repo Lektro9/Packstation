@@ -59,7 +59,8 @@ namespace Packstation_Kroll
 
         public Paket getPaket()
         {
-            Paket retVal = this.Packet;
+            Paket retVal = new Paket(this.Packet);
+            this.Belegt = false;
             this.Packet = null;
             return retVal;
         }

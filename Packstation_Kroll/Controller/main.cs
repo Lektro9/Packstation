@@ -15,6 +15,8 @@ namespace Packstation_Kroll
         {
             //Controller Verwalter = new Controller();
             //Verwalter.run();
+            Userinterface Terminal = new Userinterface();
+            Terminal.WeiterESC();
         }
     }
 }
