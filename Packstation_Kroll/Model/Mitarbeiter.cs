@@ -33,7 +33,7 @@ namespace Packstation_Kroll
         #region Konstruktoren
         public Mitarbeiter()
         {
-            this.MitarbeiterID = 0l;
+            this.MitarbeiterID = 0L;
             this.Name = "noName";
             this.Benutzername = "noUser";
             this.Passwort = "0000";
@@ -43,7 +43,7 @@ namespace Packstation_Kroll
         //Spezialkonstruktoren
         public Mitarbeiter(long MitarbeiterID, string Name, string Benutzername, string Passwort, List<Paket> LieferPakete, List<Paket> AbgeholtePakete)
         {
-            this.MitarbeiterID = 0l;
+            this.MitarbeiterID = 0L;
             this.Name = "noName";
             this.Benutzername = "noUser";
             this.Passwort = "0000";

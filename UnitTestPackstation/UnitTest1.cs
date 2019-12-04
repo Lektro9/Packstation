@@ -55,7 +55,7 @@ namespace UnitTestPackstation
             Paket testPaket = new Paket();
             List<Paket> PaketListe = new List<Paket>();
             PaketListe.Add(testPaket);
-            Kunde TestKlaus = new Kunde(1l, "Klaus", "Berndstr. 54", "Klausi", "0000", PaketListe);
+            Kunde TestKlaus = new Kunde(1L, "Klaus", "Berndstr. 54", "Klausi", "0000", PaketListe);
             Paket shouldBeInStation = TestKlaus.PaketEinliefern();
 
             Assert.AreEqual(shouldBeInStation.Status, "Abholen");
@@ -64,9 +64,32 @@ namespace UnitTestPackstation
         [TestMethod]
         public void KundenAuthentifizierung()
         {
-            Kunde TestKlaus = new Kunde(1l, "Klaus", "Berndstr. 54", "Klausi", "0000", PaketListe);
+            List<Paket> PaketListe = new List<Paket>();
+            Kunde TestKlaus = new Kunde(1L, "Klaus", "Berndstr. 54", "Klausi", "123456", PaketListe);
             
-            Assert.AreEqual(TestKlaus.Authentifizieren("Klausi","000"), true);
+            Assert.AreEqual(TestKlaus.Authentifizieren("Klausi", "123456"), true);
+        }
+
+        [TestMethod]
+        public void KundenHatPaketAbzugeben()
+        {
+            List<Paket> PaketListe = new List<Paket>();
+            Paket p = new Paket("Verschicken");
+            PaketListe.Add(p);
+            Kunde TestKlaus = new Kunde(1L, "Klaus", "Berndstr. 54", "Klausi", "123456", PaketListe);
+            
+            Assert.AreEqual(TestKlaus.hatPaketabzugeben(), true);
+        }
+
+        [TestMethod]
+        public void KundenHatPaketAbgeholt()
+        {
+            List<Paket> PaketListe = new List<Paket>();
+            Paket p = new Paket("abgeholt");
+            PaketListe.Add(p);
+            Kunde TestKlaus = new Kunde(1L, "Klaus", "Berndstr. 54", "Klausi", "123456", PaketListe);
+
+            Assert.AreEqual(TestKlaus.hatPaketeabgeholt(), true);
         }
     }
 }
