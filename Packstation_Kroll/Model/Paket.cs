@@ -1,6 +1,6 @@
 ﻿//Autor:        Kroll
 //Datum:        02.11.2019
-//Dateiname:    Packet.cs
+//Dateiname:    Paket.cs
 //Beschreibung: Fach für die Pakete in der Packstation
 //Änderungen:
 //02.11.2019:   Entwicklungsbeginn 
