@@ -50,6 +50,7 @@
     <Compile Include="Model\Mitarbeiter.cs" />
     <Compile Include="Model\Kunde.cs" />
     <Compile Include="Model\Fach.cs" />
+    <Compile Include="Model\Paketstation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="View\Userinterface.cs" />
   </ItemGroup>

@@ -11,7 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Packstation_Kroll.Model
+namespace Packstation_Kroll
 {
     class Paketstation
     {
