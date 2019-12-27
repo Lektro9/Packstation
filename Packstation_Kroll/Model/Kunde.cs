@@ -62,7 +62,7 @@ namespace Packstation_Kroll
             {
                 if (Pakete[i].Status == "Verschicken")
                 {
-                    Pakete[i].Status = "Abholen";
+                    Pakete[i].aendereStatus("Abholen");
                     retPaket = Pakete[i];
                     Pakete.RemoveAt(i);
                     break;
@@ -73,8 +73,8 @@ namespace Packstation_Kroll
 
         public void PaketAbholen(Paket paket)
         {
-            paket.Status = "abgeholt";
-            this.Pakete.Add(paket); // evtl. muss hier Status vom Paket geändert werden
+            paket.aendereStatus("abgeholt");
+            this.Pakete.Add(paket);
         }
 
         public bool Authentifizieren(string ben, string passwd)

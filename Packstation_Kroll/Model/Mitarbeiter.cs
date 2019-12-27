@@ -10,7 +10,7 @@ using System.Collections.Generic;
 
 namespace Packstation_Kroll
 {
-    public class Mitarbeiter
+    public class Mitarbeiter : Object
     {
         #region Eigenschaften
         long _MitarbeiterID;
@@ -56,17 +56,17 @@ namespace Packstation_Kroll
         #region Worker
         public List<Paket> PaketeLiefern()
         {
-            List<Paket> retPakete = null;
+            List<Paket> retPakete = new List<Paket>();
             for (int i = 0; i < LieferPakete.Count; i++)
             {
                 if (LieferPakete[i].Status == "Transport")
                 {
-                    LieferPakete[i].Status = "abzuholen";
+                    LieferPakete[i].Status = "Abholen";
                     retPakete.Add(LieferPakete[i]);
                     LieferPakete.RemoveAt(i);
                 }
             }
-            return this.LieferPakete;
+            return retPakete;
         }
 
         public void PaketeAbholen(List<Paket> PaketListe)

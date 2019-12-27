@@ -70,8 +70,10 @@ namespace Packstation_Kroll
 
         public void loginAufforderung(ref string benutzername, ref string passwort)
         {
+            Console.WriteLine("Benutzername: ");
             benutzername = Console.ReadLine();
-            passwort = Console.ReadLine();
+            Console.WriteLine("Passwort: ");
+            passwort = Console.ReadLine(); //TODO: Passwort nicht auf dem Bildschirm anzeigen
         }
 
         public void TextAusgeben(string Text)
