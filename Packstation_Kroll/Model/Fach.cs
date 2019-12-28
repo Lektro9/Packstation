@@ -68,6 +68,7 @@ namespace Packstation_Kroll
         public void PaketAnnehmen(Paket Packet)
         {
             this.Packet = Packet;
+            this.Belegt = true;
         }
         #endregion
 

@@ -8,6 +8,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace Packstation_Kroll
 {
@@ -64,12 +65,15 @@ namespace Packstation_Kroll
             Console.WriteLine();
             this.Text = "\n           Programmm:    Packstation Version 1.0" +
                 "\n           Autor:        Kroll" +
-                "\n           Beschreibung: Verwaltung von Paketen";
+                "\n           Beschreibung: Verwaltung von Paketen" +
+                "\n\n\n";
             Console.Write(this.Text);
+            Thread.Sleep(1000);
         }
 
         public void loginAufforderung(ref string benutzername, ref string passwort)
         {
+            Console.Clear();
             Console.WriteLine("Benutzername: ");
             benutzername = Console.ReadLine();
             Console.WriteLine("Passwort: ");

@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace Packstation_Kroll
 {
-    class Paketstation
+    public class Paketstation
     {
         #region Eigenschaften
         List<Fach> _Paketfach;
@@ -31,7 +31,7 @@ namespace Packstation_Kroll
             this.Paketfach = new List<Fach>();
             for (int i = 0; i < 9; i++)
             {
-                Paketfach.Add(new Fach());
+                this.Paketfach.Add(new Fach(i));
             }
             this.Terminal = null;
         }
@@ -47,7 +47,7 @@ namespace Packstation_Kroll
             this.Paketfach = new List<Fach>();
             for (int i = 0; i < AnzahlFaecher; i++)
             {
-                Paketfach.Add(new Fach());
+                this.Paketfach.Add(new Fach(i));
             }
             this.Terminal = Terminal;
         }
@@ -78,9 +78,20 @@ namespace Packstation_Kroll
             List<Paket> retVal = new List<Paket>();
             for (int i = 0; i < Paketfach.Count; i++)
             {
-                if (Paketfach[i].Packet.Status == "abzuholen") //Achtung, vielleicht doch "Abholen"?
+                if (Paketfach[i].IstBelegt())
                 {
-                    retVal.Add(Paketfach[i].getPaket());
+                    if (Paketfach[i].Packet.Status == "abzuholen") //Achtung, vielleicht doch "Abholen"?
+                    {
+                        retVal.Add(Paketfach[i].getPaket());
+                    }
+                    else
+                    {
+                        // nichts tun
+                    }
+                }
+                else
+                {
+                    // nichts tun
                 }
             }
             return retVal;
@@ -91,9 +102,20 @@ namespace Packstation_Kroll
             bool retVal = false;
             for (int i = 0; i < Paketfach.Count; i++)
             {
-                if (k.Name == Paketfach[i].Packet.EmpfaengerName)
+                if (Paketfach[i].IstBelegt())
                 {
-                    retVal = true;
+                    if (k.Name == Paketfach[i].Packet.EmpfaengerName && k.Adresse == Paketfach[i].Packet.EmpfaengerAdresse)
+                    {
+                        retVal = true;
+                    }
+                    else
+                    {
+                        //nichts tun
+                    }
+                }
+                else
+                {
+                    //nichts tun
                 }
             }
             return retVal;
@@ -104,10 +126,21 @@ namespace Packstation_Kroll
             int retVal = 0;
             for (int i = 0; i < Paketfach.Count; i++)
             {
-                if (k.Name == Paketfach[i].Packet.EmpfaengerName)
+                if (Paketfach[i].IstBelegt())
                 {
-                    retVal = Paketfach[i].Nummer;
-                } //was passiert wenn keine Fachnummer verfügbar ist?
+                    if (k.Name == Paketfach[i].Packet.EmpfaengerName && k.Adresse == Paketfach[i].Packet.EmpfaengerAdresse)
+                    {
+                        retVal = Paketfach[i].Nummer;
+                    } 
+                    else
+                    {
+                        //nichts tun
+                    }
+                }
+                else
+                {
+                    //nichts tun
+                }
             }
             return retVal;
         }

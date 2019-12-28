@@ -62,7 +62,7 @@ namespace Packstation_Kroll
             {
                 if (Pakete[i].Status == "Verschicken")
                 {
-                    Pakete[i].aendereStatus("Abholen");
+                    Pakete[i].aendereStatus("abzuholen");
                     retPaket = Pakete[i];
                     Pakete.RemoveAt(i);
                     break;
@@ -121,7 +121,6 @@ namespace Packstation_Kroll
             {
                 retVal = true;
             }
-
             return retVal;
         }
 

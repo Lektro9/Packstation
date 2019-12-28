@@ -11,7 +11,7 @@ using System.Collections.Generic;
 
 namespace Packstation_Kroll
 {
-    class Controller
+    public class Controller
     {
         #region Eigenschaften
         List<Kunde> _Kunden;
@@ -61,7 +61,52 @@ namespace Packstation_Kroll
         #region Worker
         public void run()
         {
-            //TODO: businesslogic
+            bool running = true;
+            string Eingabe;
+            SplashinfoAnzeigen();
+
+            while (running)
+            {
+                while (Authentifiziert == false) //TODO: vielleicht option zum Abschalten geben?
+                {
+                    Authentifizieren();
+                }
+                if (AktiverUser.GetType() == typeof(Mitarbeiter))
+                {
+                    Terminal.MitarbeiterMenueAnzeigen();
+                    Eingabe = Terminal.TextEinlesen();
+                    if (Eingabe == "1")
+                    {
+                        MitarbeiterHoltPakete();
+                    }
+                    else if (Eingabe == "2")
+                    {
+                        MitarbeiterLiefertPakete();
+                    }
+                    else if(Eingabe == "0")
+                    {
+                        Authentifiziert = false;
+                    }
+                }
+                else
+                {
+                    Terminal.KundenMenueAnzeigen();
+                    Eingabe = Terminal.TextEinlesen();
+                    if (Eingabe == "1")
+                    {
+                        KundeHoltPaket();
+                    }
+                    else if (Eingabe == "2")
+                    {
+                        KundeLiefertPaket();
+                    }
+                    else if (Eingabe == "0")
+                    {
+                        Authentifiziert = false;
+                    }
+                }
+                
+            }
         }
 
         public void PaketeListen() // von wem die Pakete listen?
@@ -74,21 +119,34 @@ namespace Packstation_Kroll
 
         public void MitarbeiterHoltPakete()
         {
-            for (int i = 0; i < AktuelleStation.Paketfach.Count; i++)
+            Mitarbeiter AktiverMitarbeiter = (Mitarbeiter)AktiverUser;
+            List<Paket> AbzuholendePakete = AktuelleStation.MitarbeiterListeAbzuholenderPakete();
+
+            for (int i = 0; i < AbzuholendePakete.Count; i++)
             {
-                if (AktuelleStation.Paketfach[i].IstBelegt())
-                {
-                    if (AktuelleStation.Paketfach[i].Packet.Status == "abzuholen")
-                    {
-                        if (AktiverUser.GetType() == typeof(Mitarbeiter))
-                        {
-                            Mitarbeiter AktiverMitarbeiter = (Mitarbeiter)AktiverUser;
-                            AktiverMitarbeiter.AbgeholtePakete.Add(AktuelleStation.Paketfach[i].getPaket());
-                        }
-                        
-                    }
-                }
+                AbzuholendePakete[i].aendereStatus("Transport");
+                AktiverMitarbeiter.AbgeholtePakete.Add(AbzuholendePakete[i]);
             }
+
+            if (AbzuholendePakete.Count > 0)
+            {
+                Terminal.TextAusgeben("Sie haben " + AbzuholendePakete.Count + " Pakete abgeholt.");
+            }
+
+            /*           for (int i = 0; i < AktuelleStation.Paketfach.Count; i++)
+                       {
+                           if (AktuelleStation.Paketfach[i].IstBelegt())
+                           {
+                               if (AktuelleStation.Paketfach[i].Packet.Status == "abzuholen")
+                               {
+                                   if (AktiverUser.GetType() == typeof(Mitarbeiter))
+                                   {
+
+                                       AktiverMitarbeiter.AbgeholtePakete.Add(AktuelleStation.Paketfach[i].getPaket());
+                                   }
+                               }
+                           }
+                       }*/
         }
 
         public void MitarbeiterLiefertPakete()
@@ -104,6 +162,7 @@ namespace Packstation_Kroll
                     {
                         AktuelleStation.Paketfach[i].PaketAnnehmen(EinzubindendePakete[i]);
                         EinzubindendePakete.RemoveAt(i);
+                        
                     }
                     else
                     {
@@ -132,30 +191,41 @@ namespace Packstation_Kroll
         public void KundeHoltPaket()
         {
             Kunde AktuellerKunde = (Kunde)AktiverUser;
-            for (int i = 0; i < AktuelleStation.Paketfach.Count; i++)
+            if (AktuelleStation.IsteinPaketvorhanden(AktuellerKunde))
             {
-                if (AktuelleStation.Paketfach[i].Packet.EmpfaengerName == AktuellerKunde.Name && AktuelleStation.Paketfach[i].Packet.EmpfaengerAdresse == AktuellerKunde.Adresse)
+                for (int i = 0; i < AktuelleStation.Paketfach.Count; i++)
                 {
-                    AktuellerKunde.PaketAbholen(AktuelleStation.Paketfach[i].getPaket());
-                    break;
+                    if (AktuelleStation.Paketfach[i].IstBelegt())
+                    {
+                        Terminal.TextAusgeben("Das Paket (" + AktuelleStation.Paketfach[i].Packet.PaketNummer + ") wurde aus dem Fach " + AktuelleStation.getPaketFachnummer(AktuellerKunde) + " entnommen.");
+                        AktuellerKunde.PaketAbholen(AktuelleStation.Paketfach[i].getPaket());
+                        break;
+                    }
+                    else
+                    {
+                        //nichts tun
+                    }
                 }
-                else
-                {
-                    // nichts tun
-                }
+                    
             }
-            if (!AktuellerKunde.hatPaketeabgeholt())
+            else
             {
                 Terminal.TextAusgeben("Keine Pakete in dieser Station für Sie verfügbar.");
             }
+            
         }
 
         public void KundeLiefertPaket()
         {
             Kunde AktuellerKunde = (Kunde)AktiverUser;
-            while (AktuellerKunde.hatPaketabzugeben())
+            if (AktuellerKunde.hatPaketabzugeben())
             {
                 AktuelleStation.KundeLiefertPaket(AktuellerKunde.PaketEinliefern());
+            }
+            else
+            {
+                Terminal.TextAusgeben("Sie besitzen keine Pakete zum Abgeben.");
+                Terminal.WeiterMitTaste();
             }
         }
 

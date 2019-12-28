@@ -43,12 +43,12 @@ namespace Packstation_Kroll
         //Spezialkonstruktoren
         public Mitarbeiter(long MitarbeiterID, string Name, string Benutzername, string Passwort, List<Paket> LieferPakete, List<Paket> AbgeholtePakete)
         {
-            this.MitarbeiterID = 0L;
-            this.Name = "noName";
-            this.Benutzername = "noUser";
-            this.Passwort = "0000";
-            this.LieferPakete = null;
-            this.AbgeholtePakete = null;
+            this.MitarbeiterID = MitarbeiterID;
+            this.Name = Name;
+            this.Benutzername = Benutzername;
+            this.Passwort = Passwort;
+            this.LieferPakete = LieferPakete;
+            this.AbgeholtePakete = AbgeholtePakete;
         }
 
         #endregion

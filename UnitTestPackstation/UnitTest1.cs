@@ -12,6 +12,54 @@ using Packstation_Kroll;
 
 namespace UnitTestPackstation
 {
+    public class TestController : Controller
+    {
+        public TestController(List<Kunde> Kunden, List<Mitarbeiter> Mitarbeiter, Userinterface Terminal, object AktiverUser, bool Authentifiziert, List<Paketstation> Stationen, Paketstation AktuelleStation)
+        {
+            this.Kunden = Kunden;
+            this.Mitarbeiter = Mitarbeiter;
+            this.Terminal = Terminal;
+            this.AktiverUser = AktiverUser;
+            this.Authentifiziert = Authentifiziert;
+            this.Stationen = Stationen;
+            this.AktuelleStation = AktuelleStation;
+        }
+        public void Authentifizieren(string Benutzername, string Passwort)
+        {
+            for (int i = 0; i < Mitarbeiter.Count; i++)
+            {
+                if (Benutzername == Mitarbeiter[i].Benutzername && Passwort == Mitarbeiter[i].Passwort)
+                {
+                    AktiverUser = Mitarbeiter[i];
+                    Authentifiziert = true;
+                    break;
+                }
+                else
+                {
+                    // nichts tun
+                }
+            }
+
+            for (int i = 0; i < Kunden.Count; i++)
+            {
+                if (Benutzername == Kunden[i].Benutzername && Passwort == Kunden[i].Passwort)
+                {
+                    AktiverUser = Kunden[i];
+                    Authentifiziert = true;
+                    break;
+                }
+                else
+                {
+                    // nichts tun
+                }
+            }
+
+            if (Authentifiziert == false)
+            {
+                Console.WriteLine("Falscher Login, bitte prüfen Sie Ihren Benutzernamen und Ihr Passwort.");
+            }
+        }
+    }
     [TestClass]
     public class UnitTest1
     {
@@ -58,7 +106,7 @@ namespace UnitTestPackstation
             Kunde TestKlaus = new Kunde(1L, "Klaus", "Berndstr. 54", "Klausi", "0000", PaketListe);
             Paket shouldBeInStation = TestKlaus.PaketEinliefern();
 
-            Assert.AreEqual(shouldBeInStation.Status, "Abholen");
+            Assert.AreEqual(shouldBeInStation.Status, "abzuholen");
         }
 
         [TestMethod]
@@ -90,6 +138,25 @@ namespace UnitTestPackstation
             Kunde TestKlaus = new Kunde(1L, "Klaus", "Berndstr. 54", "Klausi", "123456", PaketListe);
 
             Assert.AreEqual(TestKlaus.hatPaketeabgeholt(), true);
+        }
+        
+        [TestMethod]
+        
+        public void AuthentifizierungsTest()
+        {
+            Kunde k1 = new Kunde(1L, "Klaus", "Beispielstraße 22", "Klausi", "1234", null);
+            Mitarbeiter m1 = new Mitarbeiter(1L, "John", "admin", "admin", null, null);
+        
+            List<Kunde> kl1 = new List<Kunde>();
+            kl1.Add(k1);
+            List<Mitarbeiter> ml1 = new List<Mitarbeiter>();
+            ml1.Add(m1);
+
+            //Controller
+            TestController Verwalter = new TestController(kl1, ml1, null, null, false, null, null);
+            Verwalter.Authentifizieren(k1.Benutzername, k1.Passwort);
+
+            Assert.AreEqual(Verwalter.AktiverUser.GetType(), typeof(Kunde));
         }
 
         //TODO: Controller.MitarbeiterLiefertPakete() testen! (ob fehler abgefangen werden)
