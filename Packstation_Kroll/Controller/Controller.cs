@@ -1,10 +1,11 @@
 ﻿//Autor:        Kroll
 //Datum:        02.11.2019
 //Dateiname:    Controller.cs
-//Beschreibung: Businesslogic für die Packstation
+//Beschreibung: Businesslogik für die Packstation
 //Änderungen:
 //02.11.2019:   Entwicklungsbeginn 
 //20.11.2019:   Controller funktioniert zur Zeit nicht richtig, da Modelle überarbeitet wurden
+//29.12.2019:   Businesslogik hinzugefügt und Entwicklung abgeschlossen
 
 using System;
 using System.Collections.Generic;
@@ -67,7 +68,7 @@ namespace Packstation_Kroll
 
             while (running)
             {
-                while (Authentifiziert == false) //TODO: vielleicht option zum Abschalten geben?
+                while (Authentifiziert == false)
                 {
                     Authentifizieren();
                 }
@@ -83,9 +84,13 @@ namespace Packstation_Kroll
                     {
                         MitarbeiterLiefertPakete();
                     }
-                    else if(Eingabe == "0")
+                    else if (Eingabe == "0")
                     {
                         Authentifiziert = false;
+                    }
+                    else if (Eingabe == "abschalten")
+                    {
+                        running = false;
                     }
                 }
                 else
@@ -105,15 +110,15 @@ namespace Packstation_Kroll
                         Authentifiziert = false;
                     }
                 }
-                
             }
         }
 
-        public void PaketeListen() // von wem die Pakete listen?
+        public void PaketeListen()
         {
-            for (int i = 0; i < AktuelleStation.Paketfach.Count; i++)
+            List<Paket> AbzuholendePakete = AktuelleStation.MitarbeiterListeAbzuholenderPakete();
+            for (int i = 0; i < AbzuholendePakete.Count; i++)
             {
-
+                Terminal.TextAusgeben("Paket " + AbzuholendePakete[i].PaketNummer + " liegt in Fach " + AbzuholendePakete[i].PaketfachNr + ".");
             }
         }
 
@@ -130,23 +135,17 @@ namespace Packstation_Kroll
 
             if (AbzuholendePakete.Count > 0)
             {
-                Terminal.TextAusgeben("Sie haben " + AbzuholendePakete.Count + " Pakete abgeholt.");
+                string faecherNummern = "";
+                for (int i = 0; i < AbzuholendePakete.Count; i++)
+                {
+                    faecherNummern += AbzuholendePakete[i].PaketfachNr + " ";
+                }
+                Terminal.TextAusgeben("Sie haben " + AbzuholendePakete.Count + " Pakete aus den Fächern " + faecherNummern + "abgeholt.");
             }
-
-            /*           for (int i = 0; i < AktuelleStation.Paketfach.Count; i++)
-                       {
-                           if (AktuelleStation.Paketfach[i].IstBelegt())
-                           {
-                               if (AktuelleStation.Paketfach[i].Packet.Status == "abzuholen")
-                               {
-                                   if (AktiverUser.GetType() == typeof(Mitarbeiter))
-                                   {
-
-                                       AktiverMitarbeiter.AbgeholtePakete.Add(AktuelleStation.Paketfach[i].getPaket());
-                                   }
-                               }
-                           }
-                       }*/
+            else
+            {
+                Terminal.TextAusgeben("Keine Pakete zum Abholen in der Station.");
+            }
         }
 
         public void MitarbeiterLiefertPakete()
@@ -156,13 +155,24 @@ namespace Packstation_Kroll
                 Mitarbeiter AktiverMitarbeiter = (Mitarbeiter)AktiverUser;
                 List<Paket> EinzubindendePakete = new List<Paket>(AktiverMitarbeiter.PaketeLiefern());
                 int EinzubindendePaketeAnzahl = EinzubindendePakete.Count;
-                for (int i = 0; i < EinzubindendePakete.Count; i++)
+                for (int i = EinzubindendePakete.Count - 1; i >= 0; i--)
                 {
-                    if (!AktuelleStation.Paketfach[i].IstBelegt())
+                    if (EinzubindendePakete.Count > 0)
                     {
-                        AktuelleStation.Paketfach[i].PaketAnnehmen(EinzubindendePakete[i]);
-                        EinzubindendePakete.RemoveAt(i);
-                        
+                        for (int j = 0; j < AktuelleStation.Paketfach.Count; j++)
+                        {
+                            if (!AktuelleStation.Paketfach[j].IstBelegt())
+                            {
+                                AktuelleStation.Paketfach[j].PaketAnnehmen(EinzubindendePakete[i]);
+                                Terminal.TextAusgeben("Paket " + EinzubindendePakete[i].PaketNummer + " wurde in das Fach " + EinzubindendePakete[i].PaketfachNr + " eingelegt.");
+                                EinzubindendePakete.RemoveAt(i);
+                                break;
+                            }
+                            else
+                            {
+                                // do nothing
+                            }
+                        }
                     }
                     else
                     {
@@ -183,7 +193,7 @@ namespace Packstation_Kroll
                 }
                 else
                 {
-                    // nichts tun, alles verläuft nach Plan
+                    Terminal.TextAusgeben("Keine weiteren Pakete zum hineinlegen verfügbar.");
                 }
             }
         }
@@ -206,13 +216,13 @@ namespace Packstation_Kroll
                         //nichts tun
                     }
                 }
-                    
+
             }
             else
             {
                 Terminal.TextAusgeben("Keine Pakete in dieser Station für Sie verfügbar.");
             }
-            
+
         }
 
         public void KundeLiefertPaket()
@@ -220,7 +230,9 @@ namespace Packstation_Kroll
             Kunde AktuellerKunde = (Kunde)AktiverUser;
             if (AktuellerKunde.hatPaketabzugeben())
             {
-                AktuelleStation.KundeLiefertPaket(AktuellerKunde.PaketEinliefern());
+                Paket p = AktuellerKunde.PaketEinliefern();
+                AktuelleStation.KundeLiefertPaket(p);
+                Terminal.TextAusgeben("Paket " + p.PaketNummer + " wurde in das Fach " + p.PaketfachNr + " eingelegt.");
             }
             else
             {

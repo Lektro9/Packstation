@@ -4,6 +4,7 @@
 //Beschreibung: Fach für die Pakete in der Packstation
 //Änderungen:
 //02.11.2019:   Entwicklungsbeginn 
+//29.12.2019:   Entwicklung abgeschlossen
 
 using System;
 
@@ -69,6 +70,7 @@ namespace Packstation_Kroll
         {
             this.Packet = Packet;
             this.Belegt = true;
+            this.Packet.PaketfachNr = this.Nummer;
         }
         #endregion
 

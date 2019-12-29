@@ -4,6 +4,7 @@
 //Beschreibung: Paketstation welches die Fächer beinhaltet und managed
 //Änderungen:
 //10.12.2019:   Entwicklungsbeginn 
+//29.12.2019:   Entwicklung abgeschlossen
 
 using System;
 using System.Collections.Generic;
@@ -54,10 +55,10 @@ namespace Packstation_Kroll
         #endregion
 
         #region Worker
+        //Konnte keinen Gebrauch für die Methode finden
         public Paket KundeholtPaketab()
         {
             Paket retVal = new Paket();
-            //TODO: logic
             return retVal;
         }
 
@@ -80,7 +81,7 @@ namespace Packstation_Kroll
             {
                 if (Paketfach[i].IstBelegt())
                 {
-                    if (Paketfach[i].Packet.Status == "abzuholen") //Achtung, vielleicht doch "Abholen"?
+                    if (Paketfach[i].Packet.Status == "abzuholen")
                     {
                         retVal.Add(Paketfach[i].getPaket());
                     }
@@ -145,6 +146,7 @@ namespace Packstation_Kroll
             return retVal;
         }
 
+        //Konnte keinen Gebrauch für die Methode finden
         public void MitarbeiterWechseltFach()
         {
             //TODO: noch nicht verstanden was diese Methode machen könnte

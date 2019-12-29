@@ -4,6 +4,7 @@
 //Beschreibung: Klasse für Mitarbeiter
 //Änderungen:
 //02.11.2019:   Entwicklungsbeginn 
+//29.12.2019:   Entwicklung abgeschlossen
 
 using System;
 using System.Collections.Generic;
@@ -26,8 +27,8 @@ namespace Packstation_Kroll
         public string Name { get => _Name; set => _Name = value; }
         public string Benutzername { get => _Benutzername; set => _Benutzername = value; }
         public string Passwort { get => _Passwort; set => _Passwort = value; }
-        public List<Paket> LieferPakete { get => _LieferPakete; set => _LieferPakete = value; }
-        public List<Paket> AbgeholtePakete { get => _AbgeholtePakete; set => _AbgeholtePakete = value; }
+        public List<Paket> LieferPakete { get => _LieferPakete; set => _LieferPakete = value; } //Pakete die in aktuelle Station geliefert werden müssen
+        public List<Paket> AbgeholtePakete { get => _AbgeholtePakete; set => _AbgeholtePakete = value; } //Pakete die aus aktueller Station entnommen wurden, müssen irgendwie irgendwann zu Lieferpaketen werden
         #endregion
 
         #region Konstruktoren
@@ -57,7 +58,7 @@ namespace Packstation_Kroll
         public List<Paket> PaketeLiefern()
         {
             List<Paket> retPakete = new List<Paket>();
-            for (int i = 0; i < LieferPakete.Count; i++)
+            for (int i = LieferPakete.Count - 1; i >= 0 ; i--)
             {
                 if (LieferPakete[i].Status == "Transport")
                 {

@@ -4,6 +4,7 @@
 //Beschreibung: Klasse für Kunde
 //Änderungen:
 //02.11.2019:   Entwicklungsbeginn 
+//29.12.2019:   Entwicklung abgeschlossen
 
 using System;
 using System.Collections.Generic;

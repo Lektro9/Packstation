@@ -75,16 +75,16 @@ namespace Packstation_Kroll
         {
             Console.Clear();
             Console.WriteLine("Benutzername: ");
-            benutzername = Console.ReadLine();
+            benutzername = TextEinlesen();
             Console.WriteLine("Passwort: ");
-            passwort = Console.ReadLine(); //TODO: Passwort nicht auf dem Bildschirm anzeigen
+            passwort = TextEinlesen(); //TODO: Passwort nicht auf dem Bildschirm anzeigen
         }
 
         public void TextAusgeben(string Text)
         {
             Console.Clear();
             Console.WriteLine(Text);
-            Console.ReadKey();
+            WeiterMitTaste();
         }
 
         public void WeiterESC()
@@ -99,8 +99,7 @@ namespace Packstation_Kroll
         {
             Console.Clear();
             Console.WriteLine("Was möchten Sie tun: ");
-            Console.WriteLine();
-            Console.WriteLine();
+            Console.WriteLine("");
 
             string KundenMenue = "\n 1. Paket abholen" +
                 "\n 2. Paket einlegen" +
@@ -114,7 +113,6 @@ namespace Packstation_Kroll
         {
             Console.Clear();
             Console.WriteLine("Was möchten Sie tun: ");
-            Console.WriteLine();
             Console.WriteLine();
             
             string Mitarbeitermenue = "\n 1. Alle Pakete abholen" +
@@ -134,13 +132,13 @@ namespace Packstation_Kroll
             }
         }
 
-        public void WeiterMitTaste()
+        public virtual void WeiterMitTaste()
         {
             while (!Console.KeyAvailable) ;
             Console.ReadKey();
         }
 
-        public string TextEinlesen()
+        public virtual string TextEinlesen()
         {
             string Eingabe = Console.ReadLine();
             return Eingabe;

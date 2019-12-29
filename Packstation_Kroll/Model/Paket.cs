@@ -4,6 +4,7 @@
 //Beschreibung: Fach für die Pakete in der Packstation
 //Änderungen:
 //02.11.2019:   Entwicklungsbeginn 
+//29.12.2019:   Entwicklung abgeschlossen
 
 using System;
 
@@ -17,7 +18,7 @@ namespace Packstation_Kroll
         string _AbsenderAdresse;
         string _EmpfaengerName;
         string _EmpfaengerAdresse;
-        string _Status; //5 Mögl.: Verschicken, Transport, Abholen (Paket ist in Station und wartet auf Kunden), abgeholt (Endzustand beim Kunden), abzuholen (Paket ist in Station und wartet auf Mitarbeiter?)
+        string _Status; //5 Mögl.: Verschicken, Transport, Abholen (Paket ist in Station und wartet auf Kunden), abgeholt (Endzustand beim Kunden), abzuholen (Paket ist in Station und wartet auf Mitarbeiter)
         int _PaketfachNr;
         int _PaketstationsNr;
         #endregion
@@ -43,7 +44,7 @@ namespace Packstation_Kroll
             this.EmpfaengerAdresse = "";
             this.Status = "Verschicken";
             this.PaketfachNr = -1;
-            this.PaketstationsNr = -1;
+            this.PaketstationsNr = -1; //Erst wichtig wenn es mehrere Stationen gibt
         }
         //Spezialkonstruktor
         public Paket(long PaketNummer, string AbsenderName, string AbsenderAdresse, string EmpfaengerName, string EmpfaengerAdresse, string Status, int PaketfachNr, int PaketstationsNr)
@@ -104,7 +105,7 @@ namespace Packstation_Kroll
                     this.Status = Status;
                     break;
                 default:
-                    throw new ArgumentException("You must supply an argument");
+                    throw new ArgumentException("Status falsch angegeben.");
             }
         }
         #endregion
