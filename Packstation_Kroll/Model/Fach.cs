@@ -17,6 +17,7 @@ namespace Packstation_Kroll
         int _Nummer;
         Paket _Packet;
         bool _Belegt;
+        Groesse _Groesse;
         #endregion
 
         #region Accessoren/Modifier
@@ -24,6 +25,7 @@ namespace Packstation_Kroll
         public int Nummer { get => _Nummer; set => _Nummer = value; }
         public Paket Packet { get => _Packet; set => _Packet = value; }
         public bool Belegt { get => _Belegt; set => _Belegt = value; }
+        public Groesse Groesse { get => _Groesse; set => _Groesse = value; }
         #endregion
 
         #region Konstruktoren
@@ -33,6 +35,7 @@ namespace Packstation_Kroll
             this.Status = true; //true = funktioniert, false = funktioniert nicht
             this.Packet = null;
             this.Belegt = false;
+            this.Groesse = Groesse.XS;
         }
         //Spezialkonstruktor
         public Fach(int ID)
@@ -41,13 +44,15 @@ namespace Packstation_Kroll
             this.Status = true; //true = funktioniert, false = funktioniert nicht
             this.Packet = null;
             this.Belegt = false;
+            this.Groesse = Groesse.XS;
         }
-        public Fach(int ID, bool Status, Paket Packet, bool Belegt)
+        public Fach(int ID, bool Status, Paket Packet, bool Belegt, Groesse groesse)
         {
             this.Nummer = ID;
             this.Status = Status; //true = funktioniert, false = funktioniert nicht
             this.Packet = Packet;
             this.Belegt = Belegt;
+            this.Groesse = groesse;
         }
         #endregion
 
@@ -72,6 +77,17 @@ namespace Packstation_Kroll
             this.Belegt = true;
             this.Packet.PaketfachNr = this.Nummer;
         }
+
+        public bool IstGrossGenug(Groesse PaketGroesse)
+        {
+            bool retVal = false;
+            if ((int) this.Groesse >= (int) PaketGroesse)
+            {
+                retVal = true;
+            }
+            return retVal;
+        }
+        
         #endregion
 
         #region Schnittstellen

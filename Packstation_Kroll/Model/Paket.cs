@@ -21,6 +21,7 @@ namespace Packstation_Kroll
         string _Status; //5 Mögl.: Verschicken, Transport, Abholen (Paket ist in Station und wartet auf Kunden), abgeholt (Endzustand beim Kunden), abzuholen (Paket ist in Station und wartet auf Mitarbeiter)
         int _PaketfachNr;
         int _PaketstationsNr;
+        Groesse _Groesse;
         #endregion
 
         #region Accessoren/Modifier
@@ -32,6 +33,7 @@ namespace Packstation_Kroll
         public int PaketfachNr { get => _PaketfachNr; set => _PaketfachNr = value; }
         public int PaketstationsNr { get => _PaketstationsNr; set => _PaketstationsNr = value; }
         public string AbsenderAdresse { get => _AbsenderAdresse; set => _AbsenderAdresse = value; }
+        public Groesse Groesse { get => _Groesse; set => _Groesse = value; }
         #endregion
 
         #region Konstruktoren
@@ -45,9 +47,10 @@ namespace Packstation_Kroll
             this.Status = "Verschicken";
             this.PaketfachNr = -1;
             this.PaketstationsNr = -1; //Erst wichtig wenn es mehrere Stationen gibt
+            this.Groesse = Groesse.XS;
         }
         //Spezialkonstruktor
-        public Paket(long PaketNummer, string AbsenderName, string AbsenderAdresse, string EmpfaengerName, string EmpfaengerAdresse, string Status, int PaketfachNr, int PaketstationsNr)
+        public Paket(long PaketNummer, string AbsenderName, string AbsenderAdresse, string EmpfaengerName, string EmpfaengerAdresse, string Status, int PaketfachNr, int PaketstationsNr, Groesse groesse)
         {
             this.PaketNummer = PaketNummer;
             this.AbsenderName = AbsenderName;
@@ -57,6 +60,7 @@ namespace Packstation_Kroll
             this.Status = Status;
             this.PaketfachNr = PaketfachNr;
             this.PaketstationsNr = PaketstationsNr;
+            this.Groesse = groesse;
         }
 
         public Paket(Paket p)
@@ -69,6 +73,7 @@ namespace Packstation_Kroll
             this.Status = p.Status;
             this.PaketfachNr = p.PaketfachNr;
             this.PaketstationsNr = p.PaketstationsNr;
+            this.Groesse = p.Groesse;
         }
 
         public Paket(string Status)

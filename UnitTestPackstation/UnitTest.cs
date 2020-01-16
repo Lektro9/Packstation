@@ -72,7 +72,7 @@ namespace UnitTestPackstation
         public void FachAggregationFunction()
         {
             Paket testPaket = new Paket();
-            Fach fach = new Fach(12, true, testPaket, true);
+            Fach fach = new Fach(12, true, testPaket, true, Groesse.XS);
             fach.getPaket();
             Assert.AreEqual(fach.Packet, null);
             Assert.AreEqual(fach.IstBelegt(), false);
@@ -120,6 +120,21 @@ namespace UnitTestPackstation
 
             Assert.AreEqual(TestKlaus.hatPaketeabgeholt(), true);
         }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException), "You must supply an argument")]
+        public void PaketstationFalscheAnzahlAnFaechern()
+        {
+            Paketstation ps1 = new Paketstation(101);
+        }
+
+        [TestMethod]
+        public void PruefePaketGroesse()
+        {
+            Paket p = new Paket(1L, "Klaus", "Beispielstraße 22", "Bernd", "EmpfaengerStr. 22", "Verschicken", 1, 1, Groesse.S);
+
+            Assert.AreEqual(1, (int) p.Groesse);
+        }
     }
     [TestClass]
     public class Zusammenhaengene_tests
@@ -131,6 +146,7 @@ namespace UnitTestPackstation
         Paket p5; //Paket in Station welches abgeholt werden soll ("abzuholen")
         Paket p6; //Paket für Mitarbeiter welches geliefert werden muss
         Paket p7; //Paket für Mitarbeiter welches geliefert werden muss 
+        Paket p8; //zum Testen anderer Paketgroeßen 
         List<Paket> KundenPakete1;
         Kunde k1;
         List<Kunde> kl1;
@@ -146,13 +162,14 @@ namespace UnitTestPackstation
         public void TestInit()
         {
             //Pakete initialisieren
-            p1 = new Paket(1L, "Klaus", "Beispielstraße 22", "Bernd", "EmpfaengerStr. 22", "Verschicken", 1, 1);
-            p2 = new Paket(2L, "Susi", "PaketAbsenderstr. 12", "Klaus", "Beispielstraße 22", "Transport", -1, -1);
-            p3 = new Paket(3L, "Daniela", "PaketAbsenderstr. 16", "Scharlotte", "EmpfaengerStr. 5", "Transport", -1, -1);
-            p4 = new Paket(4L, "BeispielAbsName", "BeispielAbsenderAddr. 16", "BeispielEmpfName", "EmpfaengerStr. 5", "Abholen", -1, -1);
-            p5 = new Paket(5L, "BeispielAbsName2", "BeispielAbsenderAddr. 17", "BeispielEmpfName2", "EmpfaengerStr. 6", "Abholen", -1, -1);
-            p6 = new Paket(6L, "BeispielAbsName", "BeispielAbsenderAddr. 16", "BeispielEmpfName", "EmpfaengerStr. 5", "Transport", -1, -1);
-            p7 = new Paket(7L, "BeispielAbsName2", "BeispielAbsenderAddr. 17", "BeispielEmpfName2", "EmpfaengerStr. 6", "Transport", -1, -1);
+            p1 = new Paket(1L, "Klaus", "Beispielstraße 22", "Bernd", "EmpfaengerStr. 22", "Verschicken", 1, 1, Groesse.XS);
+            p2 = new Paket(2L, "Susi", "PaketAbsenderstr. 12", "Klaus", "Beispielstraße 22", "Transport", -1, -1, Groesse.XS);
+            p3 = new Paket(3L, "Daniela", "PaketAbsenderstr. 16", "Scharlotte", "EmpfaengerStr. 5", "Transport", -1, -1, Groesse.XS);
+            p4 = new Paket(4L, "BeispielAbsName", "BeispielAbsenderAddr. 16", "BeispielEmpfName", "EmpfaengerStr. 5", "Abholen", -1, -1, Groesse.XS);
+            p5 = new Paket(5L, "BeispielAbsName2", "BeispielAbsenderAddr. 17", "BeispielEmpfName2", "EmpfaengerStr. 6", "Abholen", -1, -1, Groesse.XS);
+            p6 = new Paket(6L, "BeispielAbsName", "BeispielAbsenderAddr. 16", "BeispielEmpfName", "EmpfaengerStr. 5", "Transport", -1, -1, Groesse.XS);
+            p7 = new Paket(7L, "BeispielAbsName2", "BeispielAbsenderAddr. 17", "BeispielEmpfName2", "EmpfaengerStr. 6", "Transport", -1, -1, Groesse.XS);
+            p8 = new Paket(8L, "BeispielAbsName2", "BeispielAbsenderAddr. 17", "BeispielEmpfName2", "EmpfaengerStr. 6", "Transport", -1, -1, Groesse.XL);
 
             //Pakete in entsprechende Listen hinzufügen
             KundenPakete1 = new List<Paket>();
@@ -296,6 +313,29 @@ namespace UnitTestPackstation
                     Assert.AreEqual("Abholen", ps1.Paketfach[i].Packet.Status);
                 }
             }
+        }
+        [TestMethod]
+        public void KundeGibtGroesseresPaketAb()
+        {
+            //erstes Paket mit kleinerer Größe entfernen
+            k1.Pakete.Remove(p1);
+            //groesseres Paket hinzufügen
+            k1.Pakete.Add(p8);
+            ui1.LinesToRead.Add("Klausi");
+            ui1.LinesToRead.Add("1234");
+            ui1.LinesToRead.Add("2");
+            ui1.LinesToRead.Add("0");
+
+            ui1.LinesToRead.Add("admin");
+            ui1.LinesToRead.Add("admin");
+            ui1.LinesToRead.Add("abschalten");
+
+            Verwalter.run();
+
+            //prüft ob es ein Paket zum Abholen in der Station gibt
+            Assert.AreEqual(1, Verwalter.AktuelleStation.MitarbeiterListeAbzuholenderPakete().Count);
+            //prüft ob Kunde noch Paket besitzt
+            Assert.AreEqual(0, k1.Pakete.Count);
         }
         //TODO: Controller.MitarbeiterLiefertPakete() testen! (ob fehler abgefangen werden)
     }

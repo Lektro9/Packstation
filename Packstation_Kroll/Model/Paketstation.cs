@@ -19,11 +19,13 @@ namespace Packstation_Kroll
         #region Eigenschaften
         List<Fach> _Paketfach;
         Userinterface _Terminal;
+        int _AnzahlFaecher;
         #endregion
 
         #region Accessoren/Modifier
         public List<Fach> Paketfach { get => _Paketfach; set => _Paketfach = value; }
         public Userinterface Terminal { get => _Terminal; set => _Terminal = value; }
+        public int AnzahlFaecher { get => _AnzahlFaecher; set => _AnzahlFaecher = value; }
         #endregion
 
         #region Konstruktoren
@@ -35,12 +37,26 @@ namespace Packstation_Kroll
                 this.Paketfach.Add(new Fach(i));
             }
             this.Terminal = null;
+            this.AnzahlFaecher = 9;
         }
         //Spezialkonstruktor
+        public Paketstation(int AnzahlFaecher)
+        {
+            this.Paketfach = new List<Fach>();
+            for (int i = 0; i < AnzahlFaecher; i++)
+            {
+                this.Paketfach.Add(new Fach(i));
+            }
+            this.Terminal = null;
+            this.AnzahlFaecher = AnzahlFaecher;
+            pruefeAnzahlFaecher();
+        }
         public Paketstation(List<Fach> Paketfach, Userinterface Terminal)
         {
             this.Paketfach = Paketfach;
             this.Terminal = Terminal;
+            this.AnzahlFaecher = Paketfach.Count();
+            pruefeAnzahlFaecher();
         }
 
         public Paketstation(int AnzahlFaecher, Userinterface Terminal)
@@ -51,6 +67,7 @@ namespace Packstation_Kroll
                 this.Paketfach.Add(new Fach(i));
             }
             this.Terminal = Terminal;
+            pruefeAnzahlFaecher();
         }
         #endregion
 
@@ -66,7 +83,7 @@ namespace Packstation_Kroll
         {
             for (int i = 0; i < Paketfach.Count; i++)
             {
-                if (!Paketfach[i].IstBelegt())
+                if (!Paketfach[i].IstBelegt() && Paketfach[i].IstGrossGenug(p.Groesse))
                 {
                     Paketfach[i].PaketAnnehmen(p);
                     break;
@@ -146,11 +163,25 @@ namespace Packstation_Kroll
             return retVal;
         }
 
+        public void pruefeAnzahlFaecher()
+        {
+            if (this.AnzahlFaecher < 9 || this.AnzahlFaecher > 100)
+            {
+                throw new ArgumentException("Anzahl der Faecher darf nicht kleiner als 9 und nicht höher als 100 sein.");
+            }
+            else
+            {
+                //nichts tun
+            }
+        }
+
         //Konnte keinen Gebrauch für die Methode finden
         public void MitarbeiterWechseltFach()
         {
             //TODO: noch nicht verstanden was diese Methode machen könnte
         }
+
+        //TODO: neues Fach erstellen und hinzufügen
         #endregion
 
         #region Schnittstellen
