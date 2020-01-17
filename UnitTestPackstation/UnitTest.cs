@@ -40,6 +40,18 @@ namespace UnitTestPackstation
             LinesToRead.RemoveAt(0);
             return Eingabe;
         }
+
+        public override int ZahlEinlesen()
+        {
+            int ZahlEingabe = 0;
+
+            String Result = LinesToRead[0];
+            LinesToRead.RemoveAt(0);
+
+            ZahlEingabe = Int32.Parse(Result);
+
+            return ZahlEingabe;
+        }
     }
     [TestClass]
     public class Einzelobjekt_tests
@@ -211,9 +223,11 @@ namespace UnitTestPackstation
             ml1.Add(m1);
 
             //Paketstation, UI und Controller initialisieren
+            List<Paketstation> psList = new List<Paketstation>();
             ps1 = new Paketstation();
+            psList.Add(ps1);
             ui1 = new TestUI();
-            Verwalter = new Controller(kl1, ml1, ui1, null, false, null, ps1);
+            Verwalter = new Controller(kl1, ml1, ui1, null, false, psList);
         }
 
         [TestCleanup]
@@ -251,6 +265,7 @@ namespace UnitTestPackstation
         [TestMethod]
         public void KundeGibtPaketAb()
         {
+            ui1.LinesToRead.Add("1");
             ui1.LinesToRead.Add("Klausi");
             ui1.LinesToRead.Add("1234");
             ui1.LinesToRead.Add("2");
@@ -273,6 +288,7 @@ namespace UnitTestPackstation
             //Paket in Paketstation hinzufügen welches abgeholt werden soll
             Verwalter.AktuelleStation.Paketfach[2].PaketAnnehmen(p2);
 
+            ui1.LinesToRead.Add("1");
             ui1.LinesToRead.Add("Klausi");
             ui1.LinesToRead.Add("1234");
             ui1.LinesToRead.Add("1");
@@ -293,6 +309,7 @@ namespace UnitTestPackstation
             Verwalter.AktuelleStation.Paketfach[2].PaketAnnehmen(p4);
             Verwalter.AktuelleStation.Paketfach[3].PaketAnnehmen(p5);
 
+            ui1.LinesToRead.Add("1");
             ui1.LinesToRead.Add("admin");
             ui1.LinesToRead.Add("admin");
             ui1.LinesToRead.Add("1");
@@ -314,6 +331,7 @@ namespace UnitTestPackstation
             m1.LieferPakete.Add(p7);
 
             //Pakete in Paketstation einlegen
+            ui1.LinesToRead.Add("1");
             ui1.LinesToRead.Add("admin");
             ui1.LinesToRead.Add("admin");
             ui1.LinesToRead.Add("2");
@@ -343,6 +361,7 @@ namespace UnitTestPackstation
 
             ps1.FuegeFachHinzu(fXL);
 
+            ui1.LinesToRead.Add("1");
             ui1.LinesToRead.Add("Klausi");
             ui1.LinesToRead.Add("1234");
             ui1.LinesToRead.Add("2");
@@ -372,6 +391,7 @@ namespace UnitTestPackstation
 
             ps1.FuegeFachHinzu(fXL);
 
+            ui1.LinesToRead.Add("1");
             ui1.LinesToRead.Add("Klausi");
             ui1.LinesToRead.Add("1234");
             ui1.LinesToRead.Add("2");
