@@ -13,7 +13,7 @@ namespace Packstation_Kroll
     public class Fach
     {
         #region Eigenschaften
-        bool _Status;
+        bool _Status; //true = funktioniert, false = funktioniert nicht
         int _Nummer;
         Paket _Packet;
         bool _Belegt;
@@ -32,7 +32,7 @@ namespace Packstation_Kroll
         public Fach()
         {
             this.Nummer = -1;
-            this.Status = true; //true = funktioniert, false = funktioniert nicht
+            this.Status = false; //nicht funktionsfähig weil keine gültige Nummer eingegeben wurde
             this.Packet = null;
             this.Belegt = false;
             this.Groesse = Groesse.XS;
@@ -41,15 +41,25 @@ namespace Packstation_Kroll
         public Fach(int ID)
         {
             this.Nummer = ID;
-            this.Status = true; //true = funktioniert, false = funktioniert nicht
+            this.Status = true; 
             this.Packet = null;
             this.Belegt = false;
             this.Groesse = Groesse.XS;
         }
+
+        public Fach(int ID, Groesse groesse)
+        {
+            this.Nummer = ID;
+            this.Status = true;
+            this.Packet = null;
+            this.Belegt = false;
+            this.Groesse = groesse;
+        }
+
         public Fach(int ID, bool Status, Paket Packet, bool Belegt, Groesse groesse)
         {
             this.Nummer = ID;
-            this.Status = Status; //true = funktioniert, false = funktioniert nicht
+            this.Status = Status;
             this.Packet = Packet;
             this.Belegt = Belegt;
             this.Groesse = groesse;

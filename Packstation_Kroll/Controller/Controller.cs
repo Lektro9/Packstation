@@ -22,6 +22,7 @@ namespace Packstation_Kroll
         object _AktiverUser;
         Paketstation _AktuelleStation;
         bool _Authentifiziert;
+        int _AnzahlStationen;
         #endregion
 
         #region Accessoren/Modifier
@@ -32,6 +33,7 @@ namespace Packstation_Kroll
         public bool Authentifiziert { get => _Authentifiziert; set => _Authentifiziert = value; }
         public List<Paketstation> Stationen { get => _Stationen; set => _Stationen = value; }
         public Paketstation AktuelleStation { get => _AktuelleStation; set => _AktuelleStation = value; }
+        public int AnzahlStationen { get => _AnzahlStationen; set => _AnzahlStationen = value; }
         #endregion
 
         #region Konstruktoren
@@ -44,6 +46,20 @@ namespace Packstation_Kroll
             this.AktiverUser = null;
             this.AktuelleStation = null;
             this.Authentifiziert = false;
+            this.AnzahlStationen = 0;
+        }
+
+        public Controller(int AnzahlStationen)
+        {
+            this.Kunden = null;
+            this.Mitarbeiter = null;
+            this.Stationen = null;
+            this.Terminal = null;
+            this.AktiverUser = null;
+            this.AktuelleStation = null;
+            this.Authentifiziert = false;
+            this.AnzahlStationen = AnzahlStationen;
+            PruefeAnzahlPaketstationen(this.AnzahlStationen);
         }
 
         //Spezialkonstruktor
@@ -57,6 +73,36 @@ namespace Packstation_Kroll
             this.Stationen = Stationen;
             this.AktuelleStation = AktuelleStation;
         }
+
+        public Controller(List<Kunde> Kunden, List<Mitarbeiter> Mitarbeiter, Userinterface Terminal, object AktiverUser, bool Authentifiziert, List<Paketstation> Stationen)
+        {
+            this.Kunden = Kunden;
+            this.Mitarbeiter = Mitarbeiter;
+            this.Terminal = Terminal;
+            this.AktiverUser = AktiverUser;
+            this.Authentifiziert = Authentifiziert;
+            this.Stationen = Stationen;
+            this.AktuelleStation = null;
+            this.AnzahlStationen = this.Stationen.Count;
+        }
+
+        //hier werden automatisch Stationen erstellt, die aber alle nur XS Fächer nutzen
+        public Controller(List<Kunde> Kunden, List<Mitarbeiter> Mitarbeiter, Userinterface Terminal, object AktiverUser, bool Authentifiziert, int AnzahlStationen) 
+        {
+            this.Kunden = Kunden;
+            this.Mitarbeiter = Mitarbeiter;
+            this.Terminal = Terminal;
+            this.AktiverUser = AktiverUser;
+            this.Authentifiziert = Authentifiziert;
+            this.AnzahlStationen = AnzahlStationen;
+            List<Paketstation> Stationen = new List<Paketstation>();
+            for (int i = 0; i < this.AnzahlStationen; i++)
+            {
+                Stationen.Add(new Paketstation(i));
+            }
+            this.Stationen = Stationen;
+            this.AktuelleStation = null;
+        }
         #endregion
 
         #region Worker
@@ -64,10 +110,27 @@ namespace Packstation_Kroll
         {
             bool running = true;
             string Eingabe;
+            int ZahlenEingabe;
+            bool ExistiertStation = false;
+
             SplashinfoAnzeigen();
 
             while (running)
             {
+                while (ExistiertStation == false)
+                {
+                    Terminal.StationsMenueAnzeigen(this.AnzahlStationen);
+                    ZahlenEingabe = Terminal.ZahlEinlesen();
+                    if (ZahlenEingabe > 0 && ZahlenEingabe <= this.AnzahlStationen)
+                    {
+                        ExistiertStation = true;
+                        this.AktuelleStation = Stationen[ZahlenEingabe - 1];
+                    }
+                    else
+                    {
+                        Terminal.TextAusgeben("Paketstation existiert nicht.");
+                    }
+                }
                 while (Authentifiziert == false)
                 {
                     Authentifizieren();
@@ -282,6 +345,18 @@ namespace Packstation_Kroll
             if (Authentifiziert == false)
             {
                 Terminal.TextAusgeben("Falscher Login, bitte prüfen Sie Ihren Benutzernamen und Ihr Passwort.");
+            }
+        }
+
+        public void PruefeAnzahlPaketstationen(int Anzahl)
+        {
+            if (this.AnzahlStationen > 0 && this.AnzahlStationen < 101)
+            {
+                // nichts tun
+            }
+            else
+            {
+                throw new ArgumentException("Anzahl der Stationen darf nicht kleiner als 1 und nicht höher als 100 sein.");
             }
         }
         #endregion

@@ -1,0 +1,47 @@
+1. Pakete kommen in den Größen: XS, S, M , L, XL, XXL
+
+2. Entsprechende Paketfächer sind einzurichten
+
+3. Paketstation können zwischen 9 und 100 Fächer besitzen
+
+4. Paketstationen können bzgl. ihrer Anzahl der Paketfächer erweitert werden.
+
+5. Es gibt zwischen 1 und 100 Paketstationen im Gesamtsystem!
+
+zu 1.
+
+- Enum benutzen für die Größen (Werte werden zugeordnet) in der Paketklasse
+- Konstruktoren anpassen (sollen nun den neuen Wert vergeben)
+
+zu 2. 
+
+- siehe Oben, auch hier Enums benutzen um zu vergleichen (Eigenschaft von Paketfach)
+- nur Fächer mit entsprechender Größe oder größer sollen genutzt werden können
+
+zu 3.
+
+- neue Eigenschaft in der Paketstation Klasse (zb int "AnzahlFaecher")
+- neue Eigenschaft in Konstruktoren einbinden
+- neue "Prüfmethode" in Paketstation erstellen um die Anzahl zwischen 9 und 100 zu gewährleisten, NACHDEM ein Fach hinzugefügt wurde
+
+zu 4.
+
+- Liste der Faecher in Paketstation.cs sollte erweiterbar sein (Aggregatsfunktionen erstellen) 
+- Variable "AnzahlFaecher" muss aktualisiert und geprüft werden
+- neuen Aggregatsfunktionen erstellen (zb "FachHinzuegen()" und "FachEntfernen()")
+
+zu 5.
+
+x - neue Eigenschaft für Controller (Liste von Paketstationen) 
+x - Paketstation.cs braucht eine neue Eigenschaft um identifiziert zu werden (zb "int ID") x
+- Eigenschaft in Konstruktoren einbauen
+TODO: - neuen Aggregatsfunktionen erstellen (zb "StationHinzufuegen()" und "StationEntfernen()")
+(- alternativ: einen neuen Controller der auf einzelne Controller (mit Paketstationen) verweist)
+- Variable "AnzahlStationen" muss aktualisiert und geprüft werden
+x - Userinterface muss erweitert werden um eine Paketstation auszuwählen 
+TODO: - Userinterface muss erweitert werden um Station zu wechseln?
+
+
+//TODO after
+- ListeAbzuholenderPakete in Controller ausfüllen (Methode aus Paketstation nutzen)
+- 

@@ -20,12 +20,14 @@ namespace Packstation_Kroll
         List<Fach> _Paketfach;
         Userinterface _Terminal;
         int _AnzahlFaecher;
+        int _ID;
         #endregion
 
         #region Accessoren/Modifier
         public List<Fach> Paketfach { get => _Paketfach; set => _Paketfach = value; }
         public Userinterface Terminal { get => _Terminal; set => _Terminal = value; }
         public int AnzahlFaecher { get => _AnzahlFaecher; set => _AnzahlFaecher = value; }
+        public int ID { get => _ID; set => _ID = value; }
         #endregion
 
         #region Konstruktoren
@@ -38,6 +40,7 @@ namespace Packstation_Kroll
             }
             this.Terminal = null;
             this.AnzahlFaecher = 9;
+            this.ID = ID;
         }
         //Spezialkonstruktor
         public Paketstation(int AnzahlFaecher)
@@ -51,6 +54,20 @@ namespace Packstation_Kroll
             this.AnzahlFaecher = AnzahlFaecher;
             pruefeAnzahlFaecher();
         }
+
+        public Paketstation(int ID, List<Fach> Faecher)
+        {
+            this.Paketfach = new List<Fach>();
+            for (int i = 0; i < AnzahlFaecher; i++)
+            {
+                this.Paketfach.Add(new Fach(i));
+            }
+            this.Terminal = null;
+            this.AnzahlFaecher = AnzahlFaecher;
+            pruefeAnzahlFaecher();
+            this.ID = ID;
+        }
+
         public Paketstation(List<Fach> Paketfach, Userinterface Terminal)
         {
             this.Paketfach = Paketfach;
@@ -179,6 +196,22 @@ namespace Packstation_Kroll
         public void MitarbeiterWechseltFach()
         {
             //TODO: noch nicht verstanden was diese Methode machen könnte
+        }
+
+        public void FuegeFachHinzu(Fach f)
+        {
+            this.Paketfach.Add(f);
+            this.AnzahlFaecher += 1;
+            pruefeAnzahlFaecher();
+        }
+
+        public Fach EntferneFach(Fach f)
+        {
+            Fach retVal = f;
+            this.Paketfach.Remove(f);
+            this.AnzahlFaecher -= 1;
+            pruefeAnzahlFaecher();
+            return retVal;
         }
 
         //TODO: neues Fach erstellen und hinzufügen

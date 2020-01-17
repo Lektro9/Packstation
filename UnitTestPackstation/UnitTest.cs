@@ -122,7 +122,7 @@ namespace UnitTestPackstation
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException), "You must supply an argument")]
+        [ExpectedException(typeof(ArgumentException), "Anzahl Faecher stimmt nicht.")]
         public void PaketstationFalscheAnzahlAnFaechern()
         {
             Paketstation ps1 = new Paketstation(101);
@@ -134,6 +134,23 @@ namespace UnitTestPackstation
             Paket p = new Paket(1L, "Klaus", "Beispielstraße 22", "Bernd", "EmpfaengerStr. 22", "Verschicken", 1, 1, Groesse.S);
 
             Assert.AreEqual(1, (int) p.Groesse);
+        }
+
+        [TestMethod]
+        public void PruefeObFachHinzugefuegt()
+        {
+            Paketstation ps1 = new Paketstation(50);
+            Fach fXL = new Fach(10, true, null, false, Groesse.XL);
+            ps1.FuegeFachHinzu(fXL);
+
+            Assert.AreEqual(ps1.Paketfach.Count, 51);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException), "Anzahl Stationen stimmt nicht")]
+        public void PruefeAnzahlStationen()
+        {
+            Controller Verwalter = new Controller(0);
         }
     }
     [TestClass]
@@ -169,7 +186,7 @@ namespace UnitTestPackstation
             p5 = new Paket(5L, "BeispielAbsName2", "BeispielAbsenderAddr. 17", "BeispielEmpfName2", "EmpfaengerStr. 6", "Abholen", -1, -1, Groesse.XS);
             p6 = new Paket(6L, "BeispielAbsName", "BeispielAbsenderAddr. 16", "BeispielEmpfName", "EmpfaengerStr. 5", "Transport", -1, -1, Groesse.XS);
             p7 = new Paket(7L, "BeispielAbsName2", "BeispielAbsenderAddr. 17", "BeispielEmpfName2", "EmpfaengerStr. 6", "Transport", -1, -1, Groesse.XS);
-            p8 = new Paket(8L, "BeispielAbsName2", "BeispielAbsenderAddr. 17", "BeispielEmpfName2", "EmpfaengerStr. 6", "Transport", -1, -1, Groesse.XL);
+            p8 = new Paket(8L, "BeispielAbsName2", "BeispielAbsenderAddr. 17", "BeispielEmpfName2", "EmpfaengerStr. 6", "Verschicken", -1, -1, Groesse.XL);
 
             //Pakete in entsprechende Listen hinzufügen
             KundenPakete1 = new List<Paket>();
@@ -321,6 +338,40 @@ namespace UnitTestPackstation
             k1.Pakete.Remove(p1);
             //groesseres Paket hinzufügen
             k1.Pakete.Add(p8);
+
+            Fach fXL = new Fach(15, true, null, false, Groesse.XL);
+
+            ps1.FuegeFachHinzu(fXL);
+
+            ui1.LinesToRead.Add("Klausi");
+            ui1.LinesToRead.Add("1234");
+            ui1.LinesToRead.Add("2");
+            ui1.LinesToRead.Add("0");
+
+            ui1.LinesToRead.Add("admin");
+            ui1.LinesToRead.Add("admin");
+            ui1.LinesToRead.Add("abschalten");
+
+            Verwalter.run();
+
+            //prüft ob es ein Paket zum Abholen in der Station gibt
+            Assert.AreEqual(1, Verwalter.AktuelleStation.MitarbeiterListeAbzuholenderPakete().Count);
+            //prüft ob Kunde noch Paket besitzt
+            Assert.AreEqual(0, k1.Pakete.Count);
+        }
+
+        [TestMethod]
+        public void KundeGibtMehrerePaketeHinein()
+        {
+            //erstes Paket mit kleinerer Größe entfernen
+            k1.Pakete.Remove(p1);
+            //groesseres Paket hinzufügen
+            k1.Pakete.Add(p8);
+
+            Fach fXL = new Fach(15, true, null, false, Groesse.XL);
+
+            ps1.FuegeFachHinzu(fXL);
+
             ui1.LinesToRead.Add("Klausi");
             ui1.LinesToRead.Add("1234");
             ui1.LinesToRead.Add("2");
