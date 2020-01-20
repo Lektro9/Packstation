@@ -151,20 +151,6 @@ namespace Packstation_Kroll
             string Eingabe = Console.ReadLine();
             return Eingabe;
         }
-
-        public virtual int ZahlEinlesen()
-        {
-            int ZahlEingabe = 0;
-            String Result = Console.ReadLine();
-
-            while (!Int32.TryParse(Result, out ZahlEingabe))
-            {
-                Console.WriteLine("Bitte geben Sie eine Zahl ein.");
-                Result = Console.ReadLine();
-            }
-
-            return ZahlEingabe;
-        }
         #endregion
 
         #region Schnittstellen

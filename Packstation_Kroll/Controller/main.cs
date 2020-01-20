@@ -70,10 +70,11 @@ namespace Packstation_Kroll
             ml1.Add(m1);
 
             //Paketstation, UI und Controller initialisieren
-            List<Paketstation> psList = new List<Paketstation>();
-            ps1 = new Paketstation();
-            psList.Add(ps1);
             ui1 = new Userinterface();
+            List<Paketstation> psList = new List<Paketstation>();
+            ps1 = new Paketstation(1, 9, ui1);
+            psList.Add(ps1);
+            
 
             //Controller
             Verwalter = new Controller(kl1, ml1, ui1, null, false, psList);

@@ -40,18 +40,6 @@ namespace UnitTestPackstation
             LinesToRead.RemoveAt(0);
             return Eingabe;
         }
-
-        public override int ZahlEinlesen()
-        {
-            int ZahlEingabe = 0;
-
-            String Result = LinesToRead[0];
-            LinesToRead.RemoveAt(0);
-
-            ZahlEingabe = Int32.Parse(Result);
-
-            return ZahlEingabe;
-        }
     }
     [TestClass]
     public class Einzelobjekt_tests
@@ -137,7 +125,8 @@ namespace UnitTestPackstation
         [ExpectedException(typeof(ArgumentException), "Anzahl Faecher stimmt nicht.")]
         public void PaketstationFalscheAnzahlAnFaechern()
         {
-            Paketstation ps1 = new Paketstation(101);
+            TestUI testUI = new TestUI();
+            Paketstation ps1 = new Paketstation(1, 101, testUI);
         }
 
         [TestMethod]
@@ -151,7 +140,8 @@ namespace UnitTestPackstation
         [TestMethod]
         public void PruefeObFachHinzugefuegt()
         {
-            Paketstation ps1 = new Paketstation(50);
+            TestUI testUI = new TestUI();
+            Paketstation ps1 = new Paketstation(1, 50, testUI);
             Fach fXL = new Fach(10, true, null, false, Groesse.XL);
             ps1.FuegeFachHinzu(fXL);
 
@@ -224,9 +214,9 @@ namespace UnitTestPackstation
 
             //Paketstation, UI und Controller initialisieren
             List<Paketstation> psList = new List<Paketstation>();
-            ps1 = new Paketstation();
-            psList.Add(ps1);
             ui1 = new TestUI();
+            ps1 = new Paketstation(1, 9, ui1);
+            psList.Add(ps1);
             Verwalter = new Controller(kl1, ml1, ui1, null, false, psList);
         }
 
@@ -286,7 +276,7 @@ namespace UnitTestPackstation
         public void KundeHoltPaketAb()
         {
             //Paket in Paketstation hinzufügen welches abgeholt werden soll
-            Verwalter.AktuelleStation.Paketfach[2].PaketAnnehmen(p2);
+            Verwalter.Stationen[0].Paketfach[2].PaketAnnehmen(p2); //der ersten Station ein Paket in das 3. Fach legen
 
             ui1.LinesToRead.Add("1");
             ui1.LinesToRead.Add("Klausi");
@@ -306,8 +296,8 @@ namespace UnitTestPackstation
         [TestMethod]
         public void MitarbeiterHoltPaketeAb()
         {
-            Verwalter.AktuelleStation.Paketfach[2].PaketAnnehmen(p4);
-            Verwalter.AktuelleStation.Paketfach[3].PaketAnnehmen(p5);
+            Verwalter.Stationen[0].Paketfach[2].PaketAnnehmen(p4);
+            Verwalter.Stationen[0].Paketfach[3].PaketAnnehmen(p5);
 
             ui1.LinesToRead.Add("1");
             ui1.LinesToRead.Add("admin");
@@ -380,7 +370,31 @@ namespace UnitTestPackstation
         }
 
         [TestMethod]
-        public void KundeGibtMehrerePaketeHinein()
+        public void KeineFreienFaecherVerfuegbar() //TODO mehrere Pakete gleicher Größe in unterschiedliche Fächer
+        {
+            for (int i = 0; i < ps1.AnzahlFaecher; i++) //alle Fächer belegen, damit Kunde kein Paket hineinlegen kann
+            {
+                ps1.Paketfach[i].Belegt = true;
+            }
+
+            ui1.LinesToRead.Add("1");
+            ui1.LinesToRead.Add("Klausi");
+            ui1.LinesToRead.Add("1234");
+            ui1.LinesToRead.Add("2");
+            ui1.LinesToRead.Add("0");
+
+            ui1.LinesToRead.Add("admin");
+            ui1.LinesToRead.Add("admin");
+            ui1.LinesToRead.Add("abschalten");
+
+            Verwalter.run();
+            
+            //prüft ob Kunde noch Paket besitzt
+            Assert.AreEqual(1, k1.Pakete.Count);
+        }
+
+        [TestMethod]
+        public void KundeGibtMehrerePaketeHinein() //TODO mehrere Pakete gleicher Größe in unterschiedliche Fächer
         {
             //erstes Paket mit kleinerer Größe entfernen
             k1.Pakete.Remove(p1);

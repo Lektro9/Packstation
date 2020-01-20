@@ -49,29 +49,23 @@ namespace Packstation_Kroll
             this.AnzahlStationen = 0;
         }
 
+        //Spezialkonstruktor
+
         public Controller(int AnzahlStationen)
         {
             this.Kunden = null;
             this.Mitarbeiter = null;
-            this.Stationen = null;
+            this.Stationen = new List<Paketstation>();
+            for (int i = 0; i < AnzahlStationen; i++)
+            {
+                this.Stationen.Add(new Paketstation(i, 9, this.Terminal));
+            }
             this.Terminal = null;
             this.AktiverUser = null;
             this.AktuelleStation = null;
             this.Authentifiziert = false;
             this.AnzahlStationen = AnzahlStationen;
-            PruefeAnzahlPaketstationen(this.AnzahlStationen);
-        }
-
-        //Spezialkonstruktor
-        public Controller(List<Kunde> Kunden, List<Mitarbeiter> Mitarbeiter, Userinterface Terminal, object AktiverUser, bool Authentifiziert, List<Paketstation> Stationen, Paketstation AktuelleStation)
-        {
-            this.Kunden = Kunden;
-            this.Mitarbeiter = Mitarbeiter;
-            this.Terminal = Terminal;
-            this.AktiverUser = AktiverUser;
-            this.Authentifiziert = Authentifiziert;
-            this.Stationen = Stationen;
-            this.AktuelleStation = AktuelleStation;
+            PruefeAnzahlPaketstationen();
         }
 
         public Controller(List<Kunde> Kunden, List<Mitarbeiter> Mitarbeiter, Userinterface Terminal, object AktiverUser, bool Authentifiziert, List<Paketstation> Stationen)
@@ -98,7 +92,7 @@ namespace Packstation_Kroll
             List<Paketstation> Stationen = new List<Paketstation>();
             for (int i = 0; i < this.AnzahlStationen; i++)
             {
-                Stationen.Add(new Paketstation(i));
+                Stationen.Add(new Paketstation(i, 9, this.Terminal));
             }
             this.Stationen = Stationen;
             this.AktuelleStation = null;
@@ -120,7 +114,15 @@ namespace Packstation_Kroll
                 while (ExistiertStation == false)
                 {
                     Terminal.StationsMenueAnzeigen(this.AnzahlStationen);
-                    ZahlenEingabe = Terminal.ZahlEinlesen();
+                    Eingabe = Terminal.TextEinlesen();
+
+                    while (!Int32.TryParse(Eingabe, out ZahlenEingabe))
+                    {
+                        Terminal.TextAusgeben("Sie haben keine Zahl eingegeben. Weiter mit einer beliebigen Taste...");
+                        Terminal.StationsMenueAnzeigen(this.AnzahlStationen);
+                        Eingabe = Terminal.TextEinlesen();
+                    }
+
                     if (ZahlenEingabe > 0 && ZahlenEingabe <= this.AnzahlStationen)
                     {
                         ExistiertStation = true;
@@ -233,20 +235,20 @@ namespace Packstation_Kroll
                             }
                             else
                             {
-                                // do nothing
+                                //nichts tun
                             }
                         }
                     }
                     else
                     {
-                        // do nothing
+                        //nichts tun
                     }
                 }
 
                 //Sichergehen dass alle Pakete ein Fach erhalten haben
                 if (EinzubindendePakete.Count != 0)
                 {
-                    Terminal.TextAusgeben("Keine freien Fächer mehr verfügbar");
+                    Terminal.TextAusgeben("Keine freien Fächer mehr verfügbar.");
                     // Pakete dem Mitarbeiter zurück geben
                     for (int i = 0; i < EinzubindendePakete.Count; i++)
                     {
@@ -293,13 +295,21 @@ namespace Packstation_Kroll
             if (AktuellerKunde.hatPaketabzugeben())
             {
                 Paket p = AktuellerKunde.PaketEinliefern();
-                AktuelleStation.KundeLiefertPaket(p);
-                Terminal.TextAusgeben("Paket " + p.PaketNummer + " wurde in das Fach " + p.PaketfachNr + " eingelegt.");
+                if (!AktuelleStation.KundeLiefertPaket(p))
+                {
+                    Terminal.TextAusgeben("Keine freien Fächer verfügbar.");
+                    //Paket zurück zum Kunden
+                    p.Status = "Verschicken";
+                    AktuellerKunde.Pakete.Add(p);
+                }
+                else
+                {
+                    //nichts tun
+                }
             }
             else
             {
                 Terminal.TextAusgeben("Sie besitzen keine Pakete zum Abgeben.");
-                Terminal.WeiterMitTaste();
             }
         }
 
@@ -324,7 +334,7 @@ namespace Packstation_Kroll
                 }
                 else
                 {
-                    // nichts tun
+                    //nichts tun
                 }
             }
 
@@ -338,7 +348,7 @@ namespace Packstation_Kroll
                 }
                 else
                 {
-                    // nichts tun
+                    //nichts tun
                 }
             }
 
@@ -348,16 +358,32 @@ namespace Packstation_Kroll
             }
         }
 
-        public void PruefeAnzahlPaketstationen(int Anzahl)
+        public void PruefeAnzahlPaketstationen()
         {
             if (this.AnzahlStationen > 0 && this.AnzahlStationen < 101)
             {
-                // nichts tun
+                //nichts tun
             }
             else
             {
                 throw new ArgumentException("Anzahl der Stationen darf nicht kleiner als 1 und nicht höher als 100 sein.");
             }
+        }
+
+        public void StationHinzufuegen(Paketstation p)
+        {
+            this.Stationen.Add(p);
+            this.AnzahlStationen += 1;
+            PruefeAnzahlPaketstationen();
+        }
+
+        public Paketstation StationEntfernen(Paketstation p)
+        {
+            Paketstation retVal = p;
+            this.Stationen.Remove(p);
+            this.AnzahlStationen -= 1;
+            PruefeAnzahlPaketstationen();
+            return p;
         }
         #endregion
 

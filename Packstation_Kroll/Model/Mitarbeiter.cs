@@ -11,7 +11,7 @@ using System.Collections.Generic;
 
 namespace Packstation_Kroll
 {
-    public class Mitarbeiter : Object
+    public class Mitarbeiter
     {
         #region Eigenschaften
         long _MitarbeiterID;

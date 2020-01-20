@@ -40,19 +40,20 @@ namespace Packstation_Kroll
             }
             this.Terminal = null;
             this.AnzahlFaecher = 9;
-            this.ID = ID;
+            this.ID = 0;
         }
         //Spezialkonstruktor
-        public Paketstation(int AnzahlFaecher)
+        public Paketstation(int ID, int AnzahlFaecher, Userinterface Terminal)
         {
             this.Paketfach = new List<Fach>();
             for (int i = 0; i < AnzahlFaecher; i++)
             {
                 this.Paketfach.Add(new Fach(i));
             }
-            this.Terminal = null;
+            this.Terminal = Terminal;
             this.AnzahlFaecher = AnzahlFaecher;
             pruefeAnzahlFaecher();
+            this.ID = ID;
         }
 
         public Paketstation(int ID, List<Fach> Faecher)
@@ -68,23 +69,13 @@ namespace Packstation_Kroll
             this.ID = ID;
         }
 
-        public Paketstation(List<Fach> Paketfach, Userinterface Terminal)
+        public Paketstation(int ID, List<Fach> Paketfach, Userinterface Terminal)
         {
             this.Paketfach = Paketfach;
             this.Terminal = Terminal;
             this.AnzahlFaecher = Paketfach.Count();
             pruefeAnzahlFaecher();
-        }
-
-        public Paketstation(int AnzahlFaecher, Userinterface Terminal)
-        {
-            this.Paketfach = new List<Fach>();
-            for (int i = 0; i < AnzahlFaecher; i++)
-            {
-                this.Paketfach.Add(new Fach(i));
-            }
-            this.Terminal = Terminal;
-            pruefeAnzahlFaecher();
+            this.ID = ID;
         }
         #endregion
 
@@ -96,16 +87,24 @@ namespace Packstation_Kroll
             return retVal;
         }
 
-        public void KundeLiefertPaket(Paket p)
+        public bool KundeLiefertPaket(Paket p)
         {
+            bool retVal = false;
             for (int i = 0; i < Paketfach.Count; i++)
             {
                 if (!Paketfach[i].IstBelegt() && Paketfach[i].IstGrossGenug(p.Groesse))
                 {
                     Paketfach[i].PaketAnnehmen(p);
+                    Terminal.TextAusgeben("Paket " + p.PaketNummer + " wurde in das Fach " + p.PaketfachNr + " eingelegt.");
+                    retVal = true;
                     break;
-                } //TODO: was ist wenn kein Fach frei ist?
+                }
+                else
+                {
+                    retVal = false;
+                }
             }
+            return retVal;
         }
 
         public List<Paket> MitarbeiterListeAbzuholenderPakete()
@@ -195,7 +194,7 @@ namespace Packstation_Kroll
         //Konnte keinen Gebrauch für die Methode finden
         public void MitarbeiterWechseltFach()
         {
-            //TODO: noch nicht verstanden was diese Methode machen könnte
+            //TODO: Methode zum Auswechseln eines defekten Faches
         }
 
         public void FuegeFachHinzu(Fach f)
@@ -213,8 +212,6 @@ namespace Packstation_Kroll
             pruefeAnzahlFaecher();
             return retVal;
         }
-
-        //TODO: neues Fach erstellen und hinzufügen
         #endregion
 
         #region Schnittstellen
