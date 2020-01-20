@@ -166,6 +166,18 @@ namespace UnitTestPackstation
         Paket p6; //Paket für Mitarbeiter welches geliefert werden muss
         Paket p7; //Paket für Mitarbeiter welches geliefert werden muss 
         Paket p8; //zum Testen anderer Paketgroeßen 
+        //Standartfaecher für jede Station
+        Fach f1;
+        Fach f2;
+        Fach f3;
+        Fach f4;
+        Fach f5;
+        Fach f6;
+        Fach f7;
+        Fach f8;
+        Fach f9;
+        List<Fach> FaecherListe;
+        List<Paketstation> StationenListe;
         List<Paket> KundenPakete1;
         Kunde k1;
         List<Kunde> kl1;
@@ -173,7 +185,6 @@ namespace UnitTestPackstation
         List<Mitarbeiter> ml1;
         List<Paket> MitarbeiterLieferPakete;
         List<Paket> MitarbeiterAbgeholtePakete;
-        Paketstation ps1;
         TestUI ui1;
         Controller Verwalter;
 
@@ -182,13 +193,23 @@ namespace UnitTestPackstation
         {
             //Pakete initialisieren
             p1 = new Paket(1L, "Klaus", "Beispielstraße 22", "Bernd", "EmpfaengerStr. 22", "Verschicken", 1, 1, Groesse.XS);
-            p2 = new Paket(2L, "Susi", "PaketAbsenderstr. 12", "Klaus", "Beispielstraße 22", "Transport", -1, -1, Groesse.XS);
-            p3 = new Paket(3L, "Daniela", "PaketAbsenderstr. 16", "Scharlotte", "EmpfaengerStr. 5", "Transport", -1, -1, Groesse.XS);
+            p2 = new Paket(2L, "Susi", "PaketAbsenderstr. 12", "Klaus", "Beispielstraße 22", "Transport", -1, -1, Groesse.XXL);
+            p3 = new Paket(3L, "Daniela", "PaketAbsenderstr. 16", "Scharlotte", "EmpfaengerStr. 5", "Transport", -1, -1, Groesse.XXL);
             p4 = new Paket(4L, "BeispielAbsName", "BeispielAbsenderAddr. 16", "BeispielEmpfName", "EmpfaengerStr. 5", "Abholen", -1, -1, Groesse.XS);
             p5 = new Paket(5L, "BeispielAbsName2", "BeispielAbsenderAddr. 17", "BeispielEmpfName2", "EmpfaengerStr. 6", "Abholen", -1, -1, Groesse.XS);
             p6 = new Paket(6L, "BeispielAbsName", "BeispielAbsenderAddr. 16", "BeispielEmpfName", "EmpfaengerStr. 5", "Transport", -1, -1, Groesse.XS);
             p7 = new Paket(7L, "BeispielAbsName2", "BeispielAbsenderAddr. 17", "BeispielEmpfName2", "EmpfaengerStr. 6", "Transport", -1, -1, Groesse.XS);
             p8 = new Paket(8L, "BeispielAbsName2", "BeispielAbsenderAddr. 17", "BeispielEmpfName2", "EmpfaengerStr. 6", "Verschicken", -1, -1, Groesse.XL);
+
+            f1= new Fach(1, true, null, false, Groesse.XS);
+            f2 = new Fach(2, true, null, false, Groesse.XS);
+            f3 = new Fach(3, true, null, false, Groesse.XS);
+            f4 = new Fach(4, true, null, false, Groesse.M);
+            f5 = new Fach(5, true, null, false, Groesse.M);
+            f6 = new Fach(6, true, null, false, Groesse.M);
+            f7 = new Fach(7, true, null, false, Groesse.XXL);
+            f8 = new Fach(7, true, null, false, Groesse.XXL);
+            f9 = new Fach(7, true, null, false, Groesse.XXL);
 
             //Pakete in entsprechende Listen hinzufügen
             KundenPakete1 = new List<Paket>();
@@ -213,24 +234,23 @@ namespace UnitTestPackstation
             ml1.Add(m1);
 
             //Paketstation, UI und Controller initialisieren
-            List<Paketstation> psList = new List<Paketstation>();
             ui1 = new TestUI();
-            ps1 = new Paketstation(1, 9, ui1);
-            psList.Add(ps1);
-            Verwalter = new Controller(kl1, ml1, ui1, null, false, psList);
+            FaecherListe = new List<Fach>()
+            {
+                f1, f2, f3, f4, f5, f6, f7, f8, f9
+            };
+
+            StationenListe = new List<Paketstation>()
+            {
+                new Paketstation(1, FaecherListe, ui1),
+            };
+            Verwalter = new Controller(kl1, ml1, ui1, null, false, StationenListe);
         }
 
         [TestCleanup]
         public void Cleanup()
         {
-            p1 = null;
-            KundenPakete1 = null;
-            k1 = null;
-            kl1 = null;
-            m1 = null;
-            ml1 = null;
-            ps1 = null;
-            ui1 = null;
+            //nicht nötig, da alle Variablen neu instanziiert werden
         }
         [TestMethod]
         public void AuthentifizierungsTest()
@@ -331,11 +351,11 @@ namespace UnitTestPackstation
 
             //Paketstation muss nun 2 Pakete besitzen, welche auf dem Status "Abholen" stehen müssten
             int j = 0;
-            for (int i = 0; i < ps1.Paketfach.Count; i++)
+            for (int i = 0; i < StationenListe[0].Paketfach.Count; i++)
             {
-                if (ps1.Paketfach[i].Packet != null)
+                if (StationenListe[0].Paketfach[i].Packet != null)
                 {
-                    Assert.AreEqual("Abholen", ps1.Paketfach[i].Packet.Status);
+                    Assert.AreEqual("Abholen", StationenListe[0].Paketfach[i].Packet.Status);
                 }
             }
         }
@@ -349,7 +369,7 @@ namespace UnitTestPackstation
 
             Fach fXL = new Fach(15, true, null, false, Groesse.XL);
 
-            ps1.FuegeFachHinzu(fXL);
+            StationenListe[0].FuegeFachHinzu(fXL);
 
             ui1.LinesToRead.Add("1");
             ui1.LinesToRead.Add("Klausi");
@@ -370,11 +390,12 @@ namespace UnitTestPackstation
         }
 
         [TestMethod]
-        public void KeineFreienFaecherVerfuegbar() //TODO mehrere Pakete gleicher Größe in unterschiedliche Fächer
+        public void KeineFreienFaecherVerfuegbar()
         {
-            for (int i = 0; i < ps1.AnzahlFaecher; i++) //alle Fächer belegen, damit Kunde kein Paket hineinlegen kann
+            //alle Fächer belegen, damit Kunde kein Paket hineinlegen kann
+            for (int i = 0; i < StationenListe[0].AnzahlFaecher; i++) 
             {
-                ps1.Paketfach[i].Belegt = true;
+                StationenListe[0].Paketfach[i].Belegt = true;
             }
 
             ui1.LinesToRead.Add("1");
@@ -394,20 +415,24 @@ namespace UnitTestPackstation
         }
 
         [TestMethod]
-        public void KundeGibtMehrerePaketeHinein() //TODO mehrere Pakete gleicher Größe in unterschiedliche Fächer
+        public void KleinePaketeInGroessereFaecher() 
         {
-            //erstes Paket mit kleinerer Größe entfernen
-            k1.Pakete.Remove(p1);
-            //groesseres Paket hinzufügen
-            k1.Pakete.Add(p8);
+            //k1 Pakete geben
 
-            Fach fXL = new Fach(15, true, null, false, Groesse.XL);
+            Paket p9 = new Paket(9L, "Klaus", "Beispielstraße 22", "Bernd", "EmpfaengerStr. 22", "Verschicken", 1, 1, Groesse.XS);
+            Paket p10 = new Paket(10L, "Klaus", "Beispielstraße 22", "Bernd", "EmpfaengerStr. 22", "Verschicken", 1, 1, Groesse.XS);
+            Paket p11 = new Paket(11L, "Klaus", "Beispielstraße 22", "Bernd", "EmpfaengerStr. 22", "Verschicken", 1, 1, Groesse.XS);
 
-            ps1.FuegeFachHinzu(fXL);
+            k1.Pakete.Add(p9);
+            k1.Pakete.Add(p10);
+            k1.Pakete.Add(p11);
 
             ui1.LinesToRead.Add("1");
             ui1.LinesToRead.Add("Klausi");
             ui1.LinesToRead.Add("1234");
+            ui1.LinesToRead.Add("2");
+            ui1.LinesToRead.Add("2");
+            ui1.LinesToRead.Add("2");
             ui1.LinesToRead.Add("2");
             ui1.LinesToRead.Add("0");
 
@@ -417,11 +442,69 @@ namespace UnitTestPackstation
 
             Verwalter.run();
 
-            //prüft ob es ein Paket zum Abholen in der Station gibt
-            Assert.AreEqual(1, Verwalter.AktuelleStation.MitarbeiterListeAbzuholenderPakete().Count);
-            //prüft ob Kunde noch Paket besitzt
+            //prüft ob Kunde noch Pakete besitzt
             Assert.AreEqual(0, k1.Pakete.Count);
+            Assert.AreEqual(Groesse.XS, Verwalter.Stationen[0].Paketfach[3].Packet.Groesse);
+            Assert.AreEqual(Groesse.M, Verwalter.Stationen[0].Paketfach[3].Groesse);
+
+            //prüft ob es ein Paket mit Status "abzuholen" in der Station liegen (Achtung: Diese werden hier auch entfernt)
+            Assert.AreEqual(4, Verwalter.AktuelleStation.MitarbeiterListeAbzuholenderPakete().Count);
         }
-        //TODO: Controller.MitarbeiterLiefertPakete() testen! (ob fehler abgefangen werden)
+
+        [TestMethod]
+        public void MitarbeiterGibtZuvielePaketeAb()
+        {
+            //k1 Pakete geben
+
+            Paket p9 = new Paket(9L, "Klaus", "Beispielstraße 22", "Bernd", "EmpfaengerStr. 22", "Transport", 1, 1, Groesse.XXL);
+            Paket p10 = new Paket(10L, "Klaus", "Beispielstraße 22", "Bernd", "EmpfaengerStr. 22", "Transport", 1, 1, Groesse.XXL);
+            Paket p11 = new Paket(11L, "Klaus", "Beispielstraße 22", "Bernd", "EmpfaengerStr. 22", "Transport", 1, 1, Groesse.XXL);
+
+            m1.LieferPakete.Add(p9);
+            m1.LieferPakete.Add(p10);
+            m1.LieferPakete.Add(p11);
+
+            ui1.LinesToRead.Add("1");
+            ui1.LinesToRead.Add("admin");
+            ui1.LinesToRead.Add("admin");
+            ui1.LinesToRead.Add("2");
+            ui1.LinesToRead.Add("abschalten");
+
+            Verwalter.run();
+
+            //Mitarbeiter sollte noch 1 Paket besitzen mit dem Status "Transport"
+            Assert.AreEqual(1, m1.LieferPakete.Count);
+            //Kontrolle ob die 3 XXL Pakete tatsächlich in der Station angekommen sind (anhand der Größe)
+            List<Paket> KontrollListe = new List<Paket>(Verwalter.AktuelleStation.MitarbeiterListeAbzuholenderPakete());
+            for (int i = 0; i < KontrollListe.Count; i++)
+            {
+                Assert.AreEqual(Groesse.XXL, KontrollListe[i].Groesse);
+            }
+        }
+        //TODO: Mitarbeiter wechselt kaputtes Fach
+
+        [TestMethod]
+        public void MitarbeiterWechseltDefektesFach()
+        {
+            //k1 Pakete geben
+
+            Fach DefektesFach = new Fach(15, false, null, false, Groesse.XL);
+
+            StationenListe[0].FuegeFachHinzu(DefektesFach);
+
+            m1.ErsatzFaecher.Add(new Fach(10, true, null, false, Groesse.S));
+
+            ui1.LinesToRead.Add("1");
+            ui1.LinesToRead.Add("admin");
+            ui1.LinesToRead.Add("admin");
+            ui1.LinesToRead.Add("3");
+            ui1.LinesToRead.Add("9");
+            ui1.LinesToRead.Add("abschalten");
+
+            Verwalter.run();
+
+            //Schauen ob Größe des neuen Faches übereinstimmt
+            Assert.AreEqual(Groesse.S, Verwalter.AktuelleStation.Paketfach[9].Groesse);
+        }
     }
 }

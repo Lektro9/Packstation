@@ -23,6 +23,21 @@ namespace Packstation_Kroll
             Paket p6; //Paket für Mitarbeiter welches geliefert werden muss
             Paket p7; //Paket für Mitarbeiter welches geliefert werden muss 
             Paket p8; //Paket für Kunden zum Abgeben
+
+            Fach f1;
+            Fach f2;
+            Fach f3;
+            Fach f4;
+            Fach f5;
+            Fach f6;
+            Fach f7;
+            Fach f8;
+            Fach f9;
+            Fach f10;
+
+            List<Fach> FaecherListe;
+            List<Paketstation> StationenListe;
+
             List<Paket> KundenPakete1;
             Kunde k1;
             List<Kunde> kl1;
@@ -30,7 +45,6 @@ namespace Packstation_Kroll
             List<Mitarbeiter> ml1;
             List<Paket> MitarbeiterLieferPakete;
             List<Paket> MitarbeiterAbgeholtePakete;
-            Paketstation ps1;
             Userinterface ui1;
             Controller Verwalter;
 
@@ -43,6 +57,19 @@ namespace Packstation_Kroll
             p6 = new Paket(6L, "BeispielAbsName", "BeispielAbsenderAddr. 16", "Klaus", "Beispielstraße 22", "Transport", -1, -1, Groesse.XS);
             p7 = new Paket(7L, "BeispielAbsName2", "BeispielAbsenderAddr. 17", "Klaus", "Beispielstraße 22", "Transport", -1, -1, Groesse.XS);
             p8 = new Paket(8L, "Klaus", "Beispielstraße 22", "Bernd", "EmpfaengerStr. 22", "Verschicken", 1, 1, Groesse.XS);
+
+            //StandartFächer für jede Station
+            f1 = new Fach(1, true, null, false, Groesse.XS);
+            f2 = new Fach(2, true, null, false, Groesse.XS);
+            f3 = new Fach(3, true, null, false, Groesse.XS);
+            f4 = new Fach(4, true, null, false, Groesse.M);
+            f5 = new Fach(5, true, null, false, Groesse.M);
+            f6 = new Fach(6, true, null, false, Groesse.M);
+            f7 = new Fach(7, true, null, false, Groesse.XXL);
+            f8 = new Fach(7, true, null, false, Groesse.XXL);
+            f9 = new Fach(7, true, null, false, Groesse.XXL);
+            
+            f10 = new Fach(10, true, null, false, Groesse.S);
 
             //Pakete in entsprechende Listen hinzufügen
             KundenPakete1 = new List<Paket>();
@@ -65,19 +92,25 @@ namespace Packstation_Kroll
             //Mitarbeiter mit Paketen initialisieren (Login=admin, Passwort=admin)
             m1 = new Mitarbeiter(1L, "John", "admin", "admin", MitarbeiterLieferPakete, MitarbeiterAbgeholtePakete);
 
+            //Ersatzfach dem Mitarbeiter geben
+            m1.ErsatzFaecher.Add(f10);
+
             //Mitarbeiterliste initialisieren
             ml1 = new List<Mitarbeiter>();
             ml1.Add(m1);
 
             //Paketstation, UI und Controller initialisieren
             ui1 = new Userinterface();
-            List<Paketstation> psList = new List<Paketstation>();
-            ps1 = new Paketstation(1, 9, ui1);
-            psList.Add(ps1);
-            
+            FaecherListe = new List<Fach>(){
+                f1, f2, f3, f4, f5, f6, f7, f8, f9
+            };
+            StationenListe = new List<Paketstation>()
+            {
+                new Paketstation(1, FaecherListe, ui1),
+            };
 
             //Controller
-            Verwalter = new Controller(kl1, ml1, ui1, null, false, psList);
+            Verwalter = new Controller(kl1, ml1, ui1, null, false, StationenListe);
             Verwalter.run();
         }
     }

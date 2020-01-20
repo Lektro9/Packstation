@@ -78,6 +78,7 @@ namespace Packstation_Kroll
             this.Stationen = Stationen;
             this.AktuelleStation = null;
             this.AnzahlStationen = this.Stationen.Count;
+            PruefeAnzahlPaketstationen();
         }
 
         //hier werden automatisch Stationen erstellt, die aber alle nur XS Fächer nutzen
@@ -96,6 +97,7 @@ namespace Packstation_Kroll
             }
             this.Stationen = Stationen;
             this.AktuelleStation = null;
+            PruefeAnzahlPaketstationen();
         }
         #endregion
 
@@ -148,6 +150,19 @@ namespace Packstation_Kroll
                     else if (Eingabe == "2")
                     {
                         MitarbeiterLiefertPakete();
+                    }
+                    else if (Eingabe == "3")
+                    {
+                        Terminal.TextAusgeben("Geben Sie die Fachnummer ein, nachdem Sie zunächst eine beliebige Taste gedrückt haben.");
+                        Eingabe = Terminal.TextEinlesen();
+                        while (!Int32.TryParse(Eingabe, out ZahlenEingabe))
+                        {
+                            Terminal.TextAusgeben("Sie haben keine Zahl eingegeben. Weiter mit einer beliebigen Taste...");
+                            Terminal.StationsMenueAnzeigen(this.AnzahlStationen);
+                            Eingabe = Terminal.TextEinlesen();
+                        }
+
+                        MitarbeiterWechseltFach(ZahlenEingabe);
                     }
                     else if (Eingabe == "0")
                     {
@@ -226,7 +241,7 @@ namespace Packstation_Kroll
                     {
                         for (int j = 0; j < AktuelleStation.Paketfach.Count; j++)
                         {
-                            if (!AktuelleStation.Paketfach[j].IstBelegt())
+                            if (!AktuelleStation.Paketfach[j].IstBelegt() && AktuelleStation.Paketfach[j].IstGrossGenug(EinzubindendePakete[i].Groesse) && AktuelleStation.Paketfach[j].Status)
                             {
                                 AktuelleStation.Paketfach[j].PaketAnnehmen(EinzubindendePakete[i]);
                                 Terminal.TextAusgeben("Paket " + EinzubindendePakete[i].PaketNummer + " wurde in das Fach " + EinzubindendePakete[i].PaketfachNr + " eingelegt.");
@@ -384,6 +399,18 @@ namespace Packstation_Kroll
             this.AnzahlStationen -= 1;
             PruefeAnzahlPaketstationen();
             return p;
+        }
+
+        public void MitarbeiterWechseltFach(int Fachnummer)
+        {
+            Mitarbeiter AktiverMitarbeiter = (Mitarbeiter)AktiverUser;
+            //Hier nicht die offizielle Methode nehmen, da hier sonst die Anzahl der Faecher vorrübergehend nicht stimmt
+            //TODO: Fehler abfangen wenn falsche Fachnummer eingegeben wurde
+            AktuelleStation.Paketfach.Remove(AktuelleStation.Paketfach[Fachnummer]);
+            Fach ErsatzFach = AktiverMitarbeiter.ErsatzFaecher[0];
+            AktiverMitarbeiter.ErsatzFaecher.Remove(ErsatzFach);
+            AktuelleStation.FuegeFachHinzu(ErsatzFach);
+            Terminal.TextAusgeben("Erfolg!");
         }
         #endregion
 

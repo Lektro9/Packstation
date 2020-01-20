@@ -117,6 +117,7 @@ namespace Packstation_Kroll
             
             string Mitarbeitermenue = "\n 1. Alle Pakete abholen" +
                 "\n 2. Alle Pakete einlegen" +
+                "\n 3. Defektes Fach auswechseln" +
                 "\n 0. Abbrechen" +
                 "\n\noder 'abschalten' eingeben, um die Station auszuschalten.";
             Console.WriteLine(Mitarbeitermenue);

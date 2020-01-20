@@ -59,12 +59,12 @@ namespace Packstation_Kroll
         public Paketstation(int ID, List<Fach> Faecher)
         {
             this.Paketfach = new List<Fach>();
-            for (int i = 0; i < AnzahlFaecher; i++)
+            for (int i = 0; i < Faecher.Count; i++)
             {
                 this.Paketfach.Add(new Fach(i));
             }
             this.Terminal = null;
-            this.AnzahlFaecher = AnzahlFaecher;
+            this.AnzahlFaecher = Faecher.Count;
             pruefeAnzahlFaecher();
             this.ID = ID;
         }
@@ -92,7 +92,7 @@ namespace Packstation_Kroll
             bool retVal = false;
             for (int i = 0; i < Paketfach.Count; i++)
             {
-                if (!Paketfach[i].IstBelegt() && Paketfach[i].IstGrossGenug(p.Groesse))
+                if (!Paketfach[i].IstBelegt() && Paketfach[i].IstGrossGenug(p.Groesse) && Paketfach[i].Status)
                 {
                     Paketfach[i].PaketAnnehmen(p);
                     Terminal.TextAusgeben("Paket " + p.PaketNummer + " wurde in das Fach " + p.PaketfachNr + " eingelegt.");
@@ -189,12 +189,6 @@ namespace Packstation_Kroll
             {
                 //nichts tun
             }
-        }
-
-        //Konnte keinen Gebrauch für die Methode finden
-        public void MitarbeiterWechseltFach()
-        {
-            //TODO: Methode zum Auswechseln eines defekten Faches
         }
 
         public void FuegeFachHinzu(Fach f)

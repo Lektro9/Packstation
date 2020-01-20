@@ -20,6 +20,7 @@ namespace Packstation_Kroll
         string _Passwort;
         List<Paket> _LieferPakete;
         List<Paket> _AbgeholtePakete;
+        List<Fach> _ErsatzFaecher;
         #endregion
 
         #region Accessoren/Modifier
@@ -29,6 +30,7 @@ namespace Packstation_Kroll
         public string Passwort { get => _Passwort; set => _Passwort = value; }
         public List<Paket> LieferPakete { get => _LieferPakete; set => _LieferPakete = value; } //Pakete die in aktuelle Station geliefert werden müssen
         public List<Paket> AbgeholtePakete { get => _AbgeholtePakete; set => _AbgeholtePakete = value; } //Pakete die aus aktueller Station entnommen wurden, müssen irgendwie irgendwann zu Lieferpaketen werden
+        public List<Fach> ErsatzFaecher { get => _ErsatzFaecher; set => _ErsatzFaecher = value; }
         #endregion
 
         #region Konstruktoren
@@ -40,6 +42,7 @@ namespace Packstation_Kroll
             this.Passwort = "0000";
             this.LieferPakete = null;
             this.AbgeholtePakete = null;
+            this.ErsatzFaecher = new List<Fach>();
         }
         //Spezialkonstruktoren
         public Mitarbeiter(long MitarbeiterID, string Name, string Benutzername, string Passwort, List<Paket> LieferPakete, List<Paket> AbgeholtePakete)
@@ -50,6 +53,18 @@ namespace Packstation_Kroll
             this.Passwort = Passwort;
             this.LieferPakete = LieferPakete;
             this.AbgeholtePakete = AbgeholtePakete;
+            this.ErsatzFaecher = new List<Fach>();
+        }
+
+        public Mitarbeiter(long MitarbeiterID, string Name, string Benutzername, string Passwort, List<Paket> LieferPakete, List<Paket> AbgeholtePakete, List<Fach> ErsatzFaecher)
+        {
+            this.MitarbeiterID = MitarbeiterID;
+            this.Name = Name;
+            this.Benutzername = Benutzername;
+            this.Passwort = Passwort;
+            this.LieferPakete = LieferPakete;
+            this.AbgeholtePakete = AbgeholtePakete;
+            this.ErsatzFaecher = ErsatzFaecher;
         }
 
         #endregion
