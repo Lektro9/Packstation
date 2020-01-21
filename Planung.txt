@@ -10,38 +10,44 @@
 
 zu 1.
 
-- Enum benutzen für die Größen (Werte werden zugeordnet) in der Paketklasse
-- Konstruktoren anpassen (sollen nun den neuen Wert vergeben)
+x - Enum benutzen für die Größen (Werte werden zugeordnet) in der Paketklasse
+x - Konstruktoren anpassen (sollen nun den neuen Wert vergeben)
 
 zu 2. 
 
-- siehe Oben, auch hier Enums benutzen um zu vergleichen (Eigenschaft von Paketfach)
-- nur Fächer mit entsprechender Größe oder größer sollen genutzt werden können
+x - siehe Oben, auch hier Enums benutzen um zu vergleichen (Eigenschaft von Paketfach)
+x - nur Fächer mit entsprechender Größe oder größer sollen genutzt werden können (Testmethode erstellt)
 
 zu 3.
 
-- neue Eigenschaft in der Paketstation Klasse (zb int "AnzahlFaecher")
-- neue Eigenschaft in Konstruktoren einbinden
-- neue "Prüfmethode" in Paketstation erstellen um die Anzahl zwischen 9 und 100 zu gewährleisten, NACHDEM ein Fach hinzugefügt wurde
+x - neue Eigenschaft in der Paketstation Klasse (zb int "AnzahlFaecher")
+x - neue Eigenschaft in Konstruktoren einbinden
+x - neue "Prüfmethode" in Paketstation erstellen um die Anzahl zwischen 9 und 100 zu gewährleisten, NACHDEM ein Fach hinzugefügt wurde
 
 zu 4.
 
-- Liste der Faecher in Paketstation.cs sollte erweiterbar sein (Aggregatsfunktionen erstellen) 
-- Variable "AnzahlFaecher" muss aktualisiert und geprüft werden
-- neuen Aggregatsfunktionen erstellen (zb "FachHinzuegen()" und "FachEntfernen()")
+x - Liste der Faecher in Paketstation.cs sollte erweiterbar sein (Aggregatsfunktionen erstellen) 
+x - Variable "AnzahlFaecher" muss aktualisiert und geprüft werden
+x - neuen Aggregatsfunktionen erstellen (zb "FachHinzufuegen()" und "FachEntfernen()")
 
 zu 5.
 
 x - neue Eigenschaft für Controller (Liste von Paketstationen) 
 x - Paketstation.cs braucht eine neue Eigenschaft um identifiziert zu werden (zb "int ID") x
-- Eigenschaft in Konstruktoren einbauen
-TODO: - neuen Aggregatsfunktionen erstellen (zb "StationHinzufuegen()" und "StationEntfernen()")
+x - Eigenschaft in Konstruktoren einbauen
+x - neuen Aggregatsfunktionen erstellen (zb "StationHinzufuegen()" und "StationEntfernen()")
 (- alternativ: einen neuen Controller der auf einzelne Controller (mit Paketstationen) verweist)
-- Variable "AnzahlStationen" muss aktualisiert und geprüft werden
+x - Variable "AnzahlStationen" muss aktualisiert und geprüft werden
 x - Userinterface muss erweitert werden um eine Paketstation auszuwählen 
-TODO: - Userinterface muss erweitert werden um Station zu wechseln?
+(TODO: - Userinterface muss erweitert werden um Station zu wechseln?)
 
 
 //TODO after
-- ListeAbzuholenderPakete in Controller ausfüllen (Methode aus Paketstation nutzen)
-- 
+x - Fehler abfangen wenn alle Paketfächer belegt sind
+x - prüfe Konstruktoren und entferne unnötige
+x - Standart Fächer mit unterschiedlichen Größen
+x - Test schreiben für mehrere Pakete mit gleichen Größen, die Fächer mit unterschiedlichen Größen nutzen (zb 4 S Pakete -> 3 S Fächer und 1 M Fach)
+
+
+
+
