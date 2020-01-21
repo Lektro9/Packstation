@@ -5,6 +5,7 @@
 //Änderungen:
 //25.09.2019:   Entwicklungsbeginn 
 //29.12.2019:   Testdaten hinzugefügt und Entwicklung abgeschlossen
+//21.01.2020:   Entwicklung der neuen Features (Pakete mit unterschiedlichen Größen und mehrere Stationen) abgeschlossen
 
 using System;
 using System.Collections.Generic;
@@ -23,6 +24,10 @@ namespace Packstation_Kroll
             Paket p6; //Paket für Mitarbeiter welches geliefert werden muss
             Paket p7; //Paket für Mitarbeiter welches geliefert werden muss 
             Paket p8; //Paket für Kunden zum Abgeben
+            Paket p9; //Pakete für Mitarbeiter um zu Testen ob große Pakete nach Ausschöpfung der Entsprechenden Fächer abgelehnt werden
+            Paket p10;
+            Paket p11;
+            Paket p12;
 
             Fach f1;
             Fach f2;
@@ -57,6 +62,10 @@ namespace Packstation_Kroll
             p6 = new Paket(6L, "BeispielAbsName", "BeispielAbsenderAddr. 16", "Klaus", "Beispielstraße 22", "Transport", -1, -1, Groesse.XS);
             p7 = new Paket(7L, "BeispielAbsName2", "BeispielAbsenderAddr. 17", "Klaus", "Beispielstraße 22", "Transport", -1, -1, Groesse.XS);
             p8 = new Paket(8L, "Klaus", "Beispielstraße 22", "Bernd", "EmpfaengerStr. 22", "Verschicken", 1, 1, Groesse.XS);
+            p9 = new Paket(9L, "Klaus", "Beispielstraße 22", "Bernd", "EmpfaengerStr. 22", "Transport", 1, 1, Groesse.XXL);
+            p10 = new Paket(10L, "Klaus", "Beispielstraße 22", "Bernd", "EmpfaengerStr. 22", "Transport", 1, 1, Groesse.XXL);
+            p11 = new Paket(11L, "Klaus", "Beispielstraße 22", "Bernd", "EmpfaengerStr. 22", "Transport", 1, 1, Groesse.XXL);
+            p12 = new Paket(12L, "Klaus", "Beispielstraße 22", "Bernd", "EmpfaengerStr. 22", "Transport", 1, 1, Groesse.XXL);
 
             //StandartFächer für jede Station
             f1 = new Fach(1, true, null, false, Groesse.XS);
@@ -66,8 +75,8 @@ namespace Packstation_Kroll
             f5 = new Fach(5, true, null, false, Groesse.M);
             f6 = new Fach(6, true, null, false, Groesse.M);
             f7 = new Fach(7, true, null, false, Groesse.XXL);
-            f8 = new Fach(7, true, null, false, Groesse.XXL);
-            f9 = new Fach(7, true, null, false, Groesse.XXL);
+            f8 = new Fach(8, true, null, false, Groesse.XXL);
+            f9 = new Fach(9, true, null, false, Groesse.XXL);
             
             f10 = new Fach(10, true, null, false, Groesse.S);
 
@@ -79,6 +88,10 @@ namespace Packstation_Kroll
             MitarbeiterLieferPakete.Add(p2);
             MitarbeiterLieferPakete.Add(p6);
             MitarbeiterLieferPakete.Add(p7);
+            MitarbeiterLieferPakete.Add(p9);
+            MitarbeiterLieferPakete.Add(p10);
+            MitarbeiterLieferPakete.Add(p11);
+            MitarbeiterLieferPakete.Add(p12);
             MitarbeiterAbgeholtePakete = new List<Paket>();
             MitarbeiterAbgeholtePakete.Add(p3);
 
@@ -107,6 +120,7 @@ namespace Packstation_Kroll
             StationenListe = new List<Paketstation>()
             {
                 new Paketstation(1, FaecherListe, ui1),
+                new Paketstation(2, FaecherListe, ui1),
             };
 
             //Controller

@@ -74,9 +74,11 @@ namespace Packstation_Kroll
         public void loginAufforderung(ref string benutzername, ref string passwort)
         {
             Console.Clear();
-            Console.WriteLine("Benutzername: ");
+            Console.WriteLine("Authentifizierung");
+            Console.WriteLine();
+            Console.Write("Benutzername: ");
             benutzername = TextEinlesen();
-            Console.WriteLine("Passwort: ");
+            Console.Write("Passwort: ");
             passwort = TextEinlesen(); //TODO: Passwort nicht auf dem Bildschirm anzeigen
         }
 
@@ -84,7 +86,6 @@ namespace Packstation_Kroll
         {
             Console.Clear();
             Console.WriteLine(Text);
-            WeiterMitTaste();
         }
 
         public void WeiterESC()

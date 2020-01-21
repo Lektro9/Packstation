@@ -121,6 +121,7 @@ namespace Packstation_Kroll
                     while (!Int32.TryParse(Eingabe, out ZahlenEingabe))
                     {
                         Terminal.TextAusgeben("Sie haben keine Zahl eingegeben. Weiter mit einer beliebigen Taste...");
+                        Terminal.WeiterMitTaste();
                         Terminal.StationsMenueAnzeigen(this.AnzahlStationen);
                         Eingabe = Terminal.TextEinlesen();
                     }
@@ -133,6 +134,7 @@ namespace Packstation_Kroll
                     else
                     {
                         Terminal.TextAusgeben("Paketstation existiert nicht.");
+                        Terminal.WeiterMitTaste();
                     }
                 }
                 while (Authentifiziert == false)
@@ -158,7 +160,6 @@ namespace Packstation_Kroll
                         while (!Int32.TryParse(Eingabe, out ZahlenEingabe))
                         {
                             Terminal.TextAusgeben("Sie haben keine Zahl eingegeben. Weiter mit einer beliebigen Taste...");
-                            Terminal.StationsMenueAnzeigen(this.AnzahlStationen);
                             Eingabe = Terminal.TextEinlesen();
                         }
 
@@ -221,10 +222,12 @@ namespace Packstation_Kroll
                     faecherNummern += AbzuholendePakete[i].PaketfachNr + " ";
                 }
                 Terminal.TextAusgeben("Sie haben " + AbzuholendePakete.Count + " Pakete aus den Fächern " + faecherNummern + "abgeholt.");
+                Terminal.WeiterMitTaste();
             }
             else
             {
                 Terminal.TextAusgeben("Keine Pakete zum Abholen in der Station.");
+                Terminal.WeiterMitTaste();
             }
         }
 
@@ -245,6 +248,7 @@ namespace Packstation_Kroll
                             {
                                 AktuelleStation.Paketfach[j].PaketAnnehmen(EinzubindendePakete[i]);
                                 Terminal.TextAusgeben("Paket " + EinzubindendePakete[i].PaketNummer + " wurde in das Fach " + EinzubindendePakete[i].PaketfachNr + " eingelegt.");
+                                Terminal.WeiterMitTaste();
                                 EinzubindendePakete.RemoveAt(i);
                                 break;
                             }
@@ -263,7 +267,8 @@ namespace Packstation_Kroll
                 //Sichergehen dass alle Pakete ein Fach erhalten haben
                 if (EinzubindendePakete.Count != 0)
                 {
-                    Terminal.TextAusgeben("Keine freien Fächer mehr verfügbar.");
+                    Terminal.TextAusgeben("Pakete werden nicht mehr angenommen, da entsprechende Fächer nicht mehr verfügbar sind.");
+                    Terminal.WeiterMitTaste();
                     // Pakete dem Mitarbeiter zurück geben
                     for (int i = 0; i < EinzubindendePakete.Count; i++)
                     {
@@ -274,6 +279,7 @@ namespace Packstation_Kroll
                 else
                 {
                     Terminal.TextAusgeben("Keine weiteren Pakete zum hineinlegen verfügbar.");
+                    Terminal.WeiterMitTaste();
                 }
             }
         }
@@ -288,6 +294,7 @@ namespace Packstation_Kroll
                     if (AktuelleStation.Paketfach[i].IstBelegt())
                     {
                         Terminal.TextAusgeben("Das Paket (" + AktuelleStation.Paketfach[i].Packet.PaketNummer + ") wurde aus dem Fach " + AktuelleStation.getPaketFachnummer(AktuellerKunde) + " entnommen.");
+                        Terminal.WeiterMitTaste();
                         AktuellerKunde.PaketAbholen(AktuelleStation.Paketfach[i].getPaket());
                         break;
                     }
@@ -300,6 +307,7 @@ namespace Packstation_Kroll
             else
             {
                 Terminal.TextAusgeben("Keine Pakete in dieser Station für Sie verfügbar.");
+                Terminal.WeiterMitTaste();
             }
 
         }
@@ -313,18 +321,21 @@ namespace Packstation_Kroll
                 if (!AktuelleStation.KundeLiefertPaket(p))
                 {
                     Terminal.TextAusgeben("Keine freien Fächer verfügbar.");
+                    Terminal.WeiterMitTaste();
                     //Paket zurück zum Kunden
                     p.Status = "Verschicken";
                     AktuellerKunde.Pakete.Add(p);
                 }
                 else
                 {
-                    //nichts tun
+                    Terminal.TextAusgeben("Paket " + p.PaketNummer + " wurde in das Fach " + p.PaketfachNr + " gelegt.");
+                    Terminal.WeiterMitTaste();
                 }
             }
             else
             {
                 Terminal.TextAusgeben("Sie besitzen keine Pakete zum Abgeben.");
+                Terminal.WeiterMitTaste();
             }
         }
 
@@ -370,6 +381,7 @@ namespace Packstation_Kroll
             if (Authentifiziert == false)
             {
                 Terminal.TextAusgeben("Falscher Login, bitte prüfen Sie Ihren Benutzernamen und Ihr Passwort.");
+                Terminal.WeiterMitTaste();
             }
         }
 
@@ -405,12 +417,21 @@ namespace Packstation_Kroll
         {
             Mitarbeiter AktiverMitarbeiter = (Mitarbeiter)AktiverUser;
             //Hier nicht die offizielle Methode nehmen, da hier sonst die Anzahl der Faecher vorrübergehend nicht stimmt
-            //TODO: Fehler abfangen wenn falsche Fachnummer eingegeben wurde
-            AktuelleStation.Paketfach.Remove(AktuelleStation.Paketfach[Fachnummer]);
-            Fach ErsatzFach = AktiverMitarbeiter.ErsatzFaecher[0];
-            AktiverMitarbeiter.ErsatzFaecher.Remove(ErsatzFach);
-            AktuelleStation.FuegeFachHinzu(ErsatzFach);
-            Terminal.TextAusgeben("Erfolg!");
+            if (Fachnummer >= 0 && Fachnummer < AktuelleStation.Paketfach.Count)
+            {
+                AktuelleStation.Paketfach.Remove(AktuelleStation.Paketfach[Fachnummer]);
+                Fach ErsatzFach = AktiverMitarbeiter.ErsatzFaecher[0];
+                AktiverMitarbeiter.ErsatzFaecher.Remove(ErsatzFach);
+                AktuelleStation.FuegeFachHinzu(ErsatzFach);
+                Terminal.TextAusgeben("Erfolg!");
+                Terminal.WeiterMitTaste();
+            }
+            else
+            {
+                Terminal.TextAusgeben("Fach wurde nicht gefunden.");
+                Terminal.WeiterMitTaste();
+            }
+            
         }
         #endregion
 

@@ -59,12 +59,15 @@ namespace Packstation_Kroll
         public Paket PaketEinliefern()
         {
             Paket retPaket = null;
-            for (int i = 0; i < Pakete.Count; i++)
+            for (int i = 0; i < this.Pakete.Count; i++)
             {
-                Pakete[i].aendereStatus("abzuholen");
-                retPaket = Pakete[i];
-                Pakete.RemoveAt(i);
-                break;
+                if (Pakete[i].Status == "Verschicken")
+                {
+                    Pakete[i].aendereStatus("abzuholen");
+                    retPaket = Pakete[i];
+                    Pakete.RemoveAt(i);
+                    break;
+                }
             }
             return retPaket;
         }

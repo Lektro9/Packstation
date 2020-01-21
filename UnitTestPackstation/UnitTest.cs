@@ -130,7 +130,7 @@ namespace UnitTestPackstation
         }
 
         [TestMethod]
-        public void PruefePaketGroesse()
+        public void Erweiterungsaufgabe1_PruefePaketGroesse()
         {
             Paket p = new Paket(1L, "Klaus", "Beispielstraße 22", "Bernd", "EmpfaengerStr. 22", "Verschicken", 1, 1, Groesse.S);
 
@@ -138,7 +138,7 @@ namespace UnitTestPackstation
         }
 
         [TestMethod]
-        public void PruefeObFachHinzugefuegt()
+        public void Erweiterungsaufgabe4_PruefeObFachHinzugefuegt()
         {
             TestUI testUI = new TestUI();
             Paketstation ps1 = new Paketstation(1, 50, testUI);
@@ -150,10 +150,11 @@ namespace UnitTestPackstation
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentException), "Anzahl Stationen stimmt nicht")]
-        public void PruefeAnzahlStationen()
+        public void Erweiterungsaufgabe5_PruefeAnzahlStationen()
         {
             Controller Verwalter = new Controller(0);
         }
+
     }
     [TestClass]
     public class Zusammenhaengene_tests
@@ -208,8 +209,8 @@ namespace UnitTestPackstation
             f5 = new Fach(5, true, null, false, Groesse.M);
             f6 = new Fach(6, true, null, false, Groesse.M);
             f7 = new Fach(7, true, null, false, Groesse.XXL);
-            f8 = new Fach(7, true, null, false, Groesse.XXL);
-            f9 = new Fach(7, true, null, false, Groesse.XXL);
+            f8 = new Fach(8, true, null, false, Groesse.XXL);
+            f9 = new Fach(9, true, null, false, Groesse.XXL);
 
             //Pakete in entsprechende Listen hinzufügen
             KundenPakete1 = new List<Paket>();
@@ -360,7 +361,7 @@ namespace UnitTestPackstation
             }
         }
         [TestMethod]
-        public void KundeGibtGroesseresPaketAb()
+        public void Erweiterungsaufgabe2_KundeGibtGroesseresPaketAb()
         {
             //erstes Paket mit kleinerer Größe entfernen
             k1.Pakete.Remove(p1);
@@ -481,10 +482,9 @@ namespace UnitTestPackstation
                 Assert.AreEqual(Groesse.XXL, KontrollListe[i].Groesse);
             }
         }
-        //TODO: Mitarbeiter wechselt kaputtes Fach
 
         [TestMethod]
-        public void MitarbeiterWechseltDefektesFach()
+        public void Erweiterungsaufgabe4_MitarbeiterWechseltDefektesFach()
         {
             //k1 Pakete geben
 
@@ -505,6 +505,14 @@ namespace UnitTestPackstation
 
             //Schauen ob Größe des neuen Faches übereinstimmt
             Assert.AreEqual(Groesse.S, Verwalter.AktuelleStation.Paketfach[9].Groesse);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException), "Anzahl der Fächer stimmt nicht")]
+        public void Erweiterungsaufgabe3_PruefeAnzahlStationen()
+        {
+            //Ein Fach entfernen und prüfen ob Exception entsteht
+            Verwalter.Stationen[0].EntferneFach(f1);
         }
     }
 }
