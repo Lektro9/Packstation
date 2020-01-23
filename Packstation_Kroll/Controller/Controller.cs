@@ -6,6 +6,7 @@
 //02.11.2019:   Entwicklungsbeginn 
 //20.11.2019:   Controller funktioniert zur Zeit nicht richtig, da Modelle überarbeitet wurden
 //29.12.2019:   Businesslogik hinzugefügt und Entwicklung abgeschlossen
+//23.01.2020:   Entwicklung der neuen Features (Pakete mit unterschiedlichen Größen und mehrere Stationen) abgeschlossen
 
 using System;
 using System.Collections.Generic;

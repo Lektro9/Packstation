@@ -5,6 +5,7 @@
 //Änderungen:
 //02.11.2019:   Entwicklungsbeginn 
 //20.11.2019:   Umstrukturierung nach Besprechung im Unterricht
+//23.01.2020:   Entwicklung der neuen Features (Pakete mit unterschiedlichen Größen und mehrere Stationen) abgeschlossen
 
 using System;
 using System.Collections.Generic;
@@ -63,7 +64,7 @@ namespace Packstation_Kroll
             Console.WriteLine();
             Console.WriteLine();
             Console.WriteLine();
-            this.Text = "\n           Programmm:    Packstation Version 1.0" +
+            this.Text = "\n           Programmm:    Packstation Version 2.0" +
                 "\n           Autor:        Kroll" +
                 "\n           Beschreibung: Verwaltung von Paketen" +
                 "\n\n\n";

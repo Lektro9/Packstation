@@ -15,7 +15,8 @@
 //              - change to x86 or x64
 //Änderungen:
 //02.11.2019:   Entwicklungsbeginn 
-//29.12.2019:   Entwicklung abgeschlossen 
+//29.12.2019:   Entwicklung abgeschlossen
+//23.01.2020:   Entwicklung der neuen Features (Pakete mit unterschiedlichen Größen und mehrere Stationen) abgeschlossen
 
 using System;
 using System.Collections.Generic;

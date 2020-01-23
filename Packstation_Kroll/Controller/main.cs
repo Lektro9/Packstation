@@ -5,7 +5,7 @@
 //Änderungen:
 //25.09.2019:   Entwicklungsbeginn 
 //29.12.2019:   Testdaten hinzugefügt und Entwicklung abgeschlossen
-//21.01.2020:   Entwicklung der neuen Features (Pakete mit unterschiedlichen Größen und mehrere Stationen) abgeschlossen
+//23.01.2020:   Entwicklung der neuen Features (Pakete mit unterschiedlichen Größen und mehrere Stationen) abgeschlossen
 
 using System;
 using System.Collections.Generic;
