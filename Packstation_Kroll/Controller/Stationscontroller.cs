@@ -118,64 +118,78 @@ namespace Packstation_Kroll
             bool running = true;
             string Eingabe;
             int ZahlenEingabe;
-
-            Terminal.TextAusgeben("Station " + AktuelleStation.ID + ":");
-
+            Authentifiziert = false; //Wichtig damit der Nutzer nicht schon eingeloggt ist wenn er die Station wechselt
+            AktiverUser = null;
+            
             while (running)
             {
-                while (Authentifiziert == false)
+                Terminal.StationsMenueAnzeigen(AktuelleStation.ID);
+                Eingabe = Terminal.TextEinlesen();
+                if (Eingabe == "1")
                 {
-                    Authentifizieren();
-                }
-                if (AktiverUser.GetType() == typeof(Mitarbeiter))
-                {
-                    Terminal.MitarbeiterMenueAnzeigen();
-                    Eingabe = Terminal.TextEinlesen();
-                    if (Eingabe == "1")
+                    while (Authentifiziert == false)
                     {
-                        MitarbeiterHoltPakete();
+                        Authentifizieren();
                     }
-                    else if (Eingabe == "2")
+                    while (Authentifiziert == true)
                     {
-                        MitarbeiterLiefertPakete();
-                    }
-                    else if (Eingabe == "3")
-                    {
-                        Terminal.TextAusgeben("Geben Sie die Fachnummer ein, nachdem Sie zunächst eine beliebige Taste gedrückt haben.");
-                        Eingabe = Terminal.TextEinlesen();
-                        while (!Int32.TryParse(Eingabe, out ZahlenEingabe))
+                        if (AktiverUser.GetType() == typeof(Mitarbeiter))
                         {
-                            Terminal.TextAusgeben("Sie haben keine Zahl eingegeben. Weiter mit einer beliebigen Taste...");
+                            Terminal.MitarbeiterMenueAnzeigen();
                             Eingabe = Terminal.TextEinlesen();
-                        }
+                            if (Eingabe == "1")
+                            {
+                                MitarbeiterHoltPakete();
+                            }
+                            else if (Eingabe == "2")
+                            {
+                                MitarbeiterLiefertPakete();
+                            }
+                            else if (Eingabe == "3")
+                            {
+                                Terminal.TextAusgeben("Geben Sie die Fachnummer ein, nachdem Sie zunächst eine beliebige Taste gedrückt haben.");
+                                Eingabe = Terminal.TextEinlesen();
+                                while (!Int32.TryParse(Eingabe, out ZahlenEingabe))
+                                {
+                                    Terminal.TextAusgeben("Sie haben keine Zahl eingegeben. Weiter mit einer beliebigen Taste...");
+                                    Eingabe = Terminal.TextEinlesen();
+                                }
 
-                        MitarbeiterWechseltFach(ZahlenEingabe);
-                    }
-                    else if (Eingabe == "0")
-                    {
-                        Authentifiziert = false;
-                    }
-                    else if (Eingabe == "abschalten")
-                    {
-                        running = false;
+                                MitarbeiterWechseltFach(ZahlenEingabe);
+                            }
+                            else if (Eingabe == "0")
+                            {
+                                Authentifiziert = false;
+                                AktiverUser = null;
+                            }
+                            else if (Eingabe == "abschalten")
+                            {
+                                running = false;
+                            }
+                        }
+                        else if (AktiverUser.GetType() == typeof(Kunde))
+                        {
+                            Terminal.KundenMenueAnzeigen();
+                            Eingabe = Terminal.TextEinlesen();
+                            if (Eingabe == "1")
+                            {
+                                KundeHoltPaket();
+                            }
+                            else if (Eingabe == "2")
+                            {
+                                KundeLiefertPaket();
+                            }
+                            else if (Eingabe == "0")
+                            {
+                                Authentifiziert = false;
+                                AktiverUser = null;
+                            }
+                        }
                     }
                 }
-                else
+                else if (Eingabe == "2")
                 {
-                    Terminal.KundenMenueAnzeigen();
-                    Eingabe = Terminal.TextEinlesen();
-                    if (Eingabe == "1")
-                    {
-                        KundeHoltPaket();
-                    }
-                    else if (Eingabe == "2")
-                    {
-                        KundeLiefertPaket();
-                    }
-                    else if (Eingabe == "0")
-                    {
-                        Authentifiziert = false;
-                    }
+                    running = false;
                 }
             }
         }

@@ -97,6 +97,20 @@ namespace Packstation_Kroll
             }
         }
 
+        public string StationsMenueAnzeigen(int Stationsnummer)
+        {
+            Console.Clear();
+            Console.WriteLine("Station " + Stationsnummer + ":");
+            Console.WriteLine("Was möchten Sie tun: ");
+            Console.WriteLine("");
+
+            string StationsMenue = "\n 1. Einloggen" +
+                "\n 2. Station verlassen";
+            Console.WriteLine(StationsMenue);
+
+            return StationsMenue;
+        }
+
         public string KundenMenueAnzeigen()
         {
             Console.Clear();
@@ -125,6 +139,13 @@ namespace Packstation_Kroll
             Console.WriteLine(Mitarbeitermenue);
 
             return Mitarbeitermenue;
+        }
+
+        public void StationHinzufuegenMenueAnzeigen()
+        {
+            Console.Clear();
+            Console.WriteLine("Geben Sie eine ID und eine Fachanzahl an (darf nicht unter 9 sein!) ");
+            Console.WriteLine();
         }
 
         public void MetaMenueAnzeigen(int MaxAnzahl)

@@ -124,11 +124,16 @@ namespace Packstation_Kroll
             FaecherListe = new List<Fach>(){
                 f1, f2, f3, f4, f5, f6, f7, f8, f9
             };
+            List<Fach> FaecherListe2 = new List<Fach>(FaecherListe.Count);
+            FaecherListe.ForEach((item) =>
+            {
+                FaecherListe2.Add(new Fach(item));
+            });
             //TODO Achtung Fächerliste muss kopiert werden und nich referenziert
             StationenListe = new List<Paketstation>()
             {
                 new Paketstation(1, FaecherListe, ui1),
-                new Paketstation(2, FaecherListe, ui1),
+                new Paketstation(2, FaecherListe2, ui1),
             };
 
             //Controller

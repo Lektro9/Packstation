@@ -125,7 +125,9 @@ namespace Packstation_Kroll
                         Eingabe = Terminal.TextEinlesen();
                         if (Eingabe == "1")
                         {
-                            StationHinzufuegen();
+                            Terminal.StationHinzufuegenMenueAnzeigen();
+                            Eingabe = Terminal.TextEinlesen();
+                            StationHinzufuegen(Eingabe);
                         }
                         else if(Eingabe == "2")
                         {
@@ -133,7 +135,7 @@ namespace Packstation_Kroll
                         }
                         else if(Eingabe == "3")
                         {
-                            StationEntfernen();
+                            StationErweitern();
                         }
                         else if(Eingabe == "4") //Mitarbeiter Verwalten
                         {
@@ -225,11 +227,34 @@ namespace Packstation_Kroll
             }
         }
 
-        public void StationHinzufuegen()
+        public void StationHinzufuegen(string Eingabe)
         {
-            string Eingabe = Terminal.TextEinlesen();
+            Regex regEx = new Regex(@"^(\d+)\s(\d+)");
 
-            Regex regEx = new Regex(@"^(\d+)\s(\d+)$");
+            List<string> matches = MatchRegexRules(Eingabe, regEx);
+
+            if (matches.Count == 3 && Int32.Parse(matches[2]) > 8)
+            {
+                //TODO: auf IDs prüfen
+
+                Paketstation p = new Paketstation(Int32.Parse(matches[1]), Int32.Parse(matches[2]), this.Terminal);
+                Stationscontroller sc = new Stationscontroller(this.Kunden, this.Mitarbeiter, this.Terminal, null, false, p);
+                this.Stationen.Add(sc);
+                this.AnzahlStationen += 1;
+                PruefeAnzahlPaketstationen();
+                Terminal.TextAusgeben("Eine neue Station wurde hinzugefügt. Die Station ist mit der Nummer " + Stationen.Count + " zu erreichen.");
+                Terminal.WeiterMitTaste();
+            }
+            else
+            {
+                Terminal.TextAusgeben("Keine valide Eingabe. Weiter mit beliebiger Taste...");
+                Terminal.WeiterMitTaste();
+            }
+            
+        }
+
+        public List<string> MatchRegexRules(string Eingabe, Regex regEx)
+        {
             Match match = regEx.Match(Eingabe);
             GroupCollection data = match.Groups;
             List<string> matches = new List<string>();
@@ -240,19 +265,13 @@ namespace Packstation_Kroll
                 {
                     matches.Add(match.Groups[groupName].Value);
                 }
-                Paketstation p = new Paketstation(Int32.Parse(matches[1]), Int32.Parse(matches[2]), this.Terminal);
-                //TODO: Controller richtig initialisieren
-                Stationscontroller sc = new Stationscontroller();
-                this.Stationen.Add(sc);
-                this.AnzahlStationen += 1;
-                PruefeAnzahlPaketstationen();
             }
             else // Bei falscher Eingabe noch einmal eine Eingabe erfragen
             {
-                Console.WriteLine("Falsche Eingabe! Beachte das Beispiel und teile nicht durch 0!");
-                Console.WriteLine("Weiter mit beliebiger Taste");
-                Console.ReadKey();
+                
             }
+
+            return matches;
         }
 
         public Paketstation StationEntfernen()
@@ -358,6 +377,11 @@ namespace Packstation_Kroll
         {
             Kunde retVal = new Kunde();
             return retVal;
+        }
+
+        public void StationErweitern()
+        {
+            //Erweitern
         }
         #endregion
 

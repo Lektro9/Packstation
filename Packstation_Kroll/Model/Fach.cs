@@ -64,6 +64,15 @@ namespace Packstation_Kroll
             this.Belegt = Belegt;
             this.Groesse = groesse;
         }
+
+        public Fach(Fach f)
+        {
+            this.Nummer = f.Nummer;
+            this.Status = true;
+            this.Packet = null;
+            this.Belegt = f.Belegt;
+            this.Groesse = f.Groesse;
+        }
         #endregion
 
         #region Worker

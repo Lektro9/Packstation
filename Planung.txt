@@ -79,7 +79,8 @@ x  - Geschäftsführermenü
 - Unittests anpassen
 
 
-
+Wenn Zeit dann:
+- zeige wieviele Pakete für Kunde in Station
 
 
 
