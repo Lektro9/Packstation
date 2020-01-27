@@ -73,6 +73,9 @@ x      - SplashinfoAnzeigen() -> in den Metacontroller
       - StationEntfernen() -> in die Klasse Geschäftsführer
       - MitarbeiterWechseltFach() -> in die Klasse Geschäftsführer (als "StationErweitern()")
 x      - PruefeAnzahlPaketstationen() -> in den Metacontroller
+- Userinterface anpassen
+x  - Geschäftsführermenü
+   - Menüs fürs Verwalten der Nutzer/Mitarbeiter
 - Unittests anpassen
 
 
