@@ -153,7 +153,7 @@ namespace UnitTestPackstation
         [ExpectedException(typeof(ArgumentException), "Anzahl Stationen stimmt nicht")]
         public void Erweiterungsaufgabe5_PruefeAnzahlStationen()
         {
-            Controller Verwalter = new Controller(0);
+            Stationscontroller Verwalter = new Stationscontroller(0);
         }
 
     }
@@ -187,8 +187,10 @@ namespace UnitTestPackstation
         List<Mitarbeiter> ml1;
         List<Paket> MitarbeiterLieferPakete;
         List<Paket> MitarbeiterAbgeholtePakete;
+        Geschaeftsfuehrer gf1;
+        List<Geschaeftsfuehrer> geschFuehrList;
         TestUI ui1;
-        Controller Verwalter;
+        Metacontroller Verwalter;
 
         [TestInitialize]
         public void TestInit()
@@ -235,6 +237,10 @@ namespace UnitTestPackstation
             ml1 = new List<Mitarbeiter>();
             ml1.Add(m1);
 
+            //Geschäftsführer initialisieren
+            gf1 = new Geschaeftsfuehrer(1, "Bernd", "BossBernd", "stark");
+            geschFuehrList = new List<Geschaeftsfuehrer>() { gf1 };
+
             //Paketstation, UI und Controller initialisieren
             ui1 = new TestUI();
             FaecherListe = new List<Fach>()
@@ -246,7 +252,8 @@ namespace UnitTestPackstation
             {
                 new Paketstation(1, FaecherListe, ui1),
             };
-            Verwalter = new Controller(kl1, ml1, ui1, null, false, StationenListe);
+            Verwalter = new Metacontroller(kl1, ml1, geschFuehrList, StationenListe, ui1);
+            
         }
 
         [TestCleanup]
@@ -254,6 +261,56 @@ namespace UnitTestPackstation
         {
             //nicht nötig, da alle Variablen neu instanziiert werden
         }
+
+        [TestMethod]
+        public void MenueTest()
+        {
+            //User simulieren
+            ui1.LinesToRead.Add("1");
+            ui1.LinesToRead.Add("1");
+            ui1.LinesToRead.Add("Klausi");
+            ui1.LinesToRead.Add("1234");
+            ui1.LinesToRead.Add("2");
+            ui1.LinesToRead.Add("0");
+
+            ui1.LinesToRead.Add("admin");
+            ui1.LinesToRead.Add("admin");
+            ui1.LinesToRead.Add("abschalten");
+            ui1.LinesToRead.Add("abschalten");
+
+            Verwalter.run();
+
+            Assert.AreEqual(typeof(Mitarbeiter), Verwalter.Stationen[0].AktiverUser.GetType());
+        }
+
+        [TestMethod]
+        public void UnterschiedlicheStationenBesuchen()
+        {
+            //User simulieren
+            ui1.LinesToRead.Add("1");
+            ui1.LinesToRead.Add("1");
+            ui1.LinesToRead.Add("Klausi");
+            ui1.LinesToRead.Add("1234");
+            ui1.LinesToRead.Add("2");
+            ui1.LinesToRead.Add("0");
+
+            ui1.LinesToRead.Add("admin");
+            ui1.LinesToRead.Add("admin");
+            ui1.LinesToRead.Add("abschalten");
+
+            ui1.LinesToRead.Add("1");
+            ui1.LinesToRead.Add("1");
+
+            ui1.LinesToRead.Add("admin");
+            ui1.LinesToRead.Add("admin");
+            ui1.LinesToRead.Add("abschalten");
+
+
+            Verwalter.run();
+
+            Assert.AreEqual(typeof(Mitarbeiter), Verwalter.Stationen[0].AktiverUser.GetType());
+        }
+
         [TestMethod]
         public void AuthentifizierungsTest()
         {
@@ -261,17 +318,17 @@ namespace UnitTestPackstation
             ui1.LinesToRead.Add("Klausi");
             ui1.LinesToRead.Add("1234");
 
-            Verwalter.Authentifizieren();
+            Verwalter.Stationen[0].Authentifizieren();
 
-            Assert.AreEqual(typeof(Kunde), Verwalter.AktiverUser.GetType());
+            Assert.AreEqual(typeof(Kunde), Verwalter.Stationen[0].AktiverUser.GetType());
 
             //Admin simulieren
             ui1.LinesToRead.Add("admin");
             ui1.LinesToRead.Add("admin");
 
-            Verwalter.Authentifizieren();
+            Verwalter.Stationen[0].Authentifizieren();
 
-            Assert.AreEqual(typeof(Mitarbeiter), Verwalter.AktiverUser.GetType());
+            Assert.AreEqual(typeof(Mitarbeiter), Verwalter.Stationen[0].AktiverUser.GetType());
         }
 
         [TestMethod]
@@ -290,7 +347,7 @@ namespace UnitTestPackstation
             Verwalter.run();
 
             //prüft ob es ein Paket zum Abholen in der Station gibt
-            Assert.AreEqual(1, Verwalter.AktuelleStation.MitarbeiterListeAbzuholenderPakete().Count);
+            Assert.AreEqual(1, Verwalter.Stationen[0].AktuelleStation.MitarbeiterListeAbzuholenderPakete().Count);
             //prüft ob Kunde noch Paket besitzt
             Assert.AreEqual(0, k1.Pakete.Count);
         }
@@ -298,7 +355,7 @@ namespace UnitTestPackstation
         public void KundeHoltPaketAb()
         {
             //Paket in Paketstation hinzufügen welches abgeholt werden soll
-            Verwalter.Stationen[0].Paketfach[2].PaketAnnehmen(p2); //der ersten Station ein Paket in das 3. Fach legen
+            Verwalter.Stationen[0].AktuelleStation.Paketfach[2].PaketAnnehmen(p2); //der ersten Station ein Paket in das 3. Fach legen
 
             ui1.LinesToRead.Add("1");
             ui1.LinesToRead.Add("Klausi");
@@ -318,8 +375,8 @@ namespace UnitTestPackstation
         [TestMethod]
         public void MitarbeiterHoltPaketeAb()
         {
-            Verwalter.Stationen[0].Paketfach[2].PaketAnnehmen(p4);
-            Verwalter.Stationen[0].Paketfach[3].PaketAnnehmen(p5);
+            Verwalter.Stationen[0].AktuelleStation.Paketfach[2].PaketAnnehmen(p4);
+            Verwalter.Stationen[0].AktuelleStation.Paketfach[3].PaketAnnehmen(p5);
 
             ui1.LinesToRead.Add("1");
             ui1.LinesToRead.Add("admin");
@@ -386,7 +443,7 @@ namespace UnitTestPackstation
             Verwalter.run();
 
             //prüft ob es ein Paket zum Abholen in der Station gibt
-            Assert.AreEqual(1, Verwalter.AktuelleStation.MitarbeiterListeAbzuholenderPakete().Count);
+            Assert.AreEqual(1, Verwalter.Stationen[0].AktuelleStation.MitarbeiterListeAbzuholenderPakete().Count);
             //prüft ob Kunde noch Paket besitzt
             Assert.AreEqual(0, k1.Pakete.Count);
         }
@@ -446,11 +503,11 @@ namespace UnitTestPackstation
 
             //prüft ob Kunde noch Pakete besitzt
             Assert.AreEqual(0, k1.Pakete.Count);
-            Assert.AreEqual(Groesse.XS, Verwalter.Stationen[0].Paketfach[3].Packet.Groesse);
-            Assert.AreEqual(Groesse.M, Verwalter.Stationen[0].Paketfach[3].Groesse);
+            Assert.AreEqual(Groesse.XS, Verwalter.Stationen[0].AktuelleStation.Paketfach[3].Packet.Groesse);
+            Assert.AreEqual(Groesse.M, Verwalter.Stationen[0].AktuelleStation.Paketfach[3].Groesse);
 
             //prüft ob es ein Paket mit Status "abzuholen" in der Station liegen (Achtung: Diese werden hier auch entfernt)
-            Assert.AreEqual(4, Verwalter.AktuelleStation.MitarbeiterListeAbzuholenderPakete().Count);
+            Assert.AreEqual(4, Verwalter.Stationen[0].AktuelleStation.MitarbeiterListeAbzuholenderPakete().Count);
         }
 
         [TestMethod]
@@ -477,7 +534,7 @@ namespace UnitTestPackstation
             //Mitarbeiter sollte noch 1 Paket besitzen mit dem Status "Transport"
             Assert.AreEqual(1, m1.LieferPakete.Count);
             //Kontrolle ob die 3 XXL Pakete tatsächlich in der Station angekommen sind (anhand der Größe)
-            List<Paket> KontrollListe = new List<Paket>(Verwalter.AktuelleStation.MitarbeiterListeAbzuholenderPakete());
+            List<Paket> KontrollListe = new List<Paket>(Verwalter.Stationen[0].AktuelleStation.MitarbeiterListeAbzuholenderPakete());
             for (int i = 0; i < KontrollListe.Count; i++)
             {
                 Assert.AreEqual(Groesse.XXL, KontrollListe[i].Groesse);
@@ -505,7 +562,7 @@ namespace UnitTestPackstation
             Verwalter.run();
 
             //Schauen ob Größe des neuen Faches übereinstimmt
-            Assert.AreEqual(Groesse.S, Verwalter.AktuelleStation.Paketfach[9].Groesse);
+            Assert.AreEqual(Groesse.S, Verwalter.Stationen[0].AktuelleStation.Paketfach[9].Groesse);
         }
 
         [TestMethod]
@@ -513,7 +570,7 @@ namespace UnitTestPackstation
         public void Erweiterungsaufgabe3_PruefeAnzahlStationen()
         {
             //Ein Fach entfernen und prüfen ob Exception entsteht
-            Verwalter.Stationen[0].EntferneFach(f1);
+            Verwalter.Stationen[0].AktuelleStation.EntferneFach(f1);
         }
     }
 }

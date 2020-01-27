@@ -50,8 +50,10 @@ namespace Packstation_Kroll
             List<Mitarbeiter> ml1;
             List<Paket> MitarbeiterLieferPakete;
             List<Paket> MitarbeiterAbgeholtePakete;
+            Geschaeftsfuehrer gf1;
+            List<Geschaeftsfuehrer> geschFuehrList;
             Userinterface ui1;
-            Controller Verwalter;
+            Metacontroller Verwalter;
 
             //Pakete initialisieren
             p1 = new Paket(1L, "Klaus", "Beispielstraße 22", "Bernd", "EmpfaengerStr. 22", "Verschicken", 1, 1, Groesse.XS);
@@ -112,11 +114,17 @@ namespace Packstation_Kroll
             ml1 = new List<Mitarbeiter>();
             ml1.Add(m1);
 
+            //Geschäftsführer initialisieren
+            gf1 = new Geschaeftsfuehrer(1, "Bernd", "BossBernd", "stark");
+            geschFuehrList = new List<Geschaeftsfuehrer>() { gf1 };
+
+
             //Paketstation, UI und Controller initialisieren
             ui1 = new Userinterface();
             FaecherListe = new List<Fach>(){
                 f1, f2, f3, f4, f5, f6, f7, f8, f9
             };
+            //TODO Achtung Fächerliste muss kopiert werden und nich referenziert
             StationenListe = new List<Paketstation>()
             {
                 new Paketstation(1, FaecherListe, ui1),
@@ -124,7 +132,7 @@ namespace Packstation_Kroll
             };
 
             //Controller
-            Verwalter = new Controller(kl1, ml1, ui1, null, false, StationenListe);
+            Verwalter = new Metacontroller(kl1, ml1, geschFuehrList, StationenListe, ui1);
             Verwalter.run();
         }
     }

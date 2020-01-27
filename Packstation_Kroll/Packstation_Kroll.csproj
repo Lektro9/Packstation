@@ -44,9 +44,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controller\Controller.cs" />
+    <Compile Include="Controller\Metacontroller.cs" />
+    <Compile Include="Controller\Stationscontroller.cs" />
     <Compile Include="Controller\main.cs" />
     <Compile Include="Enums.cs" />
+    <Compile Include="Model\Geschaeftsfuehrer.cs" />
     <Compile Include="Model\Paket.cs" />
     <Compile Include="Model\Mitarbeiter.cs" />
     <Compile Include="Model\Kunde.cs" />

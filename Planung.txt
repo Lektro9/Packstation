@@ -44,3 +44,60 @@ zu 5.
 
 
 
+Planung nach Bewertungsmatrix (24.1.2020):
+- Klasse Geschäftsführer erstellen
+  - Eigenschaften/Fähigkeiten:
+x    - ID
+x    - Login Daten
+    - kann Fächer wechseln
+    - kann Stationen hinzufügen/entfernen
+    - kann Station erweitern
+    - kann Mitarbeiter/Kunden verwalten (hinzufügen/entfernen)
+- Klasse Metacontroller erstellen
+  - Eigenschaften für Metacontroller
+x    - Liste Mitarbeiter
+x    - Liste Kunden
+x    - Liste Geschäftsführer
+x    - Liste Controller (pro Station ein Controller)
+x    - Authentifiziert (für Geschäftsführer)
+x    - Terminal 
+- jetzige Controller Klasse umbenennen ("Stationscontroller")
+  - Stationscontroller anpassen
+    - Eigenschaften/Fähigketein zu entfernen/modifizieren
+x      - Liste Stationen
+x      - Anzahl Stationen
+      - run() -> Station aussuchen wird im Metacontroller gemacht
+x      - SplashinfoAnzeigen() -> in den Metacontroller
+      - StationHinzufuegen() -> in die Klasse Geschäftsführer
+        - Eigenschaften neuer Station mit Regex erstellen
+      - StationEntfernen() -> in die Klasse Geschäftsführer
+      - MitarbeiterWechseltFach() -> in die Klasse Geschäftsführer (als "StationErweitern()")
+x      - PruefeAnzahlPaketstationen() -> in den Metacontroller
+- Unittests anpassen
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

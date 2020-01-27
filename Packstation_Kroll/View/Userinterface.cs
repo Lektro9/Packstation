@@ -127,10 +127,45 @@ namespace Packstation_Kroll
             return Mitarbeitermenue;
         }
 
-        public void StationsMenueAnzeigen(int MaxAnzahl)
+        public void MetaMenueAnzeigen(int MaxAnzahl)
         {
             Console.Clear();
-            Console.WriteLine("Wählen Sie eine Paketstation aus (zwischen 1 und " + MaxAnzahl + ").");
+            string MetaMenue = "\n 1. Eine Station auswählen" +
+                "\n 2. Als Geschäftsführer einloggen";
+            Console.WriteLine(MetaMenue);
+            Console.WriteLine();
+        }
+
+        public void MitarbeiterVerwaltenMenueAnzeigen()
+        {
+            Console.Clear();
+            string MVMenue = "\n 1. Mitarbeiter hinzufügen" +
+                "\n 2. Mitarbeiter entfernen" +
+                "\n 0. Abbrechen";
+            Console.WriteLine(MVMenue);
+            Console.WriteLine();
+        }
+
+        public void KundenVerwaltenMenueAnzeigen()
+        {
+            Console.Clear();
+            string KVMenue = "\n 1. Mitarbeiter hinzufügen" +
+                "\n 2. Mitarbeiter entfernen" +
+                "\n 0. Abbrechen";
+            Console.WriteLine(KVMenue);
+            Console.WriteLine();
+        }
+
+        public void GeschaeftsfuehrerMenueAnzeigen()
+        {
+            Console.Clear();
+            string GeschMenue = "\n 1. Station hinzufügen" +
+                "\n 2. Station entfernen" +
+                "\n 3. Station um Faecher erweitern" +
+                "\n 4. Mitarbeiter verwalten" +
+                "\n 5. Kunden verwalten" +
+                "\n 0. Abbrechen";
+            Console.WriteLine(GeschMenue);
             Console.WriteLine();
         }
 

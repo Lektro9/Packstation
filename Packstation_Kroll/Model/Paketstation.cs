@@ -59,11 +59,7 @@ namespace Packstation_Kroll
 
         public Paketstation(int ID, List<Fach> Faecher)
         {
-            this.Paketfach = new List<Fach>();
-            for (int i = 0; i < Faecher.Count; i++)
-            {
-                this.Paketfach.Add(new Fach(i));
-            }
+            this.Paketfach = Faecher;
             this.Terminal = null;
             this.AnzahlFaecher = Faecher.Count;
             pruefeAnzahlFaecher();
