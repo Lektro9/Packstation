@@ -144,7 +144,8 @@ namespace Packstation_Kroll
         public void StationHinzufuegenMenueAnzeigen()
         {
             Console.Clear();
-            Console.WriteLine("Geben Sie eine ID und eine Fachanzahl an (darf nicht unter 9 sein!) ");
+            Console.WriteLine("Geben Sie eine ID und eine Fachanzahl an (Fachanzahl darf nicht unter 9 und nicht über 100 sein)");
+            Console.WriteLine("Beispielformat: '3 10'");
             Console.WriteLine();
         }
 
