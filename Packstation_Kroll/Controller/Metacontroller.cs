@@ -4,6 +4,7 @@
 //Beschreibung: ein zentraler Controller
 //Änderungen:
 //27.01.2020:   Entwicklungsbeginn
+//28.01.2020:   Entwicklung 2.0 abgeschlossen
 
 using System;
 using System.Collections.Generic;

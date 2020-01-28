@@ -1,9 +1,10 @@
 ﻿//Autor:        Kroll
 //Datum:        25.09.2019
 //Dateiname:    Enums.cs
-//Beschreibung: Speichert alle mögliche Größen ab und weißt ihnen Zahlen zu zum Vergleichen
+//Beschreibung: Speichert alle möglichen Größen ab und weißt ihnen Zahlen zu zum Vergleichen
 //Änderungen:
-//13.01.2020:   Entwicklungsbeginn 
+//13.01.2020:   Entwicklungsbeginn
+//28.01.2020:   Entwicklung 2.0 abgeschlossen
 
 using System;
 using System.Collections.Generic;

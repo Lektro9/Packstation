@@ -7,6 +7,7 @@
 //20.11.2019:   Controller funktioniert zur Zeit nicht richtig, da Modelle überarbeitet wurden
 //29.12.2019:   Businesslogik hinzugefügt und Entwicklung abgeschlossen
 //23.01.2020:   Entwicklung der neuen Features (Pakete mit unterschiedlichen Größen und mehrere Stationen) abgeschlossen
+//28.01.2020:   Entwicklung 2.0 abgeschlossen
 
 using System;
 using System.Collections.Generic;
@@ -384,22 +385,6 @@ namespace Packstation_Kroll
             {
                 throw new ArgumentException("Anzahl der Stationen darf nicht kleiner als 1 und nicht höher als 100 sein.");
             }
-        }
-
-        public void StationHinzufuegen(Paketstation p)
-        {
-            this.Stationen.Add(p);
-            this.AnzahlStationen += 1;
-            PruefeAnzahlPaketstationen();
-        }
-
-        public Paketstation StationEntfernen(Paketstation p)
-        {
-            Paketstation retVal = p;
-            this.Stationen.Remove(p);
-            this.AnzahlStationen -= 1;
-            PruefeAnzahlPaketstationen();
-            return p;
         }
 
         public void MitarbeiterWechseltFach(int Fachnummer)

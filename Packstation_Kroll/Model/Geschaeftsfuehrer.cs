@@ -3,7 +3,7 @@
 //Dateiname:    Geschaeftsfuehrer.cs
 //Beschreibung: Klasse für Geschaeftsfuehrer
 //Änderungen:
-//27.01.2020:   
+//28.01.2020:   Entwicklung 2.0 abgeschlossen   
 
 using System;
 using System.Collections.Generic;

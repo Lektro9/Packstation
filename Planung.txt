@@ -47,32 +47,32 @@ zu 5.
 Planung nach Bewertungsmatrix (24.1.2020):
 - Klasse Geschäftsführer erstellen
   - Eigenschaften/Fähigkeiten:
-x    - ID
-x    - Login Daten
-x    - Authentifizieren()
-x- Klasse Metacontroller erstellen
-x  - Eigenschaften für Metacontroller
-x    - Liste Mitarbeiter
-x    - Liste Kunden
-x    - Liste Geschäftsführer
-x    - Liste Controller (pro Station ein Controller)
-x    - Authentifiziert (für Geschäftsführer)
-x    - Terminal 
+    - ID
+    - Login Daten
+    - Authentifizieren()
+- Klasse Metacontroller erstellen
+  - Eigenschaften für Metacontroller
+    - Liste Mitarbeiter
+    - Liste Kunden
+    - Liste Geschäftsführer
+    - Liste Controller (pro Station ein Controller)
+    - Authentifiziert (für Geschäftsführer)
+    - Terminal 
 - jetzige Controller Klasse umbenennen ("Stationscontroller")
   - Stationscontroller anpassen
     - Eigenschaften/Fähigketein zu entfernen/modifizieren
-x      - Liste Stationen
-x      - Anzahl Stationen
-x      - run() -> Station aussuchen wird im Metacontroller gemacht
-x      - SplashinfoAnzeigen() -> in den Metacontroller
-x      - StationHinzufuegen() -> in die Klasse MetaController
-x        - Eigenschaften neuer Station mit Regex erstellen
-x      - StationEntfernen() -> in die Klasse Metacontroller
-x      - PruefeAnzahlPaketstationen() -> in den Metacontroller
+      - Liste Stationen
+      - Anzahl Stationen
+      - run() -> Station aussuchen wird im Metacontroller gemacht
+      - SplashinfoAnzeigen() -> in den Metacontroller
+      - StationHinzufuegen() -> in die Klasse MetaController
+        - Eigenschaften neuer Station mit Regex erstellen
+      - StationEntfernen() -> in die Klasse Metacontroller
+      - PruefeAnzahlPaketstationen() -> in den Metacontroller
 - Userinterface anpassen
-x  - Geschäftsführermenü
-x   - Menüs fürs Verwalten der Nutzer/Mitarbeiter/Stationen
-x - Unittests anpassen
+  - Geschäftsführermenü
+   - Menüs fürs Verwalten der Nutzer/Mitarbeiter/Stationen
+ - Unittests anpassen
 
 
 Wenn Zeit dann:
