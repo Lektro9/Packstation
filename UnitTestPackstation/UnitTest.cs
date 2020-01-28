@@ -247,10 +247,16 @@ namespace UnitTestPackstation
             {
                 f1, f2, f3, f4, f5, f6, f7, f8, f9
             };
+            List<Fach> FaecherListe2 = new List<Fach>(FaecherListe.Count);
+            FaecherListe.ForEach((item) =>
+            {
+                FaecherListe2.Add(new Fach(item));
+            });
 
             StationenListe = new List<Paketstation>()
             {
                 new Paketstation(1, FaecherListe, ui1),
+                new Paketstation(1, FaecherListe2, ui1),
             };
             Verwalter = new Metacontroller(kl1, ml1, geschFuehrList, StationenListe, ui1);
             
@@ -289,20 +295,25 @@ namespace UnitTestPackstation
             //User simulieren
             ui1.LinesToRead.Add("1");
             ui1.LinesToRead.Add("1");
+            ui1.LinesToRead.Add("1");
             ui1.LinesToRead.Add("Klausi");
             ui1.LinesToRead.Add("1234");
             ui1.LinesToRead.Add("2");
             ui1.LinesToRead.Add("0");
 
-            ui1.LinesToRead.Add("admin");
-            ui1.LinesToRead.Add("admin");
-            ui1.LinesToRead.Add("abschalten");
+            ui1.LinesToRead.Add("2");
 
             ui1.LinesToRead.Add("1");
+            ui1.LinesToRead.Add("2");
             ui1.LinesToRead.Add("1");
+            ui1.LinesToRead.Add("admin");
+            ui1.LinesToRead.Add("admin");
+            ui1.LinesToRead.Add("2");
 
-            ui1.LinesToRead.Add("admin");
-            ui1.LinesToRead.Add("admin");
+            ui1.LinesToRead.Add("0");
+            ui1.LinesToRead.Add("2");
+            ui1.LinesToRead.Add("BossBernd");
+            ui1.LinesToRead.Add("stark");
             ui1.LinesToRead.Add("abschalten");
 
 
@@ -335,13 +346,17 @@ namespace UnitTestPackstation
         public void KundeGibtPaketAb()
         {
             ui1.LinesToRead.Add("1");
+            ui1.LinesToRead.Add("1");
+            ui1.LinesToRead.Add("1");
             ui1.LinesToRead.Add("Klausi");
             ui1.LinesToRead.Add("1234");
             ui1.LinesToRead.Add("2");
             ui1.LinesToRead.Add("0");
 
-            ui1.LinesToRead.Add("admin");
-            ui1.LinesToRead.Add("admin");
+            ui1.LinesToRead.Add("0");
+            ui1.LinesToRead.Add("2");
+            ui1.LinesToRead.Add("BossBernd");
+            ui1.LinesToRead.Add("stark");
             ui1.LinesToRead.Add("abschalten");
 
             Verwalter.run();
@@ -358,13 +373,17 @@ namespace UnitTestPackstation
             Verwalter.Stationen[0].AktuelleStation.Paketfach[2].PaketAnnehmen(p2); //der ersten Station ein Paket in das 3. Fach legen
 
             ui1.LinesToRead.Add("1");
+            ui1.LinesToRead.Add("1");
+            ui1.LinesToRead.Add("1");
             ui1.LinesToRead.Add("Klausi");
             ui1.LinesToRead.Add("1234");
             ui1.LinesToRead.Add("1");
             ui1.LinesToRead.Add("0");
 
-            ui1.LinesToRead.Add("admin");
-            ui1.LinesToRead.Add("admin");
+            ui1.LinesToRead.Add("0");
+            ui1.LinesToRead.Add("2");
+            ui1.LinesToRead.Add("BossBernd");
+            ui1.LinesToRead.Add("stark");
             ui1.LinesToRead.Add("abschalten");
 
             Verwalter.run();
@@ -379,9 +398,16 @@ namespace UnitTestPackstation
             Verwalter.Stationen[0].AktuelleStation.Paketfach[3].PaketAnnehmen(p5);
 
             ui1.LinesToRead.Add("1");
+            ui1.LinesToRead.Add("1");
+            ui1.LinesToRead.Add("1");
             ui1.LinesToRead.Add("admin");
             ui1.LinesToRead.Add("admin");
             ui1.LinesToRead.Add("1");
+            
+            ui1.LinesToRead.Add("0");
+            ui1.LinesToRead.Add("2");
+            ui1.LinesToRead.Add("BossBernd");
+            ui1.LinesToRead.Add("stark");
             ui1.LinesToRead.Add("abschalten");
 
             Verwalter.run();
@@ -404,6 +430,11 @@ namespace UnitTestPackstation
             ui1.LinesToRead.Add("admin");
             ui1.LinesToRead.Add("admin");
             ui1.LinesToRead.Add("2");
+
+            ui1.LinesToRead.Add("0");
+            ui1.LinesToRead.Add("2");
+            ui1.LinesToRead.Add("BossBernd");
+            ui1.LinesToRead.Add("stark");
             ui1.LinesToRead.Add("abschalten");
 
             Verwalter.run();
@@ -431,13 +462,17 @@ namespace UnitTestPackstation
             StationenListe[0].FuegeFachHinzu(fXL);
 
             ui1.LinesToRead.Add("1");
+            ui1.LinesToRead.Add("1");
+            ui1.LinesToRead.Add("1");
             ui1.LinesToRead.Add("Klausi");
             ui1.LinesToRead.Add("1234");
             ui1.LinesToRead.Add("2");
             ui1.LinesToRead.Add("0");
 
-            ui1.LinesToRead.Add("admin");
-            ui1.LinesToRead.Add("admin");
+            ui1.LinesToRead.Add("0");
+            ui1.LinesToRead.Add("2");
+            ui1.LinesToRead.Add("BossBernd");
+            ui1.LinesToRead.Add("stark");
             ui1.LinesToRead.Add("abschalten");
 
             Verwalter.run();
@@ -458,13 +493,17 @@ namespace UnitTestPackstation
             }
 
             ui1.LinesToRead.Add("1");
+            ui1.LinesToRead.Add("1");
+            ui1.LinesToRead.Add("1");
             ui1.LinesToRead.Add("Klausi");
             ui1.LinesToRead.Add("1234");
             ui1.LinesToRead.Add("2");
             ui1.LinesToRead.Add("0");
 
-            ui1.LinesToRead.Add("admin");
-            ui1.LinesToRead.Add("admin");
+            ui1.LinesToRead.Add("0");
+            ui1.LinesToRead.Add("2");
+            ui1.LinesToRead.Add("BossBernd");
+            ui1.LinesToRead.Add("stark");
             ui1.LinesToRead.Add("abschalten");
 
             Verwalter.run();
@@ -487,6 +526,8 @@ namespace UnitTestPackstation
             k1.Pakete.Add(p11);
 
             ui1.LinesToRead.Add("1");
+            ui1.LinesToRead.Add("1");
+            ui1.LinesToRead.Add("1");
             ui1.LinesToRead.Add("Klausi");
             ui1.LinesToRead.Add("1234");
             ui1.LinesToRead.Add("2");
@@ -495,8 +536,10 @@ namespace UnitTestPackstation
             ui1.LinesToRead.Add("2");
             ui1.LinesToRead.Add("0");
 
-            ui1.LinesToRead.Add("admin");
-            ui1.LinesToRead.Add("admin");
+            ui1.LinesToRead.Add("0");
+            ui1.LinesToRead.Add("2");
+            ui1.LinesToRead.Add("BossBernd");
+            ui1.LinesToRead.Add("stark");
             ui1.LinesToRead.Add("abschalten");
 
             Verwalter.run();
@@ -524,9 +567,17 @@ namespace UnitTestPackstation
             m1.LieferPakete.Add(p11);
 
             ui1.LinesToRead.Add("1");
+            ui1.LinesToRead.Add("1");
+            ui1.LinesToRead.Add("1");
             ui1.LinesToRead.Add("admin");
             ui1.LinesToRead.Add("admin");
             ui1.LinesToRead.Add("2");
+            ui1.LinesToRead.Add("0");
+            
+            ui1.LinesToRead.Add("2");
+            ui1.LinesToRead.Add("BossBernd");
+            ui1.LinesToRead.Add("stark");
+            ui1.LinesToRead.Add("abschalten");
             ui1.LinesToRead.Add("abschalten");
 
             Verwalter.run();
@@ -553,10 +604,19 @@ namespace UnitTestPackstation
             m1.ErsatzFaecher.Add(new Fach(10, true, null, false, Groesse.S));
 
             ui1.LinesToRead.Add("1");
+            ui1.LinesToRead.Add("1");
+            ui1.LinesToRead.Add("1");
             ui1.LinesToRead.Add("admin");
             ui1.LinesToRead.Add("admin");
             ui1.LinesToRead.Add("3");
             ui1.LinesToRead.Add("9");
+            ui1.LinesToRead.Add("0");
+
+
+            ui1.LinesToRead.Add("2");
+            ui1.LinesToRead.Add("BossBernd");
+            ui1.LinesToRead.Add("stark");
+            ui1.LinesToRead.Add("abschalten");
             ui1.LinesToRead.Add("abschalten");
 
             Verwalter.run();

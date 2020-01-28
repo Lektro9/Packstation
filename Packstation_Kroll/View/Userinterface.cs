@@ -134,8 +134,7 @@ namespace Packstation_Kroll
             string Mitarbeitermenue = "\n 1. Alle Pakete abholen" +
                 "\n 2. Alle Pakete einlegen" +
                 "\n 3. Defektes Fach auswechseln" +
-                "\n 0. Abbrechen" +
-                "\n\noder 'abschalten' eingeben, um die Station auszuschalten.";
+                "\n 0. Abbrechen";
             Console.WriteLine(Mitarbeitermenue);
 
             return Mitarbeitermenue;
@@ -189,13 +188,33 @@ namespace Packstation_Kroll
         {
             Console.Clear();
             Console.WriteLine();
+            Console.WriteLine("Bitte beachten Sie dass die Anzahl der Fächer nicht unter 9 und über 100 sein darf.");
             Console.WriteLine("Die Station " + scNummer + " wurde ausgewählt.");
+            Console.WriteLine();
             for (int i = 0; i < sc.AktuelleStation.Paketfach.Count; i++)
             {
                 Console.WriteLine(i+1 +". Fach hat die Größe " + sc.AktuelleStation.Paketfach[i].Groesse + " und hat den Status " + sc.AktuelleStation.Paketfach[i].Status + ".");
             }
             Console.WriteLine("Welches Fach möchten Sie entfernen?");
             Console.WriteLine("Beispielforamt: '1'");
+            Console.WriteLine();
+        }
+
+        public void StationFachHinzufuegenMenueAnzeigen(int scNummer, Stationscontroller sc)
+        {
+            Console.Clear();
+            Console.WriteLine();
+            Console.WriteLine("Bitte beachten Sie dass die Anzahl der Fächer nicht über 100 sein darf.");
+            Console.WriteLine("Die Station " + scNummer + " wurde ausgewählt.");
+            Console.WriteLine();
+            for (int i = 0; i < sc.AktuelleStation.Paketfach.Count; i++)
+            {
+                Console.WriteLine(i + 1 + ". Fach hat die Größe " + sc.AktuelleStation.Paketfach[i].Groesse + " und hat den Status " + sc.AktuelleStation.Paketfach[i].Status + ".");
+            }
+            Console.WriteLine("Was für ein Fach möchten Sie hinzufügen?");
+            Console.WriteLine();
+            Console.WriteLine("Mögliche Größen: XS, S, M, L, XL, XXL");
+            Console.WriteLine("Beispielforamt: 'XS'");
             Console.WriteLine();
         }
 
@@ -221,8 +240,8 @@ namespace Packstation_Kroll
         public void KundenVerwaltenMenueAnzeigen()
         {
             Console.Clear();
-            string KVMenue = "\n 1. Mitarbeiter hinzufügen" +
-                "\n 2. Mitarbeiter entfernen" +
+            string KVMenue = "\n 1. Kunde hinzufügen" +
+                "\n 2. Kunde entfernen" +
                 "\n 0. Abbrechen";
             Console.WriteLine(KVMenue);
             Console.WriteLine();
@@ -231,6 +250,8 @@ namespace Packstation_Kroll
         public void GeschaeftsfuehrerMenueAnzeigen()
         {
             Console.Clear();
+            Console.WriteLine("Geschäftsführermenü: ");
+            Console.WriteLine();
             string GeschMenue = "\n 1. Station hinzufügen" +
                 "\n 2. Station entfernen" +
                 "\n 3. Station um Fächer erweitern" +
@@ -238,6 +259,60 @@ namespace Packstation_Kroll
                 "\n 5. Kunden verwalten" +
                 "\n 0. Abbrechen";
             Console.WriteLine(GeschMenue);
+            Console.WriteLine();
+        }
+
+        public void MitarbeiterHinzufuegenMenueAnzeigen()
+        {
+            Console.Clear();
+            Console.WriteLine("Mitarbeiter hinzufügen: ");
+            Console.WriteLine();
+            Console.WriteLine("Bitte geben Sie die Daten eines neuen Mitarbeiter ein.");
+            Console.WriteLine("Format: 'Name Login Passwort'");
+            Console.WriteLine("Beispiel: 'John John445 meinPasswort1993'");
+            Console.WriteLine();
+        }
+
+        public void KundeHinzufuegenMenueAnzeigen()
+        {
+            Console.Clear();
+            Console.WriteLine("Kunde hinzufügen: ");
+            Console.WriteLine();
+            Console.WriteLine("Bitte geben Sie die Daten eines neuen Kunden ein.");
+            Console.WriteLine("Format: 'Name Login Passwort'");
+            Console.WriteLine("Beispiel: 'John John445 meinPasswort1993'");
+            Console.WriteLine();
+        }
+
+        public void MitarbeiterEntfernenMenueAnzeigen(List<Mitarbeiter> MListe)
+        {
+            Console.Clear();
+            Console.WriteLine("Mitarbeiter entfernen: ");
+            Console.WriteLine();
+            Console.WriteLine("Bitte geben Sie die Nummer des Mitarbeiters ein, welcher entfernt werden soll.");
+
+            for (int i = 0; i < MListe.Count; i++)
+            {
+                Console.WriteLine(i + 1 + ". Mitarbeiter '" + MListe[i].Name + "' mit dem Login: '" + MListe[i].Benutzername + "'.");
+            }
+
+            Console.WriteLine("Beispiel: '2'");
+            Console.WriteLine();
+        }
+
+        public void KundeEntfernenMenueAnzeigen(List<Kunde> KListe)
+        {
+            Console.Clear();
+            Console.WriteLine("Kunde entfernen: ");
+            Console.WriteLine();
+            Console.WriteLine("Bitte geben Sie die Nummer des Kunden ein, welcher entfernt werden soll.");
+
+            for (int i = 0; i < KListe.Count; i++)
+            {
+                Console.WriteLine(i + 1 + ". Mitarbeiter '" + KListe[i].Name + "' mit dem Login: '" + KListe[i].Benutzername + "' mit der Adresse: '" + KListe[i].Adresse + "'.");
+            }
+
+            Console.WriteLine("Beispiel: '2'");
             Console.WriteLine();
         }
 

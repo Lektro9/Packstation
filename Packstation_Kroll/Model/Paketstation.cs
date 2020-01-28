@@ -178,6 +178,7 @@ namespace Packstation_Kroll
 
         public void pruefeAnzahlFaecher()
         {
+            this.AnzahlFaecher = Paketfach.Count;
             if (this.AnzahlFaecher < 9 || this.AnzahlFaecher > 100)
             {
                 throw new ArgumentException("Anzahl der Faecher darf nicht kleiner als 9 und nicht höher als 100 sein.");

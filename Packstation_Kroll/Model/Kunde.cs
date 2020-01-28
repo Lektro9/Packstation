@@ -53,6 +53,16 @@ namespace Packstation_Kroll
             this.Pakete = Pakete;
         }
 
+        public Kunde(long Kundenummer, string Name, string Benutzername, string Passwort, List<Paket> Pakete)
+        {
+            this.Kundenummer = Kundenummer;
+            this.Name = Name;
+            this.Adresse = "";
+            this.Benutzername = Benutzername;
+            this.Passwort = Passwort;
+            this.Pakete = Pakete;
+        }
+
         #endregion
 
         #region Worker

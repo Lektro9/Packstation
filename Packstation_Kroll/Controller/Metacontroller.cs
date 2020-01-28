@@ -146,8 +146,15 @@ namespace Packstation_Kroll
                                 Eingabe = Terminal.TextEinlesen();
                                 if (Eingabe == "1")
                                 {
-                                    Terminal.StationFachEntfernenMenueAnzeigen(scNummer, Stationen[scNummer]);
+                                    Terminal.StationFachEntfernenMenueAnzeigen(scNummer, Stationen[scNummer-1]);
                                     Eingabe = Terminal.TextEinlesen();
+                                    FachEntfernen(Eingabe, Stationen[scNummer - 1]);
+                                }
+                                else if (Eingabe == "2")
+                                {
+                                    Terminal.StationFachHinzufuegenMenueAnzeigen(scNummer, Stationen[scNummer - 1]);
+                                    Eingabe = Terminal.TextEinlesen();
+                                    FachHinzufuegen(Eingabe, Stationen[scNummer - 1]);
                                 }
                             }
                         }
@@ -162,13 +169,15 @@ namespace Packstation_Kroll
 
                                 if (Eingabe == "1")
                                 {
-                                    MitarbeiterHinzufuegen();
-                                    MitarbeiterMenuRunning = false;
+                                    Terminal.MitarbeiterHinzufuegenMenueAnzeigen();
+                                    Eingabe = Terminal.TextEinlesen();
+                                    MitarbeiterHinzufuegen(Eingabe);
                                 }
                                 else if (Eingabe == "2")
                                 {
-                                    MitarbeiterEntfernen();
-                                    MitarbeiterMenuRunning = false;
+                                    Terminal.MitarbeiterEntfernenMenueAnzeigen(this.Mitarbeiter);
+                                    Eingabe = Terminal.TextEinlesen();
+                                    MitarbeiterEntfernen(Eingabe);
                                 }
                                 else if (Eingabe == "0")
                                 {
@@ -192,13 +201,15 @@ namespace Packstation_Kroll
 
                                 if (Eingabe == "1")
                                 {
-                                    KundeHinzufuegen();
-                                    KundenMenuRunning = false;
+                                    Terminal.KundeHinzufuegenMenueAnzeigen();
+                                    Eingabe = Terminal.TextEinlesen();
+                                    KundeHinzufuegen(Eingabe);
                                 }
                                 else if (Eingabe == "2")
                                 {
-                                    KundeEntfernen();
-                                    KundenMenuRunning = false;
+                                    Terminal.KundeEntfernenMenueAnzeigen(this.Kunden);
+                                    Eingabe = Terminal.TextEinlesen();
+                                    KundeEntfernen(Eingabe);
                                 }
                                 else if (Eingabe == "0")
                                 {
@@ -336,75 +347,83 @@ namespace Packstation_Kroll
             }
         }
 
-        public void MitarbeiterHinzufuegen()
+        public void MitarbeiterHinzufuegen(string Eingabe)
         {
-            string Eingabe = Terminal.TextEinlesen();
+            Regex regEx = new Regex(@"^(\w+)\s(\w+)\s(\w+)$");
+            List<string> matches = MatchRegexRules(Eingabe, regEx);
 
-            Regex regEx = new Regex(@"^(\d+)\s(\d+)$");
-            Match match = regEx.Match(Eingabe);
-            GroupCollection data = match.Groups;
-            List<string> matches = new List<string>();
-
-            if (match.Success)
+            if (matches.Count == 4)
             {
-                foreach (string groupName in regEx.GetGroupNames())
-                {
-                    matches.Add(match.Groups[groupName].Value);
-                }
-                Paketstation p = new Paketstation(Int32.Parse(matches[1]), Int32.Parse(matches[2]), this.Terminal);
-                //TODO: Controller richtig initialisieren
-                Stationscontroller sc = new Stationscontroller();
-                this.Stationen.Add(sc);
-                this.AnzahlStationen += 1;
-                PruefeAnzahlPaketstationen();
+                Mitarbeiter m = new Mitarbeiter(this.Mitarbeiter.Count + 1, matches[1], matches[2], matches[3], new List <Paket>(), new List<Paket>());
+                this.Mitarbeiter.Add(m);
+                Terminal.TextAusgeben("Mitarbeiter wurde hinzugefügt.");
+                Terminal.WeiterMitTaste();
             }
-            else // Bei falscher Eingabe noch einmal eine Eingabe erfragen
+            else
             {
-                Console.WriteLine("Falsche Eingabe! Beachte das Beispiel und teile nicht durch 0!");
-                Console.WriteLine("Weiter mit beliebiger Taste");
-                Console.ReadKey();
+                Terminal.TextAusgeben("Format nicht richtig beachtet, bitte noch einmal versuchen.");
+                Terminal.WeiterMitTaste();
             }
         }
 
-        public Mitarbeiter MitarbeiterEntfernen()
+        public Mitarbeiter MitarbeiterEntfernen(string Eingabe)
         {
-            Mitarbeiter retVal = new Mitarbeiter();
+            Regex regEx = new Regex(@"^(\d+)$");
+            List<string> matches = MatchRegexRules(Eingabe, regEx);
+            Mitarbeiter retVal = null;
+
+            if (matches.Count == 2 && Int32.Parse(matches[0]) > 0 && Int32.Parse(matches[0]) <= this.Mitarbeiter.Count)
+            {
+                retVal = this.Mitarbeiter[Int32.Parse(matches[0]) - 1];
+                this.Mitarbeiter.Remove(this.Mitarbeiter[Int32.Parse(matches[0]) - 1]);
+                Terminal.TextAusgeben("Mitarbeiter wurde erfolgreich entfernt.");
+                Terminal.WeiterMitTaste();
+            }
+            else
+            {
+                Terminal.TextAusgeben("Mitarbeiter konnte nicht gefunden werden. Halten Sie sich bitte an die Liste.");
+                Terminal.WeiterMitTaste();
+            }
             return retVal;
         }
 
-        public void KundeHinzufuegen()
+        public void KundeHinzufuegen(string Eingabe)
         {
-            string Eingabe = Terminal.TextEinlesen();
+            Regex regEx = new Regex(@"^(\w+)\s(\w+)\s(\w+)$");
+            List<string> matches = MatchRegexRules(Eingabe, regEx);
 
-            Regex regEx = new Regex(@"^(\d+)\s(\d+)$");
-            Match match = regEx.Match(Eingabe);
-            GroupCollection data = match.Groups;
-            List<string> matches = new List<string>();
-
-            if (match.Success)
+            if (matches.Count == 4)
             {
-                foreach (string groupName in regEx.GetGroupNames())
-                {
-                    matches.Add(match.Groups[groupName].Value);
-                }
-                Paketstation p = new Paketstation(Int32.Parse(matches[1]), Int32.Parse(matches[2]), this.Terminal);
-                //TODO: Controller richtig initialisieren
-                Stationscontroller sc = new Stationscontroller();
-                this.Stationen.Add(sc);
-                this.AnzahlStationen += 1;
-                PruefeAnzahlPaketstationen();
+                Kunde k = new Kunde(this.Kunden.Count + 1, matches[1], matches[2], matches[3], new List<Paket>());
+                this.Kunden.Add(k);
+                Terminal.TextAusgeben("Kunde wurde hinzugefügt.");
+                Terminal.WeiterMitTaste();
             }
-            else // Bei falscher Eingabe noch einmal eine Eingabe erfragen
+            else
             {
-                Console.WriteLine("Falsche Eingabe! Beachten Sie das Beispiel und teile nicht durch 0!");
-                Console.WriteLine("Weiter mit beliebiger Taste");
-                Console.ReadKey();
+                Terminal.TextAusgeben("Format nicht richtig beachtet, bitte noch einmal versuchen.");
+                Terminal.WeiterMitTaste();
             }
         }
 
-        public Kunde KundeEntfernen()
+        public Kunde KundeEntfernen(string Eingabe)
         {
-            Kunde retVal = new Kunde();
+            Regex regEx = new Regex(@"^(\d+)$");
+            List<string> matches = MatchRegexRules(Eingabe, regEx);
+            Kunde retVal = null;
+
+            if (matches.Count == 2 && Int32.Parse(matches[0]) > 0 && Int32.Parse(matches[0]) <= this.Kunden.Count)
+            {
+                retVal = this.Kunden[Int32.Parse(matches[0]) - 1];
+                this.Kunden.Remove(this.Kunden[Int32.Parse(matches[0]) - 1]);
+                Terminal.TextAusgeben("Kunde wurde erfolgreich entfernt.");
+                Terminal.WeiterMitTaste();
+            }
+            else
+            {
+                Terminal.TextAusgeben("Kunde konnte nicht gefunden werden. Halten Sie sich bitte an die Liste.");
+                Terminal.WeiterMitTaste();
+            }
             return retVal;
         }
 
@@ -416,8 +435,8 @@ namespace Packstation_Kroll
 
             if (matches.Count == 2 && Int32.Parse(matches[1])-1 < Stationen.Count)
             {
-                retVal = Int32.Parse(matches[1]) - 1;
-                Terminal.TextAusgeben("Station '" + (Int32.Parse(matches[1]) - 1) + "' wurde ausgewählt.");
+                retVal = Int32.Parse(matches[1]);
+                Terminal.TextAusgeben("Station '" + (Int32.Parse(matches[1])) + "' wurde ausgewählt.");
                 Terminal.WeiterMitTaste();
             }
             else
@@ -427,6 +446,46 @@ namespace Packstation_Kroll
             }
             return retVal;
         }
+        
+        public Fach FachEntfernen(string Eingabe, Stationscontroller sc)
+        {
+            Regex regEx = new Regex(@"^(\d+)$");
+            List<string> matches = MatchRegexRules(Eingabe, regEx);
+            Fach retVal = null;
+
+            if (matches.Count == 2 && Int32.Parse(matches[1]) - 1 < sc.AktuelleStation.Paketfach.Count)
+            {
+                retVal = sc.AktuelleStation.Paketfach[Int32.Parse(matches[1]) - 1];
+                sc.AktuelleStation.Paketfach.Remove(retVal);
+                sc.AktuelleStation.pruefeAnzahlFaecher();
+                Terminal.TextAusgeben("Fach '" + (Int32.Parse(matches[1])) + "' wurde entfernt.");
+                Terminal.WeiterMitTaste();
+            }
+            else
+            {
+                Terminal.TextAusgeben("Fach konnte nicht gefunden werden. Halten Sie sich bitte an die Liste.");
+                Terminal.WeiterMitTaste();
+            }
+            return retVal;
+        }
+
+        public void FachHinzufuegen(string Eingabe, Stationscontroller sc)
+        {
+            Groesse groesse;
+            if (Enum.TryParse<Groesse>(Eingabe, out groesse))
+            {
+                Fach f = new Fach(sc.AktuelleStation.Paketfach.Count + 1, groesse);
+                sc.AktuelleStation.FuegeFachHinzu(f);
+                Terminal.TextAusgeben("Fach '" + f.Nummer + "' mit der Größe " + groesse + " wurde erstellt.");
+                Terminal.WeiterMitTaste();
+            }
+            else
+            {
+                Terminal.TextAusgeben("Fachgröße exisitiert nicht, bitte die Liste der möglichen Größen prüfen.");
+                Terminal.WeiterMitTaste();
+            }
+        }
+
         #endregion
 
         #region Schnittstellen

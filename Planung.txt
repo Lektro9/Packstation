@@ -49,12 +49,9 @@ Planung nach Bewertungsmatrix (24.1.2020):
   - Eigenschaften/Fähigkeiten:
 x    - ID
 x    - Login Daten
-    - kann Fächer wechseln
-    - kann Stationen hinzufügen/entfernen
-    - kann Station erweitern
-    - kann Mitarbeiter/Kunden verwalten (hinzufügen/entfernen)
-- Klasse Metacontroller erstellen
-  - Eigenschaften für Metacontroller
+x    - Authentifizieren()
+x- Klasse Metacontroller erstellen
+x  - Eigenschaften für Metacontroller
 x    - Liste Mitarbeiter
 x    - Liste Kunden
 x    - Liste Geschäftsführer
@@ -66,21 +63,20 @@ x    - Terminal
     - Eigenschaften/Fähigketein zu entfernen/modifizieren
 x      - Liste Stationen
 x      - Anzahl Stationen
-      - run() -> Station aussuchen wird im Metacontroller gemacht
+x      - run() -> Station aussuchen wird im Metacontroller gemacht
 x      - SplashinfoAnzeigen() -> in den Metacontroller
-      - StationHinzufuegen() -> in die Klasse Geschäftsführer
-        - Eigenschaften neuer Station mit Regex erstellen
-      - StationEntfernen() -> in die Klasse Geschäftsführer
-      - MitarbeiterWechseltFach() -> in die Klasse Geschäftsführer (als "StationErweitern()")
+x      - StationHinzufuegen() -> in die Klasse MetaController
+x        - Eigenschaften neuer Station mit Regex erstellen
+x      - StationEntfernen() -> in die Klasse Metacontroller
 x      - PruefeAnzahlPaketstationen() -> in den Metacontroller
 - Userinterface anpassen
 x  - Geschäftsführermenü
-   - Menüs fürs Verwalten der Nutzer/Mitarbeiter
+x   - Menüs fürs Verwalten der Nutzer/Mitarbeiter/Stationen
 - Unittests anpassen
 
 
 Wenn Zeit dann:
-- zeige wieviele Pakete für Kunde in Station
+- zeige wieviele Pakete für Kunde in Station sind
 
 
 

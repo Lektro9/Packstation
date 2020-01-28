@@ -147,11 +147,11 @@ namespace Packstation_Kroll
                             }
                             else if (Eingabe == "3")
                             {
-                                Terminal.TextAusgeben("Geben Sie die Fachnummer ein, nachdem Sie zunächst eine beliebige Taste gedrückt haben.");
+                                Terminal.TextAusgeben("Geben Sie die Fachnummer ein.");
                                 Eingabe = Terminal.TextEinlesen();
                                 while (!Int32.TryParse(Eingabe, out ZahlenEingabe))
                                 {
-                                    Terminal.TextAusgeben("Sie haben keine Zahl eingegeben. Weiter mit einer beliebigen Taste...");
+                                    Terminal.TextAusgeben("Sie haben keine Zahl eingegeben.");
                                     Eingabe = Terminal.TextEinlesen();
                                 }
 
@@ -161,10 +161,6 @@ namespace Packstation_Kroll
                             {
                                 Authentifiziert = false;
                                 AktiverUser = null;
-                            }
-                            else if (Eingabe == "abschalten")
-                            {
-                                running = false;
                             }
                         }
                         else if (AktiverUser.GetType() == typeof(Kunde))
@@ -418,7 +414,7 @@ namespace Packstation_Kroll
         {
             Mitarbeiter AktiverMitarbeiter = (Mitarbeiter)AktiverUser;
             //Hier nicht die offizielle Methode nehmen, da hier sonst die Anzahl der Faecher vorrübergehend nicht stimmt
-            if (Fachnummer >= 0 && Fachnummer < AktuelleStation.Paketfach.Count)
+            if (Fachnummer >= 0 && Fachnummer < AktuelleStation.Paketfach.Count && AktiverMitarbeiter.ErsatzFaecher.Count > 0)
             {
                 AktuelleStation.Paketfach.Remove(AktuelleStation.Paketfach[Fachnummer]);
                 Fach ErsatzFach = AktiverMitarbeiter.ErsatzFaecher[0];
@@ -429,7 +425,7 @@ namespace Packstation_Kroll
             }
             else
             {
-                Terminal.TextAusgeben("Fach wurde nicht gefunden.");
+                Terminal.TextAusgeben("Fach wurde nicht gefunden oder Sie besitzen kein Fach.");
                 Terminal.WeiterMitTaste();
             }
         }
