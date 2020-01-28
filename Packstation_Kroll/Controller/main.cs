@@ -130,7 +130,6 @@ namespace Packstation_Kroll
             {
                 FaecherListe2.Add(new Fach(item));
             });
-            //TODO Achtung Fächerliste muss kopiert werden und nich referenziert
             StationenListe = new List<Paketstation>()
             {
                 new Paketstation(1, FaecherListe, ui1),

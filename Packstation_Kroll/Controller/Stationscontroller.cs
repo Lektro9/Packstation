@@ -189,16 +189,6 @@ namespace Packstation_Kroll
             }
         }
 
-        //TODO: keine gute Methode, da hier alle Pakete entfernt werden - Entweder Methode entfernen oder anpassen
-        public void PaketeListen()
-        {
-            List<Paket> AbzuholendePakete = AktuelleStation.MitarbeiterListeAbzuholenderPakete();
-            for (int i = 0; i < AbzuholendePakete.Count; i++)
-            {
-                Terminal.TextAusgeben("Paket " + AbzuholendePakete[i].PaketNummer + " liegt in Fach " + AbzuholendePakete[i].PaketfachNr + ".");
-            }
-        }
-
         public void MitarbeiterHoltPakete()
         {
             Mitarbeiter AktiverMitarbeiter = (Mitarbeiter)AktiverUser;

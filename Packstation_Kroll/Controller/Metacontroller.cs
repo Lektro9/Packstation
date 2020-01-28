@@ -261,7 +261,7 @@ namespace Packstation_Kroll
 
             if (matches.Count == 3 && Int32.Parse(matches[2]) > 8)
             {
-                //TODO: auf IDs prüfen
+                //TODO: evtl. auf IDs prüfen
 
                 Paketstation p = new Paketstation(Int32.Parse(matches[1]), Int32.Parse(matches[2]), this.Terminal);
                 Stationscontroller sc = new Stationscontroller(this.Kunden, this.Mitarbeiter, this.Terminal, null, false, p);
