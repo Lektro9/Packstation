@@ -131,11 +131,25 @@ namespace Packstation_Kroll
                         }
                         else if(Eingabe == "2")
                         {
-                            StationEntfernen();
+                            Terminal.StationEntfernenMenueAnzeigen(Stationen);
+                            Eingabe = Terminal.TextEinlesen();
+                            StationEntfernen(Eingabe);
                         }
                         else if(Eingabe == "3")
                         {
-                            StationErweitern();
+                            Terminal.StationErweiterungsMenueAnzeigen(Stationen);
+                            Eingabe = Terminal.TextEinlesen();
+                            int scNummer = StationErweitern(Eingabe);
+                            if (scNummer > -1)
+                            {
+                                Terminal.StationErweiterungsMenueAnzeigen();
+                                Eingabe = Terminal.TextEinlesen();
+                                if (Eingabe == "1")
+                                {
+                                    Terminal.StationFachEntfernenMenueAnzeigen(scNummer, Stationen[scNummer]);
+                                    Eingabe = Terminal.TextEinlesen();
+                                }
+                            }
                         }
                         else if(Eingabe == "4") //Mitarbeiter Verwalten
                         {
@@ -229,7 +243,7 @@ namespace Packstation_Kroll
 
         public void StationHinzufuegen(string Eingabe)
         {
-            Regex regEx = new Regex(@"^(\d+)\s(\d+)");
+            Regex regEx = new Regex(@"^(\d+)\s(\d+)$");
 
             List<string> matches = MatchRegexRules(Eingabe, regEx);
 
@@ -266,17 +280,32 @@ namespace Packstation_Kroll
                     matches.Add(match.Groups[groupName].Value);
                 }
             }
-            else // Bei falscher Eingabe noch einmal eine Eingabe erfragen
+            else
             {
-                
+                //nichts tun und leere Liste zurückgeben
             }
 
             return matches;
         }
 
-        public Paketstation StationEntfernen()
+        public Stationscontroller StationEntfernen(string Eingabe)
         {
-            Paketstation retVal = new Paketstation();
+            Regex regEx = new Regex(@"^(\d+)$");
+            List<string> matches = MatchRegexRules(Eingabe, regEx);
+            Stationscontroller retVal = null;
+
+            if (matches.Count == 2)
+            {
+                retVal = Stationen[Int32.Parse(matches[0]) - 1];
+                Stationen.Remove(Stationen[Int32.Parse(matches[0]) - 1]);
+                Terminal.TextAusgeben("Station wurde erfolgreich entfernt.");
+                Terminal.WeiterMitTaste();
+            }
+            else
+            {
+                Terminal.TextAusgeben("Station konnte nicht gefunden werden. Halten Sie sich bitte an die Liste.");
+                Terminal.WeiterMitTaste();
+            }
             return retVal;
         }
 
@@ -367,7 +396,7 @@ namespace Packstation_Kroll
             }
             else // Bei falscher Eingabe noch einmal eine Eingabe erfragen
             {
-                Console.WriteLine("Falsche Eingabe! Beachte das Beispiel und teile nicht durch 0!");
+                Console.WriteLine("Falsche Eingabe! Beachten Sie das Beispiel und teile nicht durch 0!");
                 Console.WriteLine("Weiter mit beliebiger Taste");
                 Console.ReadKey();
             }
@@ -379,9 +408,24 @@ namespace Packstation_Kroll
             return retVal;
         }
 
-        public void StationErweitern()
+        public int StationErweitern(string Eingabe)
         {
-            //Erweitern
+            Regex regEx = new Regex(@"^(\d+)$");
+            List<string> matches = MatchRegexRules(Eingabe, regEx);
+            int retVal = -1;
+
+            if (matches.Count == 2 && Int32.Parse(matches[1])-1 < Stationen.Count)
+            {
+                retVal = Int32.Parse(matches[1]) - 1;
+                Terminal.TextAusgeben("Station '" + (Int32.Parse(matches[1]) - 1) + "' wurde ausgewählt.");
+                Terminal.WeiterMitTaste();
+            }
+            else
+            {
+                Terminal.TextAusgeben("Station konnte nicht gefunden werden. Halten Sie sich bitte an die Liste.");
+                Terminal.WeiterMitTaste();
+            }
+            return retVal;
         }
         #endregion
 

@@ -149,6 +149,56 @@ namespace Packstation_Kroll
             Console.WriteLine();
         }
 
+        public void StationEntfernenMenueAnzeigen(List<Stationscontroller> Stationen)
+        {
+            Console.Clear();
+            for (int i = 0; i < Stationen.Count; i++)
+            {
+                Console.WriteLine(i+1 + ". Station mit " + Stationen[i].AktuelleStation.Paketfach.Count + " Faechern");
+            }
+            Console.WriteLine();
+            Console.WriteLine("Geben Sie die Nummer der Station ein die Sie löschen möchten.");
+            Console.WriteLine("Beispielformat: '3'");
+            Console.WriteLine();
+        }
+
+        public void StationErweiterungsMenueAnzeigen(List<Stationscontroller> Stationen)
+        {
+            Console.Clear();
+            for (int i = 0; i < Stationen.Count; i++)
+            {
+                Console.WriteLine(i + 1 + ". Station mit " + Stationen[i].AktuelleStation.Paketfach.Count + " Faechern");
+            }
+            Console.WriteLine();
+            Console.WriteLine("Geben Sie die Nummer der Station ein die Sie bearbeiten möchten.");
+            Console.WriteLine("Beispielformat: '3'");
+            Console.WriteLine();
+        }
+
+        public void StationErweiterungsMenueAnzeigen()
+        {
+            Console.Clear();
+            Console.WriteLine();
+            Console.WriteLine("Möchten Sie ein Fach: ");
+            Console.WriteLine("1. Entfernen");
+            Console.WriteLine("2. Hinzufügen");
+            Console.WriteLine();
+        }
+
+        public void StationFachEntfernenMenueAnzeigen(int scNummer, Stationscontroller sc)
+        {
+            Console.Clear();
+            Console.WriteLine();
+            Console.WriteLine("Die Station " + scNummer + " wurde ausgewählt.");
+            for (int i = 0; i < sc.AktuelleStation.Paketfach.Count; i++)
+            {
+                Console.WriteLine(i+1 +". Fach hat die Größe " + sc.AktuelleStation.Paketfach[i].Groesse + " und hat den Status " + sc.AktuelleStation.Paketfach[i].Status + ".");
+            }
+            Console.WriteLine("Welches Fach möchten Sie entfernen?");
+            Console.WriteLine("Beispielforamt: '1'");
+            Console.WriteLine();
+        }
+
         public void MetaMenueAnzeigen(int MaxAnzahl)
         {
             Console.Clear();
@@ -183,7 +233,7 @@ namespace Packstation_Kroll
             Console.Clear();
             string GeschMenue = "\n 1. Station hinzufügen" +
                 "\n 2. Station entfernen" +
-                "\n 3. Station um Faecher erweitern" +
+                "\n 3. Station um Fächer erweitern" +
                 "\n 4. Mitarbeiter verwalten" +
                 "\n 5. Kunden verwalten" +
                 "\n 0. Abbrechen";
