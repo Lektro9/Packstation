@@ -72,7 +72,7 @@ x      - PruefeAnzahlPaketstationen() -> in den Metacontroller
 - Userinterface anpassen
 x  - Geschäftsführermenü
 x   - Menüs fürs Verwalten der Nutzer/Mitarbeiter/Stationen
-- Unittests anpassen
+x - Unittests anpassen
 
 
 Wenn Zeit dann:

@@ -309,7 +309,7 @@ namespace Packstation_Kroll
 
             for (int i = 0; i < KListe.Count; i++)
             {
-                Console.WriteLine(i + 1 + ". Mitarbeiter '" + KListe[i].Name + "' mit dem Login: '" + KListe[i].Benutzername + "' mit der Adresse: '" + KListe[i].Adresse + "'.");
+                Console.WriteLine(i + 1 + ". Kunde '" + KListe[i].Name + "' mit dem Login: '" + KListe[i].Benutzername + "' mit der Adresse: '" + KListe[i].Adresse + "'.");
             }
 
             Console.WriteLine("Beispiel: '2'");

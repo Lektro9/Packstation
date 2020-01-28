@@ -160,7 +160,6 @@ namespace Packstation_Kroll
                             else if (Eingabe == "0")
                             {
                                 Authentifiziert = false;
-                                AktiverUser = null;
                             }
                         }
                         else if (AktiverUser.GetType() == typeof(Kunde))
@@ -178,7 +177,6 @@ namespace Packstation_Kroll
                             else if (Eingabe == "0")
                             {
                                 Authentifiziert = false;
-                                AktiverUser = null;
                             }
                         }
                     }
@@ -306,7 +304,6 @@ namespace Packstation_Kroll
                 Terminal.TextAusgeben("Keine Pakete in dieser Station für Sie verfügbar.");
                 Terminal.WeiterMitTaste();
             }
-
         }
 
         public void KundeLiefertPaket()
@@ -334,11 +331,6 @@ namespace Packstation_Kroll
                 Terminal.TextAusgeben("Sie besitzen keine Pakete zum Abgeben.");
                 Terminal.WeiterMitTaste();
             }
-        }
-        
-        public void SplashinfoAnzeigen()
-        {
-            Terminal.SplashAnzeigen();
         }
 
         public void Authentifizieren()

@@ -269,27 +269,6 @@ namespace UnitTestPackstation
         }
 
         [TestMethod]
-        public void MenueTest()
-        {
-            //User simulieren
-            ui1.LinesToRead.Add("1");
-            ui1.LinesToRead.Add("1");
-            ui1.LinesToRead.Add("Klausi");
-            ui1.LinesToRead.Add("1234");
-            ui1.LinesToRead.Add("2");
-            ui1.LinesToRead.Add("0");
-
-            ui1.LinesToRead.Add("admin");
-            ui1.LinesToRead.Add("admin");
-            ui1.LinesToRead.Add("abschalten");
-            ui1.LinesToRead.Add("abschalten");
-
-            Verwalter.run();
-
-            Assert.AreEqual(typeof(Mitarbeiter), Verwalter.Stationen[0].AktiverUser.GetType());
-        }
-
-        [TestMethod]
         public void UnterschiedlicheStationenBesuchen()
         {
             //User simulieren
@@ -319,7 +298,7 @@ namespace UnitTestPackstation
 
             Verwalter.run();
 
-            Assert.AreEqual(typeof(Mitarbeiter), Verwalter.Stationen[0].AktiverUser.GetType());
+            Assert.AreEqual(typeof(Mitarbeiter), Verwalter.Stationen[1].AktiverUser.GetType());
         }
 
         [TestMethod]
